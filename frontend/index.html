@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隐患扫码上报平台</title>
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+  <div class="max-w-md mx-auto p-6">
+    <h1 class="text-2xl font-bold text-center mb-4 text-gray-800 dark:text-white">隐患扫码上报</h1>
+
+    <form id="reportForm" class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-4 space-y-4">
+      <div>
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">项目选择<span class="text-red-500">*</span></label>
+        <select required name="project" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
+          <option value="">请选择项目</option>
+          <option value="项目A">项目A</option>
+          <option value="项目B">项目B</option>
+          <option value="项目C">项目C</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">举报人姓名<span class="text-red-500">*</span></label>
+        <input type="text" required name="reporter" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
+      </div>
+
+      <div>
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">联系电话<span class="text-red-500">*</span></label>
+        <input type="tel" required name="phone" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
+      </div>
+
+      <div>
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">隐患分类（非必填）</label>
+        <select name="category" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
+          <option value="">请选择隐患类别（可选）</option>
+          <option value="A类问题隐患">A类问题隐患</option>
+          <option value="重大不良行为">重大不良行为</option>
+          <option value="较大不良行为">较大不良行为</option>
+          <option value="一般不良行为">一般不良行为</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">隐患发现时间<span class="text-red-500">*</span></label>
+        <input type="datetime-local" required name="foundAt" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
+      </div>
+
+      <div>
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">地点<span class="text-red-500">*</span></label>
+        <input type="text" required name="location" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
+      </div>
+
+      <div>
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">描述<span class="text-red-500">*</span></label>
+        <textarea required name="description" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white"></textarea>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition duration-300">
+        确定提交
+      </button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('reportForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+
+      const data = {
+        project: formData.get('project'),
+        reporter: formData.get('reporter'),
+        phone: formData.get('phone'),
+        category: formData.get('category') || null,
+        foundAt: formData.get('foundAt'),
+        location: formData.get('location'),
+        description: formData.get('description')
+      };
+
+      try {
+        const res = await fetch('http://localhost:3000/api/reports', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          alert('提交成功，感谢您的反馈！');
+          this.reset();
+        } else {
+          alert('提交失败，请重试');
+        }
+      } catch (err) {
+        alert('网络错误，请稍后重试');
+      }
+    });
+
+    // 深色模式检测
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <footer class="text-center text-gray-500 dark:text-gray-400 py-4 text-sm">
+    © 2024 安全隐患上报平台
+  </footer>
+</body>
+
+</html>
