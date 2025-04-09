@@ -1,0 +1,7 @@
+[
+  {
+    "id": "deploy-hazard",
+    "execute-command": "/var/www/hazard-report/hooks/deploy.sh",
+    "command-working-directory": "/var/www/hazard-report"
+  }
+]

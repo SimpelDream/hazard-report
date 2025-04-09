@@ -1,0 +1,117 @@
+===== 自动部署开始 Wed Apr  9 10:08:46 AM CST 2025 =====
+From https://github.com/SimpelDream/hazard-report
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: '@prisma/client@6.5.0',
+npm WARN EBADENGINE   required: { node: '>=18.18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'body-parser@2.2.0',
+npm WARN EBADENGINE   required: { node: '>=18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'esbuild@0.25.2',
+npm WARN EBADENGINE   required: { node: '>=18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'express@5.1.0',
+npm WARN EBADENGINE   required: { node: '>= 18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'merge-descriptors@2.0.0',
+npm WARN EBADENGINE   required: { node: '>=18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'path-to-regexp@8.2.0',
+npm WARN EBADENGINE   required: { node: '>=16' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'prisma@6.5.0',
+npm WARN EBADENGINE   required: { node: '>=18.18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'router@2.2.0',
+npm WARN EBADENGINE   required: { node: '>= 18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'send@1.2.0',
+npm WARN EBADENGINE   required: { node: '>= 18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+npm WARN EBADENGINE Unsupported engine {
+npm WARN EBADENGINE   package: 'serve-static@2.2.0',
+npm WARN EBADENGINE   required: { node: '>= 18' },
+npm WARN EBADENGINE   current: { node: 'v12.22.9', npm: '8.5.1' }
+npm WARN EBADENGINE }
+
+up to date, audited 79 packages in 2s
+
+14 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+/var/www/hazard-report/backend/node_modules/prisma/build/index.js:2
+"use strict";var jVe=Object.create;var vw=Object.defineProperty;var UVe=Object.getOwnPropertyDescriptor;var GVe=Object.getOwnPropertyNames;var WVe=Object.getPrototypeOf,HVe=Object.prototype.hasOwnProperty;var gJ=e=>{throw TypeError(e)};var VVe=(e,r,n)=>r in e?vw(e,r,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[r]=n;var W=(e,r)=>()=>(e&&(r=e(e=0)),r);var C=(e,r)=>()=>(r||e((r={exports:{}}).exports,r),r.exports),Us=(e,r)=>{for(var n in r)vw(e,n,{get:r[n],enumerable:!0})},sC=(e,r,n,i)=>{if(r&&typeof r=="object"||typeof r=="function")for(let a of GVe(r))!HVe.call(e,a)&&a!==n&&vw(e,a,{get:()=>r[a],enumerable:!(i=UVe(r,a))||i.enumerable});return e},xw=(e,r,n)=>(sC(e,r,"default"),n&&sC(n,r,"default")),Y=(e,r,n)=>(n=e!=null?jVe(WVe(e)):{},sC(r||!e||!e.__esModule?vw(n,"default",{value:e,enumerable:!0}):n,e)),zVe=e=>sC(vw({},"__esModule",{value:!0}),e);var H=(e,r,n)=>VVe(e,typeof r!="symbol"?r+"":r,n),i8=(e,r,n)=>r.has(e)||gJ("Cannot "+n);var S=(e,r,n)=>(i8(e,r,"read from private field"),n?n.call(e):r.get(e)),ae=(e,r,n)=>r.has(e)?gJ("Cannot add the same private member more than once"):r instanceof WeakSet?r.add(e):r.set(e,n),X=(e,r,n,i)=>(i8(e,r,"write to private field"),i?i.call(e,n):r.set(e,n),n),te=(e,r,n)=>(i8(e,r,"access private method"),n);var Su=(e,r,n,i)=>({set _(a){X(e,r,a,n)},get _(){return S(e,r,i)}});var aC={};Us(aC,{$:()=>wJ,bgBlack:()=>ZVe,bgBlue:()=>rze,bgCyan:()=>ize,bgGreen:()=>eze,bgMagenta:()=>nze,bgRed:()=>o8,bgWhite:()=>sze,bgYellow:()=>tze,black:()=>XVe,blue:()=>Ma,bold:()=>V,cyan:()=>Po,dim:()=>me,gray:()=>Mh,green:()=>xe,grey:()=>Ul,hidden:()=>YVe,inverse:()=>KVe,italic:()=>Co,magenta:()=>JVe,red:()=>Ce,reset:()=>bw,strikethrough:()=>QVe,underline:()=>Nt,white:()=>a8,yellow:()=>Ct});function Ir(e,r){let n=new RegExp(`\\x1b\\[${r}m`,"g"),i=`\x1B[${e}m`,a=`\x1B[${r}m`;return function(o){return!wJ.enabled||o==null?o:i+(~(""+o).indexOf(a)?o.replace(n,a+i):o)+a}}var s8,yJ,vJ,xJ,bJ,wJ,bw,V,me,Co,Nt,KVe,YVe,QVe,XVe,Ce,xe,Ct,Ma,JVe,Po,a8,Mh,Ul,ZVe,o8,eze,tze,rze,nze,ize,sze,Ie=W(()=>{"use strict";bJ=!0;typeof process<"u"&&({FORCE_COLOR:s8,NODE_DISABLE_COLORS:yJ,NO_COLOR:vJ,TERM:xJ}=process.env||{},bJ=process.stdout&&process.stdout.isTTY);wJ={enabled:!yJ&&vJ==null&&xJ!=="dumb"&&(s8!=null&&s8!=="0"||bJ)};bw=Ir(0,0),V=Ir(1,22),me=Ir(2,22),Co=Ir(3,23),Nt=Ir(4,24),KVe=Ir(7,27),YVe=Ir(8,28),QVe=Ir(9,29),XVe=Ir(30,39),Ce=Ir(31,39),xe=Ir(32,39),Ct=Ir(33,39),Ma=Ir(34,39),JVe=Ir(35,39),Po=Ir(36,39),a8=Ir(37,39),Mh=Ir(90,39),Ul=Ir(90,39),ZVe=Ir(40,49),o8=Ir(41,49),eze=Ir(42,49),tze=Ir(43,49),rze=Ir(44,49),nze=Ir(45,49),ize=Ir(46,49),sze=Ir(47,49)});function uze(e){let r={color:EJ[oze++%EJ.length],enabled:ww.enabled(e),namespace:e,log:ww.log,extend:()=>{}},n=(...i)=>{let{enabled:a,namespace:o,color:u,log:c}=r;if(i.length!==0&&u8.push([o,...i]),u8.length>aze&&u8.shift(),ww.enabled(o)||a){let l=i.map(p=>typeof p=="string"?p:cze(p)),f=`+${Date.now()-_J}ms`;_J=Date.now(),globalThis.DEBUG_COLORS?c(aC[u](V(o)),...l,aC[u](f)):c(o,...l,f)}};return new Proxy(n,{get:(i,a)=>r[a],set:(i,a,o)=>r[a]=o})}function cze(e,r=2){let n=new Set;return JSON.stringify(e,(i,a)=>{if(typeof a=="object"&&a!==null){if(n.has(a))return"[Circular *]";n.add(a)}else if(typeof a=="bigint")return a.toString();return a},r)}var aze,EJ,u8,_J,oze,c8,ww,Ew,ke,$t=W(()=>{"use strict";Ie();Ie();aze=100,EJ=["green","yellow","blue","magenta","cyan","red"],u8=[],_J=Date.now(),oze=0,c8=typeof process<"u"?process.env:{};globalThis.DEBUG??=c8.DEBUG??"";globalThis.DEBUG_COLORS??=c8.DEBUG_COLORS?c8.DEBUG_COLORS==="true":!0;ww={enable(e){typeof e=="string"&&(globalThis.DEBUG=e)},disable(){let e=globalThis.DEBUG;return globalThis.DEBUG="",e},enabled(e){let r=globalThis.DEBUG.split(",").map(a=>a.replace(/[.+?^${}()|[\]\\]/g,"\\$&")),n=r.some(a=>a===""||a[0]==="-"?!1:e.match(RegExp(a.split("*").join(".*")+"$"))),i=r.some(a=>a===""||a[0]!=="-"?!1:e.match(RegExp(a.slice(1).split("*").join(".*")+"$")));return n&&!i},log:(...e)=>{let[r,n,...i]=e;(console.warn??console.log)(`${r} ${n}`,...i)},formatters:{}};Ew=new Proxy(uze,{get:(e,r)=>ww[r],set:(e,r,n)=>ww[r]=n});ke=Ew});function Cg(){let e=process.env.PRISMA_QUERY_ENGINE_LIBRARY;if(!(e&&DJ.default.existsSync(e))&&process.arch==="ia32")throw new Error('The default query engine type (Node-API, "library") is currently not supported for 32bit Node. Please set `engineType = "binary"` in the "generator" block of your "schema.prisma" file (or use the environment variables "PRISMA_CLIENT_ENGINE_TYPE=binary" and/or "PRISMA_CLI_QUERY_ENGINE_TYPE=binary".)')}var DJ,SJ=W(()=>{"use strict";DJ=Y(require("fs"))});var _w,CJ=W(()=>{"use strict";_w=["darwin","darwin-arm64","debian-openssl-1.0.x","debian-openssl-1.1.x","debian-openssl-3.0.x","rhel-openssl-1.0.x","rhel-openssl-1.1.x","rhel-openssl-3.0.x","linux-arm64-openssl-1.1.x","linux-arm64-openssl-1.0.x","linux-arm64-openssl-3.0.x","linux-arm-openssl-1.1.x","linux-arm-openssl-1.0.x","linux-arm-openssl-3.0.x","linux-musl","linux-musl-openssl-3.0.x","linux-musl-arm64-openssl-1.1.x","linux-musl-arm64-openssl-3.0.x","linux-nixos","linux-static-x64","linux-static-arm64","windows","freebsd11","freebsd12","freebsd13","freebsd14","freebsd15","openbsd","netbsd","arm"]});function Tc(e,r){let n=r==="url";return e.includes("windows")?n?"query_engine.dll.node":`query_engine-${e}.dll.node`:e.includes("darwin")?n?`${oC}.dylib.node`:`${oC}-${e}.dylib.node`:n?`${oC}.so.node`:`${oC}-${e}.so.node`}var oC,PJ=W(()=>{"use strict";oC="libquery_engine"});function lze(...e){if(e.length===1){let[r]=e;return n=>Ki(r,n,()=>{})}if(e.length===2){let[r,n]=e;return Ki(r,n,()=>{})}throw new Error(`isMatching wasn't given the right number of arguments: expected 1 or 2, received ${e.length}.`)}function Yi(e){return Object.assign(e,{optional:()=>m8(e),and:r=>Hr(e,r),or:r=>TJ(e,r),select:r=>r===void 0?Sw(e):Sw(r,e)})}function f8(e){return Object.assign((r=>Object.assign(r,{[Symbol.iterator](){let n=0,i=[{value:Object.assign(r,{[FJ]:!0}),done:!1},{done:!0,value:void 0}];return{next:()=>{var a;return(a=i[n++])!=null?a:i.at(-1)}}}}))(e),{optional:()=>f8(m8(e)),select:r=>f8(r===void 0?Sw(e):Sw(r,e))})}function m8(e){return Yi({[pa]:()=>({match:r=>{let n={},i=(a,o)=>{n[a]=o};return r===void 0?(Ba(e).forEach(a=>i(a,void 0)),{matched:!0,selections:n}):{matched:Ki(e,r,i),selections:n}},getSelectionKeys:()=>Ba(e),matcherType:"optional"})})}function Hr(...e){return Yi({[pa]:()=>({match:r=>{let n={},i=(a,o)=>{n[a]=o};return{matched:e.every(a=>Ki(a,r,i)),selections:n}},getSelectionKeys:()=>Dw(e,Ba),matcherType:"and"})})}function TJ(...e){return Yi({[pa]:()=>({match:r=>{let n={},i=(a,o)=>{n[a]=o};return Dw(e,Ba).forEach(a=>i(a,void 0)),{matched:e.some(a=>Ki(a,r,i)),selections:n}},getSelectionKeys:()=>Dw(e,Ba),matcherType:"or"})})}function Ht(e){return{[pa]:()=>({match:r=>({matched:!!e(r)})})}}function Sw(...e){let r=typeof e[0]=="string"?e[0]:void 0,n=e.length===2?e[1]:typeof e[0]=="string"?void 0:e[0];return Yi({[pa]:()=>({match:i=>{let a={[r??cC]:i};return{matched:n===void 0||Ki(n,i,(o,u)=>{a[o]=u}),selections:a}},getSelectionKeys:()=>[r??cC].concat(n===void 0?[]:Ba(n))})})}function Ac(e){return typeof e=="number"}function cp(e){return typeof e=="string"}function lp(e){return typeof e=="bigint"}function _t(e){return new h8(e,d8)}var pa,FJ,cC,l8,uC,Ki,Ba,Dw,fze,pze,AJ,dze,fp,hze,Rc,mze,pp,gze,yze,vze,xze,bze,_n,p8,d8,h8,xs=W(()=>{"use strict";pa=Symbol.for("@ts-pattern/matcher"),FJ=Symbol.for("@ts-pattern/isVariadic"),cC="@ts-pattern/anonymous-select-key",l8=e=>!!(e&&typeof e=="object"),uC=e=>e&&!!e[pa],Ki=(e,r,n)=>{if(uC(e)){let i=e[pa](),{matched:a,selections:o}=i.match(r);return a&&o&&Object.keys(o).forEach(u=>n(u,o[u])),a}if(l8(e)){if(!l8(r))return!1;if(Array.isArray(e)){if(!Array.isArray(r))return!1;let i=[],a=[],o=[];for(let u of e.keys()){let c=e[u];uC(c)&&c[FJ]?o.push(c):o.length?a.push(c):i.push(c)}if(o.length){if(o.length>1)throw new Error("Pattern error: Using `...P.array(...)` several times in a single pattern is not allowed.");if(r.length<i.length+a.length)return!1;let u=r.slice(0,i.length),c=a.length===0?[]:r.slice(-a.length),l=r.slice(i.length,a.length===0?1/0:-a.length);return i.every((f,p)=>Ki(f,u[p],n))&&a.every((f,p)=>Ki(f,c[p],n))&&(o.length===0||Ki(o[0],l,n))}return e.length===r.length&&e.every((u,c)=>Ki(u,r[c],n))}return Reflect.ownKeys(e).every(i=>{let a=e[i];return(i in r||uC(o=a)&&o[pa]().matcherType==="optional")&&Ki(a,r[i],n);var o})}return Object.is(r,e)},Ba=e=>{var r,n,i;return l8(e)?uC(e)?(r=(n=(i=e[pa]()).getSelectionKeys)==null?void 0:n.call(i))!=null?r:[]:Array.isArray(e)?Dw(e,Ba):Dw(Object.values(e),Ba):[]},Dw=(e,r)=>e.reduce((n,i)=>n.concat(r(i)),[]);fze=(e,r)=>{for(let n of e)if(!r(n))return!1;return!0},pze=(e,r)=>{for(let[n,i]of e.entries())if(!r(i,n))return!1;return!0};AJ=Yi(Ht(function(e){return!0})),dze=AJ,fp=e=>Object.assign(Yi(e),{startsWith:r=>{return fp(Hr(e,(n=r,Ht(i=>cp(i)&&i.startsWith(n)))));var n},endsWith:r=>{return fp(Hr(e,(n=r,Ht(i=>cp(i)&&i.endsWith(n)))));var n},minLength:r=>fp(Hr(e,(n=>Ht(i=>cp(i)&&i.length>=n))(r))),length:r=>fp(Hr(e,(n=>Ht(i=>cp(i)&&i.length===n))(r))),maxLength:r=>fp(Hr(e,(n=>Ht(i=>cp(i)&&i.length<=n))(r))),includes:r=>{return fp(Hr(e,(n=r,Ht(i=>cp(i)&&i.includes(n)))));var n},regex:r=>{return fp(Hr(e,(n=r,Ht(i=>cp(i)&&!!i.match(n)))));var n}}),hze=fp(Ht(cp)),Rc=e=>Object.assign(Yi(e),{between:(r,n)=>Rc(Hr(e,((i,a)=>Ht(o=>Ac(o)&&i<=o&&a>=o))(r,n))),lt:r=>Rc(Hr(e,(n=>Ht(i=>Ac(i)&&i<n))(r))),gt:r=>Rc(Hr(e,(n=>Ht(i=>Ac(i)&&i>n))(r))),lte:r=>Rc(Hr(e,(n=>Ht(i=>Ac(i)&&i<=n))(r))),gte:r=>Rc(Hr(e,(n=>Ht(i=>Ac(i)&&i>=n))(r))),int:()=>Rc(Hr(e,Ht(r=>Ac(r)&&Number.isInteger(r)))),finite:()=>Rc(Hr(e,Ht(r=>Ac(r)&&Number.isFinite(r)))),positive:()=>Rc(Hr(e,Ht(r=>Ac(r)&&r>0))),negative:()=>Rc(Hr(e,Ht(r=>Ac(r)&&r<0)))}),mze=Rc(Ht(Ac)),pp=e=>Object.assign(Yi(e),{between:(r,n)=>pp(Hr(e,((i,a)=>Ht(o=>lp(o)&&i<=o&&a>=o))(r,n))),lt:r=>pp(Hr(e,(n=>Ht(i=>lp(i)&&i<n))(r))),gt:r=>pp(Hr(e,(n=>Ht(i=>lp(i)&&i>n))(r))),lte:r=>pp(Hr(e,(n=>Ht(i=>lp(i)&&i<=n))(r))),gte:r=>pp(Hr(e,(n=>Ht(i=>lp(i)&&i>=n))(r))),positive:()=>pp(Hr(e,Ht(r=>lp(r)&&r>0))),negative:()=>pp(Hr(e,Ht(r=>lp(r)&&r<0)))}),gze=pp(Ht(lp)),yze=Yi(Ht(function(e){return typeof e=="boolean"})),vze=Yi(Ht(function(e){return typeof e=="symbol"})),xze=Yi(Ht(function(e){return e==null})),bze=Yi(Ht(function(e){return e!=null})),_n={__proto__:null,matcher:pa,optional:m8,array:function(...e){return f8({[pa]:()=>({match:r=>{if(!Array.isArray(r))return{matched:!1};if(e.length===0)return{matched:!0};let n=e[0],i={};if(r.length===0)return Ba(n).forEach(o=>{i[o]=[]}),{matched:!0,selections:i};let a=(o,u)=>{i[o]=(i[o]||[]).concat([u])};return{matched:r.every(o=>Ki(n,o,a)),selections:i}},getSelectionKeys:()=>e.length===0?[]:Ba(e[0])})})},set:function(...e){return Yi({[pa]:()=>({match:r=>{if(!(r instanceof Set))return{matched:!1};let n={};if(r.size===0)return{matched:!0,selections:n};if(e.length===0)return{matched:!0};let i=(o,u)=>{n[o]=(n[o]||[]).concat([u])},a=e[0];return{matched:fze(r,o=>Ki(a,o,i)),selections:n}},getSelectionKeys:()=>e.length===0?[]:Ba(e[0])})})},map:function(...e){return Yi({[pa]:()=>({match:r=>{if(!(r instanceof Map))return{matched:!1};let n={};if(r.size===0)return{matched:!0,selections:n};let i=(c,l)=>{n[c]=(n[c]||[]).concat([l])};if(e.length===0)return{matched:!0};var a;if(e.length===1)throw new Error(`\`P.map\` wasn't given enough arguments. Expected (key, value), received ${(a=e[0])==null?void 0:a.toString()}`);let[o,u]=e;return{matched:pze(r,(c,l)=>{let f=Ki(o,l,i),p=Ki(u,c,i);return f&&p}),selections:n}},getSelectionKeys:()=>e.length===0?[]:[...Ba(e[0]),...Ba(e[1])]})})},intersection:Hr,union:TJ,not:function(e){return Yi({[pa]:()=>({match:r=>({matched:!Ki(e,r,()=>{})}),getSelectionKeys:()=>[],matcherType:"not"})})},when:Ht,select:Sw,any:AJ,_:dze,string:hze,number:mze,bigint:gze,boolean:yze,symbol:vze,nullish:xze,nonNullable:bze,instanceOf:function(e){return Yi(Ht(function(r){return n=>n instanceof r}(e)))},shape:function(e){return Yi(Ht(lze(e)))}},p8=class extends Error{constructor(r){let n;try{n=JSON.stringify(r)}catch{n=r}super(`Pattern matching error: no pattern matches value ${n}`),this.input=void 0,this.input=r}},d8={matched:!1,value:void 0};h8=class e{constructor(r,n){this.input=void 0,this.state=void 0,this.input=r,this.state=n}with(...r){if(this.state.matched)return this;let n=r[r.length-1],i=[r[0]],a;r.length===3&&typeof r[1]=="function"?a=r[1]:r.length>2&&i.push(...r.slice(1,r.length-1));let o=!1,u={},c=(f,p)=>{o=!0,u[f]=p},l=!i.some(f=>Ki(f,this.input,c))||a&&!a(this.input)?d8:{matched:!0,value:n(o?cC in u?u[cC]:u:this.input,this.input)};return new e(this.input,l)}when(r,n){if(this.state.matched)return this;let i=!!r(this.input);return new e(this.input,i?{matched:!0,value:n(this.input,this.input)}:d8)}otherwise(r){return this.state.matched?this.state.value:r(this.input)}exhaustive(){if(this.state.matched)return this.state.value;throw new p8(this.input)}run(){return this.exhaustive()}returnType(){return this}}});function lC(e,...r){Eze.warn()&&console.warn(`${wze.warn} ${e}`,...r)}var wze,Eze,RJ=W(()=>{"use strict";Ie();wze={warn:Ct("prisma:warn")},Eze={warn:()=>!process.env.PRISMA_DISABLE_WARNINGS}});async function $J(){let e=pC.default.platform(),r=process.arch;if(e==="freebsd"){let u=await dC("freebsd-version");if(u&&u.trim().length>0){let l=/^(\d+)\.?/.exec(u);if(l)return{platform:"freebsd",targetDistro:`freebsd${l[1]}`,arch:r}}}if(e!=="linux")return{platform:e,arch:r};let n=await Cze(),i=await kze(),a=Fze({arch:r,archFromUname:i,familyDistro:n.familyDistro}),{libssl:o}=await Tze(a);return{platform:"linux",libssl:o,arch:r,archFromUname:i,...n}}function Sze(e){let r=/^ID="?([^"\n]*)"?$/im,n=/^ID_LIKE="?([^"\n]*)"?$/im,i=r.exec(e),a=i&&i[1]&&i[1].toLowerCase()||"",o=n.exec(e),u=o&&o[1]&&o[1].toLowerCase()||"",c=_t({id:a,idLike:u}).with({id:"alpine"},({id:l})=>({targetDistro:"musl",familyDistro:l,originalDistro:l})).with({id:"raspbian"},({id:l})=>({targetDistro:"arm",familyDistro:"debian",originalDistro:l})).with({id:"nixos"},({id:l})=>({targetDistro:"nixos",originalDistro:l,familyDistro:"nixos"})).with({id:"debian"},{id:"ubuntu"},({id:l})=>({targetDistro:"debian",familyDistro:"debian",originalDistro:l})).with({id:"rhel"},{id:"centos"},{id:"fedora"},({id:l})=>({targetDistro:"rhel",familyDistro:"rhel",originalDistro:l})).when(({idLike:l})=>l.includes("debian")||l.includes("ubuntu"),({id:l})=>({targetDistro:"debian",familyDistro:"debian",originalDistro:l})).when(({idLike:l})=>a==="arch"||l.includes("arch"),({id:l})=>({targetDistro:"debian",familyDistro:"arch",originalDistro:l})).when(({idLike:l})=>l.includes("centos")||l.includes("fedora")||l.includes("rhel")||l.includes("suse"),({id:l})=>({targetDistro:"rhel",familyDistro:"rhel",originalDistro:l})).otherwise(({id:l})=>({targetDistro:void 0,familyDistro:void 0,originalDistro:l}));return Gs(`Found distro info:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+SyntaxError: Unexpected token '?'
+    at wrapSafe (internal/modules/cjs/loader.js:915:16)
+    at Module._compile (internal/modules/cjs/loader.js:963:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+    at Module.load (internal/modules/cjs/loader.js:863:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:60:12)
+    at internal/main/run_main_module.js:17:47
+[PM2] Spawning PM2 daemon with pm2_home=/root/.pm2
+[PM2] PM2 Successfully daemonized
+Use --update-env to update environment variables
+[PM2][ERROR] Process or Namespace hazard-report-api not found
+===== 部署完成 Wed Apr  9 10:08:53 AM CST 2025 =====
+===== 自动部署开始 Wed Apr  9 10:38:22 AM CST 2025 =====
+error: cannot open .git/FETCH_HEAD: Permission denied
+npm error code EACCES
+npm error syscall mkdir
+npm error path /var/www/hazard-report/backend/node_modules/@esbuild/aix-ppc64
+npm error errno -13
+npm error Error: EACCES: permission denied, mkdir '/var/www/hazard-report/backend/node_modules/@esbuild/aix-ppc64'
+npm error     at async mkdir (node:internal/fs/promises:857:10)
+npm error     at async /home/admin/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:624:20
+npm error     at async Promise.allSettled (index 0)
+npm error     at async [reifyPackages] (/home/admin/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:325:11)
+npm error     at async Arborist.reify (/home/admin/.nvm/versions/node/v22.14.0/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:142:5)
+npm error     at async Install.exec (/home/admin/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/commands/install.js:150:5)
+npm error     at async Npm.exec (/home/admin/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/npm.js:207:9)
+npm error     at async module.exports (/home/admin/.nvm/versions/node/v22.14.0/lib/node_modules/npm/lib/cli/entry.js:74:5) {
+npm error   errno: -13,
+npm error   code: 'EACCES',
+npm error   syscall: 'mkdir',
+npm error   path: '/var/www/hazard-report/backend/node_modules/@esbuild/aix-ppc64'
+npm error }
+npm error
+npm error The operation was rejected by your operating system.
+npm error It is likely you do not have the permissions to access this file as the current user
+npm error
+npm error If you believe this might be a permissions issue, please double-check the
+npm error permissions of the file and its containing directories, or try running
+npm error the command again as root/Administrator.
+npm error A complete log of this run can be found in: /home/admin/.npm/_logs/2025-04-09T02_38_22_884Z-debug-0.log
+Error: Can't write to /var/www/hazard-report/backend/node_modules/@prisma/engines please make sure you install "prisma" with the right permissions.
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [hazard-report-api](ids: [ 1 ])
+[PM2] [hazard-report-api](1) ✓
+┌────┬──────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name                 │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼──────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 1  │ hazard-report-api    │ default     │ 1.0.0   │ fork    │ 18358    │ 0s     │ 30   │ online    │ 0%       │ 24.9mb   │ admin    │ disabled │
+│ 0  │ webhook              │ default     │ N/A     │ fork    │ 10451    │ 42m    │ 15   │ online    │ 0%       │ 7.8mb    │ admin    │ disabled │
+└────┴──────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+===== 部署完成 Wed Apr  9 10:38:25 AM CST 2025 =====
