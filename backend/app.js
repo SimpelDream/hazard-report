@@ -5,6 +5,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const app = express();
 
+
 app.use(express.json());
 app.use(cors());
 
@@ -24,11 +25,28 @@ app.post('/api/reports', async (req, res) => {
 
 // 查询记录API（简单查询）
 app.get('/api/reports', async (req, res) => {
-	const reports = await prisma.report.findMany({ orderBy: { createdAt: 'desc' } });
+	const { project, category, reporter, fromDate, toDate } = req.query;
+	const reports = await prisma.report.findMany({
+	  where: {
+		...(project && { project }),
+		...(category && { category }),
+		...(reporter && { reporter }),
+		...(fromDate && toDate && {
+		  foundAt: {
+			gte: new Date(fromDate),
+			lte: new Date(toDate)
+		  }
+		})
+	  },
+	  orderBy: { createdAt: 'desc' }
+	});
 	res.json(reports);
-});
+  });
+  
+
 
 // 启动服务
 app.listen(3000, () => {
 	console.log('后端服务已启动：http://localhost:3000');
 });
+
