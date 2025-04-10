@@ -1,3 +1,6 @@
+// app.js
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
@@ -296,16 +299,19 @@ process.on('SIGTERM', () => {
 
 // 数据库连接
 prisma.$connect()
-	.then(() => logger.info('数据库连接成功'))
-	.catch(err => {
-		logger.error('数据库连接失败:', err);
+	.then(() => {
+		logger.info('数据库连接成功');
+	})
+	.catch((error) => {
+		logger.error('数据库连接失败:', error);
 		process.exit(1);
 	});
 
-// 启动服务
-const PORT = process.env.PORT || 3000;
-const server = app.listen(PORT, '0.0.0.0', () => {
-	logger.info(`服务器启动在端口 ${PORT}`);
+// 启动服务器
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+	logger.info(`服务器启动在端口 ${port}`);
+	console.log(`服务器启动在端口 ${port}`);
 });
 
 // 设置超时
