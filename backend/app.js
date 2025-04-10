@@ -81,9 +81,9 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // 配置CORS
 app.use(cors({
-	origin: ['http://8.148.69.112', 'http://localhost:8080', 'http://localhost:3000', 'http://127.0.0.1:3000'],
-	methods: ['GET', 'POST'],
-	allowedHeaders: ['Content-Type'],
+	origin: ['http://8.148.69.112', 'http://localhost:8080', 'http://localhost:3000', 'http://127.0.0.1:3000', 'http://8.148.69.112:3000', 'http://8.148.69.112:80'],
+	methods: ['GET', 'POST', 'OPTIONS'],
+	allowedHeaders: ['Content-Type', 'Accept'],
 	maxAge: 86400,
 	credentials: true
 }));
