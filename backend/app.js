@@ -312,8 +312,6 @@ prisma.$connect()
 		});
 
 		// 设置超时
-		server.timeout = 30000; // 30秒
-		server.keepAliveTimeout = 65000; // 65秒
 	})
 	.catch((error) => {
 		console.error('数据库连接失败:', error);
