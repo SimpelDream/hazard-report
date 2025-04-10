@@ -172,6 +172,10 @@
         return false;
       }
       errorSpan.classList.add('hidden');
+      
+      // 选择日期后自动关闭日期选择器
+      input.blur();
+      
       return true;
     }
 
@@ -248,82 +252,114 @@
       const requiredFields = ['project', 'reporter', 'phone', 'foundAt', 'location', 'description'];
       for (const field of requiredFields) {
         const input = this.elements[field];
-        if (!input.value.trim()) {
-          alert(`请填写${input.previousElementSibling.textContent.replace('*', '').trim()}`);
+        if (!input.value) {
+          alert(`请填写${field}字段`);
           input.focus();
           return;
         }
       }
       
-      // 验证手机号和时间
-      if (!validatePhone(this.phone)) {
-        alert('请输入正确的手机号码');
-        this.phone.focus();
+      // 检查电话号码格式
+      if (!validatePhone(this.elements.phone)) {
         return;
       }
       
-      if (!validateDateTime(this.foundAt)) {
-        alert('请选择正确的发现时间');
-        this.foundAt.focus();
+      // 检查日期格式
+      if (!validateDateTime(this.elements.foundAt)) {
         return;
       }
       
-      const submitButton = this.querySelector('button[type="submit"]');
-      const loading = document.getElementById('loading');
+      // 显示加载提示
+      document.getElementById('loading').classList.remove('hidden');
       
       try {
-        submitButton.disabled = true;
-        loading.classList.remove('hidden');
+        // 准备表单数据
+        const formData = new FormData();
         
-        const formData = new FormData(this);
+        // 添加文本字段
+        for (const field of requiredFields) {
+          formData.append(field, this.elements[field].value);
+        }
         
-        // 创建AbortController用于超时控制
+        // 添加分类字段（如果有）
+        if (this.elements.category.value) {
+          formData.append('category', this.elements.category.value);
+        }
+        
+        // 添加图片文件
+        const fileInput = this.elements.images;
+        if (fileInput.files.length > 0) {
+          for (let i = 0; i < fileInput.files.length; i++) {
+            formData.append('images', fileInput.files[i]);
+          }
+        }
+        
+        console.log('准备提交数据到服务器...');
+        
+        // 添加超时控制
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时
         
+        // 发送请求
         const response = await fetch('http://8.148.69.112:3000/api/reports', {
           method: 'POST',
           body: formData,
+          mode: 'cors',
+          credentials: 'include',
           signal: controller.signal,
           headers: {
             'Accept': 'application/json'
-          },
-          mode: 'cors',
-          credentials: 'include'
+          }
         });
         
         clearTimeout(timeoutId);
         
+        console.log('服务器响应状态:', response.status);
+        
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || '提交失败，请稍后重试');
+          throw new Error(errorData.error || '提交失败，请稍后重试');
         }
         
         const result = await response.json();
-        alert('上报成功！');
+        console.log('提交成功:', result);
+        
+        // 提交成功
+        alert('隐患上报成功！');
         this.reset();
         document.getElementById('imagePreview').innerHTML = '';
         document.getElementById('charCount').textContent = '0';
       } catch (error) {
-        if (error.name === 'AbortError') {
-          alert('请求超时，请检查网络连接后重试');
-        } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-          alert('网络连接失败，请检查网络后重试');
-          console.error('网络错误详情:', error);
-        } else {
-          alert(error.message || '提交失败，请稍后重试');
-        }
         console.error('提交错误:', error);
+        
+        // 详细错误处理
+        if (error.name === 'AbortError') {
+          alert('请求超时，请检查网络连接');
+        } else if (error.name === 'TypeError' && error.message.includes('NetworkError')) {
+          alert('网络连接失败，请检查网络后重试');
+        } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+          alert('无法连接到服务器，请确认服务器已启动');
+        } else {
+          alert(error.message || '网络连接失败，请检查网络后重试');
+        }
       } finally {
-        submitButton.disabled = false;
-        loading.classList.add('hidden');
+        // 隐藏加载提示
+        document.getElementById('loading').classList.add('hidden');
       }
     });
 
-    // 深色模式检测
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark');
+    // 检查暗色模式
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
     }
+
+    // 初始化字数统计
+    document.addEventListener('DOMContentLoaded', function() {
+      const textarea = document.querySelector('textarea[name="description"]');
+      if (textarea) {
+        validateDescription(textarea);
+      }
+    });
   </script>
 
   <footer class="text-center text-gray-500 dark:text-gray-400 py-4 text-sm">

@@ -273,14 +273,15 @@ app.use((err, req, res, next) => {
 	});
 });
 
-// 处理未捕获的异常
+// 添加全局错误处理
 process.on('uncaughtException', (err) => {
+	console.error('未捕获的异常:', err);
 	logger.error('未捕获的异常:', err);
-	process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-	logger.error('未处理的Promise拒绝:', reason);
+process.on('unhandledRejection', (err) => {
+	console.error('未处理的Promise拒绝:', err);
+	logger.error('未处理的Promise拒绝:', err);
 });
 
 // 优雅关闭
@@ -297,24 +298,26 @@ process.on('SIGTERM', () => {
 		});
 });
 
-// 数据库连接
+// 数据库连接并启动服务器
 prisma.$connect()
 	.then(() => {
+		console.log('数据库连接成功');
 		logger.info('数据库连接成功');
+		
+		// 启动服务器
+		const port = process.env.PORT || 3000;
+		const server = app.listen(port, '0.0.0.0', () => {
+			console.log(`服务器启动在端口 ${port}`);
+			logger.info(`服务器启动在端口 ${port}`);
+		});
+
+		// 设置超时
+		server.timeout = 30000; // 30秒
+		server.keepAliveTimeout = 65000; // 65秒
 	})
 	.catch((error) => {
+		console.error('数据库连接失败:', error);
 		logger.error('数据库连接失败:', error);
 		process.exit(1);
 	});
-
-// 启动服务器
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-	logger.info(`服务器启动在端口 ${port}`);
-	console.log(`服务器启动在端口 ${port}`);
-});
-
-// 设置超时
-server.timeout = 30000; // 30秒
-server.keepAliveTimeout = 65000; // 65秒
 
