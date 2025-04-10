@@ -277,23 +277,39 @@
         
         const formData = new FormData(this);
         
+        // 创建AbortController用于超时控制
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时
+        
         const response = await fetch('http://8.148.69.112:3000/api/reports', {
           method: 'POST',
-          body: formData
+          body: formData,
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json'
+          }
         });
         
-        const result = await response.json();
+        clearTimeout(timeoutId);
         
-        if (response.ok) {
-          alert('上报成功！');
-          this.reset();
-          document.getElementById('imagePreview').innerHTML = '';
-          document.getElementById('charCount').textContent = '0';
-        } else {
-          throw new Error(result.message || '提交失败，请稍后重试');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || '提交失败，请稍后重试');
         }
+        
+        const result = await response.json();
+        alert('上报成功！');
+        this.reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        document.getElementById('charCount').textContent = '0';
       } catch (error) {
-        alert(error.message);
+        if (error.name === 'AbortError') {
+          alert('请求超时，请检查网络连接后重试');
+        } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+          alert('网络连接失败，请检查网络后重试');
+        } else {
+          alert(error.message || '提交失败，请稍后重试');
+        }
         console.error('提交错误:', error);
       } finally {
         submitButton.disabled = false;
