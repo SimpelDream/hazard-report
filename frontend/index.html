@@ -108,6 +108,7 @@
           <option value="重大不良行为">重大不良行为</option>
           <option value="较大不良行为">较大不良行为</option>
           <option value="一般不良行为">一般不良行为</option>
+          <option value="其它">其它</option>
         </select>
       </div>
 
@@ -132,6 +133,7 @@
         <label class="block mb-2 text-gray-700 dark:text-gray-200">上传图片（最多4张）</label>
         <input type="file" name="images" multiple accept="image/*" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white" onchange="handleImageUpload(this)">
         <div id="imagePreview" class="mt-2 flex flex-wrap"></div>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">支持jpg、png格式，每张图片不超过2MB</p>
       </div>
 
       <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition duration-300">
@@ -201,6 +203,11 @@
           return;
         }
         
+        if (file.size > 2 * 1024 * 1024) {
+          alert('图片大小不能超过2MB');
+          return;
+        }
+        
         const reader = new FileReader();
         const div = document.createElement('div');
         div.className = 'image-preview';
@@ -237,7 +244,27 @@
     document.getElementById('reportForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      if (!validatePhone(this.phone) || !validateDateTime(this.foundAt)) {
+      // 检查所有必填字段
+      const requiredFields = ['project', 'reporter', 'phone', 'foundAt', 'location', 'description'];
+      for (const field of requiredFields) {
+        const input = this.elements[field];
+        if (!input.value.trim()) {
+          alert(`请填写${input.previousElementSibling.textContent.replace('*', '').trim()}`);
+          input.focus();
+          return;
+        }
+      }
+      
+      // 验证手机号和时间
+      if (!validatePhone(this.phone)) {
+        alert('请输入正确的手机号码');
+        this.phone.focus();
+        return;
+      }
+      
+      if (!validateDateTime(this.foundAt)) {
+        alert('请选择正确的发现时间');
+        this.foundAt.focus();
         return;
       }
       
@@ -261,11 +288,13 @@
           alert('上报成功！');
           this.reset();
           document.getElementById('imagePreview').innerHTML = '';
+          document.getElementById('charCount').textContent = '0';
         } else {
-          throw new Error(result.error || '提交失败');
+          throw new Error(result.message || '提交失败，请稍后重试');
         }
       } catch (error) {
         alert(error.message);
+        console.error('提交错误:', error);
       } finally {
         submitButton.disabled = false;
         loading.classList.add('hidden');

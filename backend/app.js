@@ -77,10 +77,11 @@ const upload = multer({
 
 // 增加请求体大小限制
 app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // 配置CORS
 app.use(cors({
-	origin: ['http://8.148.69.112', 'http://localhost:8080'],
+	origin: ['http://8.148.69.112', 'http://localhost:8080', 'http://localhost:3000', 'http://127.0.0.1:3000'],
 	methods: ['GET', 'POST'],
 	allowedHeaders: ['Content-Type'],
 	maxAge: 86400,
@@ -127,25 +128,27 @@ function validateReportData(data) {
 }
 
 // 图片处理中间件
-async function processImage(req, res, next) {
-	if (!req.file) return next();
+async function processImages(req, res, next) {
+	if (!req.files || req.files.length === 0) return next();
 
 	try {
-		const image = sharp(req.file.path);
-		const metadata = await image.metadata();
-		
-		// 调整图片大小
-		if (metadata.width > 1200) {
-			await image.resize(1200, null, { withoutEnlargement: true });
+		for (const file of req.files) {
+			const image = sharp(file.path);
+			const metadata = await image.metadata();
+			
+			// 调整图片大小
+			if (metadata.width > 1200) {
+				await image.resize(1200, null, { withoutEnlargement: true });
+			}
+			
+			// 压缩图片质量
+			await image.jpeg({ quality: 80 }).toFile(file.path + '.jpg');
+			
+			// 删除原始文件
+			fs.unlinkSync(file.path);
+			
+			file.path = file.path + '.jpg';
 		}
-		
-		// 压缩图片质量
-		await image.jpeg({ quality: 80 }).toFile(req.file.path + '.jpg');
-		
-		// 删除原始文件
-		fs.unlinkSync(req.file.path);
-		
-		req.file.path = req.file.path + '.jpg';
 		next();
 	} catch (error) {
 		logger.error('图片处理失败:', error);
@@ -157,7 +160,7 @@ async function processImage(req, res, next) {
 app.use('/uploads', express.static(uploadDir));
 
 // 上报隐患记录API
-app.post('/api/reports', upload.array('images', 4), processImage, async (req, res) => {
+app.post('/api/reports', upload.array('images', 4), processImages, async (req, res) => {
 	try {
 		const errors = validateReportData(req.body);
 		if (errors.length > 0) {
@@ -176,7 +179,7 @@ app.post('/api/reports', upload.array('images', 4), processImage, async (req, re
 				foundAt: new Date(foundAt), 
 				location, 
 				description,
-				images: images.join(',')
+				images
 			}
 		});
 
@@ -238,7 +241,7 @@ app.get('/api/reports', async (req, res) => {
 		
 		const reportsWithImages = reports.map(report => ({
 			...report,
-			images: report.images ? report.images.split(',') : []
+			images: report.images || []
 		}));
 		
 		res.json({
@@ -259,7 +262,22 @@ app.get('/api/reports', async (req, res) => {
 // 错误处理中间件
 app.use((err, req, res, next) => {
 	logger.error('服务器错误:', err);
-	res.status(500).json({ error: "服务器内部错误" });
+	
+	// 确保错误响应始终是JSON格式
+	res.status(err.status || 500).json({
+		error: err.message || '服务器内部错误',
+		status: err.status || 500
+	});
+});
+
+// 处理未捕获的异常
+process.on('uncaughtException', (err) => {
+	logger.error('未捕获的异常:', err);
+	process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+	logger.error('未处理的Promise拒绝:', reason);
 });
 
 // 优雅关闭
