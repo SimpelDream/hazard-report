@@ -77,15 +77,15 @@
         <label class="block mb-2 text-gray-700 dark:text-gray-200">项目选择<span class="text-red-500">*</span></label>
         <select required name="project" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
           <option value="">请选择项目</option>
-          <option value="项目1">济源市盘通仓储服务有限公司铁路专用线工程施工总价承包</option>
-          <option value="项目2">江宁开发区滨水风光带等基础设施运营维护工程</option>
-          <option value="项目3">胶济客专自然灾害及异物侵限系统工程</option>
-          <option value="项目4">郑州市轨道交通警用通信系统委外维保项目</option>
-          <option value="项目5">济源盘通仓储专用线引入莲东站适应性改造工程LDGZSG标段</option>
-          <option value="项目6">北京市轨道交通12号线通信、信号、站台门设备服务项目</option>
-          <option value="项目7">兰新线通信城域网建设项目002标段</option>
-          <option value="项目8">长沙站改项目</option>
-          <option value="项目9">南昌局管段GTTXGLSG-2标段项目部</option>
+          <option value="济源市盘通仓储服务有限公司铁路专用线工程">济源市盘通仓储服务有限公司铁路专用线工程</option>
+          <option value="江宁开发区滨水风光带等基础设施运营维护工程">江宁开发区滨水风光带等基础设施运营维护工程</option>
+          <option value="胶济客专自然灾害及异物侵限系统工程">胶济客专自然灾害及异物侵限系统工程</option>
+          <option value="郑州市轨道交通警用通信系统委外维保项目">郑州市轨道交通警用通信系统委外维保项目</option>
+          <option value="济源盘通仓储专用线引入莲东站适应性改造工程">济源盘通仓储专用线引入莲东站适应性改造工程</option>
+          <option value="北京市轨道交通12号线通信、信号、站台门设备服务项目">北京市轨道交通12号线通信、信号、站台门设备服务项目</option>
+          <option value="兰新线通信城域网建设项目002标段">兰新线通信城域网建设项目002标段</option>
+          <option value="长沙站改项目">长沙站改项目</option>
+          <option value="南昌局管段GTTXGLSG-2标段项目部">南昌局管段GTTXGLSG-2标段项目部</option>
         </select>
       </div>
 
@@ -120,7 +120,16 @@
 
       <div>
         <label class="block mb-2 text-gray-700 dark:text-gray-200">地点<span class="text-red-500">*</span></label>
-        <input type="text" required name="location" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
+        <div class="flex items-center space-x-2">
+          <input type="text" required name="location" id="location-input" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white" placeholder="输入地点或点击获取当前位置">
+          <button type="button" id="get-location-btn" class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-300" title="获取当前位置">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+        </div>
+        <div id="location-status" class="mt-1 text-sm hidden"></div>
       </div>
 
       <div>
@@ -144,6 +153,23 @@
 
   <div id="loading" class="loading hidden">
     <div class="loading-spinner"></div>
+  </div>
+
+  <!-- 添加相关制度文件窗口 -->
+  <div class="max-w-md mx-auto p-6 mt-8">
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-4">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        相关制度文件
+      </h2>
+      <div id="orders-files-list" class="divide-y divide-gray-200 dark:divide-gray-700">
+        <div class="text-center text-gray-500 dark:text-gray-400 py-4">
+          加载中...
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -242,6 +268,107 @@
       
       input.files = dt.files;
       handleImageUpload(input);
+    }
+
+    // 获取地理位置并转换为地址
+    function getLocation() {
+      const locationStatus = document.getElementById('location-status');
+      const locationInput = document.getElementById('location-input');
+      
+      // 清除之前的状态
+      locationStatus.textContent = '';
+      locationStatus.className = 'mt-1 text-sm';
+      
+      // 检查浏览器是否支持地理位置
+      if (!navigator.geolocation) {
+        locationStatus.textContent = '您的浏览器不支持地理位置功能';
+        locationStatus.classList.add('text-red-500');
+        locationStatus.classList.remove('hidden');
+        return;
+      }
+      
+      // 显示正在获取位置
+      locationStatus.textContent = '正在获取位置...';
+      locationStatus.classList.add('text-blue-500');
+      locationStatus.classList.remove('hidden');
+      
+      // 设置选项
+      const options = {
+        enableHighAccuracy: true,  // 高精度
+        timeout: 10000,           // 超时时间：10秒
+        maximumAge: 0             // 不使用缓存
+      };
+      
+      // 获取位置
+      navigator.geolocation.getCurrentPosition(
+        // 成功回调
+        function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const accuracy = Math.round(position.coords.accuracy);
+          
+          // 显示经纬度
+          locationStatus.textContent = `已获取当前位置 (精确度: ${accuracy}米)`;
+          locationStatus.classList.remove('text-blue-500', 'text-red-500');
+          locationStatus.classList.add('text-green-600');
+          
+          // 尝试反向地理编码（将坐标转换为地址）
+          reverseGeocode(latitude, longitude, locationInput);
+        },
+        // 错误回调
+        function(error) {
+          locationStatus.classList.remove('text-blue-500');
+          locationStatus.classList.add('text-red-500');
+          
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              locationStatus.textContent = '用户拒绝了位置请求，请手动输入地点或允许位置访问';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              locationStatus.textContent = '位置信息不可用，请手动输入地点';
+              break;
+            case error.TIMEOUT:
+              locationStatus.textContent = '获取位置超时，请重试或手动输入地点';
+              break;
+            default:
+              locationStatus.textContent = '获取位置时发生未知错误，请手动输入地点';
+              break;
+          }
+        },
+        // 选项
+        options
+      );
+    }
+    
+    // 反向地理编码（使用百度地图API或坐标拼接）
+    async function reverseGeocode(latitude, longitude, inputElement) {
+      try {
+        // 尝试使用百度地图API进行反向地理编码
+        // 注意：实际使用时需要替换为有效的百度地图API密钥
+        // 此处仅作为示例，如果不使用百度地图API，可以直接使用坐标
+        
+        // 简单实现：直接使用坐标
+        const locationStr = `位置坐标: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+        inputElement.value = locationStr;
+        
+        // 如果需要使用百度地图API，取消下方注释并替换为有效的API密钥
+        /*
+        const url = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=YOUR_BAIDU_MAP_API_KEY&output=json&coordtype=wgs84ll&location=${latitude},${longitude}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.status === 0) {
+          const address = data.result.formatted_address;
+          inputElement.value = address;
+        } else {
+          throw new Error('无法获取地址信息');
+        }
+        */
+      } catch (error) {
+        console.error('反向地理编码失败:', error);
+        // 失败时使用坐标
+        inputElement.value = `位置坐标: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+      }
     }
 
     // 表单提交
@@ -348,18 +475,128 @@
       }
     });
 
-    // 检查暗色模式
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark');
-    }
-
-    // 初始化字数统计
+    // 页面加载完成后执行
     document.addEventListener('DOMContentLoaded', function() {
+      // 初始化字数统计
       const textarea = document.querySelector('textarea[name="description"]');
       if (textarea) {
         validateDescription(textarea);
       }
+      
+      // 添加获取位置按钮事件
+      const getLocationBtn = document.getElementById('get-location-btn');
+      if (getLocationBtn) {
+        getLocationBtn.addEventListener('click', getLocation);
+      }
+      
+      // 检测是否是移动设备，如果是则自动尝试获取位置
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // 延迟一秒后自动触发位置获取，给用户时间加载页面
+        setTimeout(() => {
+          // 如果位置输入框为空，自动获取位置
+          const locationInput = document.getElementById('location-input');
+          if (locationInput && !locationInput.value) {
+            getLocation();
+          }
+        }, 1000);
+      }
+      
+      // 加载制度文件列表
+      loadOrdersFiles();
     });
+
+    // 检查暗色模式
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    }
+  </script>
+
+  <!-- 添加制度文件加载脚本 -->
+  <script>
+    // 加载制度文件列表
+    async function loadOrdersFiles() {
+      const ordersListElement = document.getElementById('orders-files-list');
+      
+      try {
+        // 发起请求获取orders目录下的文件列表
+        const response = await fetch('http://8.148.69.112:3000/api/orders');
+        
+        if (!response.ok) {
+          throw new Error('获取制度文件列表失败');
+        }
+        
+        const files = await response.json();
+        
+        // 如果没有文件
+        if (!files || files.length === 0) {
+          ordersListElement.innerHTML = '<div class="text-center text-gray-500 dark:text-gray-400 py-4">暂无相关制度文件</div>';
+          return;
+        }
+        
+        // 对文件按名称排序
+        files.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+        
+        // 清空加载提示
+        ordersListElement.innerHTML = '';
+        
+        // 添加每个文件
+        files.forEach(file => {
+          const fileItem = document.createElement('div');
+          fileItem.className = 'py-3';
+          
+          // 获取文件图标
+          let fileIcon = 'description';
+          if (file.name.endsWith('.pdf')) {
+            fileIcon = 'picture_as_pdf';
+          } else if (file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+            fileIcon = 'article';
+          } else if (file.name.endsWith('.jpg') || file.name.endsWith('.png')) {
+            fileIcon = 'image';
+          }
+          
+          fileItem.innerHTML = `
+            <a href="http://8.148.69.112:3000/api/orders/${file.name}" 
+               target="_blank" 
+               class="flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 p-2 rounded transition duration-150">
+              <span class="material-icons text-blue-500 mr-3">${fileIcon}</span>
+              <div class="flex-grow">
+                <div class="text-gray-900 dark:text-gray-200">${file.name}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  ${new Date(file.lastModified).toLocaleDateString()} · ${formatFileSize(file.size)}
+                </div>
+              </div>
+              <span class="material-icons text-gray-400">open_in_new</span>
+            </a>
+          `;
+          
+          ordersListElement.appendChild(fileItem);
+        });
+      } catch (error) {
+        console.error('加载制度文件列表出错:', error);
+        ordersListElement.innerHTML = `
+          <div class="text-center text-gray-500 dark:text-gray-400 py-4">
+            加载制度文件列表失败
+            <button id="retry-load-orders" class="text-blue-500 ml-2 hover:underline">
+              重试
+            </button>
+          </div>
+        `;
+        
+        // 添加重试按钮事件
+        document.getElementById('retry-load-orders')?.addEventListener('click', loadOrdersFiles);
+      }
+    }
+    
+    // 格式化文件大小
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 B';
+      
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
   </script>
 
   <footer class="text-center text-gray-500 dark:text-gray-400 py-4 text-sm">

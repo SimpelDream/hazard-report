@@ -162,6 +162,35 @@ async function processImages(req, res, next) {
 // 静态文件服务
 app.use('/uploads', express.static(uploadDir));
 
+// 添加制度文件服务 - 读取orders目录下的文件
+const ordersDir = path.join(__dirname, 'orders');
+if (!fs.existsSync(ordersDir)) {
+	fs.mkdirSync(ordersDir, { recursive: true, mode: 0o755 });
+}
+app.use('/api/orders', express.static(ordersDir));
+
+// 获取制度文件列表API
+app.get('/api/orders', async (req, res) => {
+	try {
+		const files = fs.readdirSync(ordersDir)
+			.filter(file => !file.startsWith('.')) // 过滤隐藏文件
+			.map(file => {
+				const filePath = path.join(ordersDir, file);
+				const stats = fs.statSync(filePath);
+				return {
+					name: file,
+					size: stats.size,
+					lastModified: stats.mtime
+				};
+			});
+		
+		res.json(files);
+	} catch (error) {
+		logger.error('获取制度文件列表失败:', error);
+		res.status(500).json({ error: "获取制度文件列表失败" });
+	}
+});
+
 // 上报隐患记录API
 app.post('/api/reports', upload.array('images', 4), processImages, async (req, res) => {
 	try {
@@ -262,6 +291,158 @@ app.get('/api/reports', async (req, res) => {
 	}
 });
 
+// 更新报告状态API
+app.patch('/api/reports/:id/status', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { status } = req.body;
+		
+		if (!status || !['进行中', '已整改'].includes(status)) {
+			return res.status(400).json({ error: "状态值无效，必须是'进行中'或'已整改'" });
+		}
+		
+		const report = await prisma.report.update({
+			where: { id: parseInt(id) },
+			data: { 
+				status,
+				statusUpdatedAt: new Date()
+			}
+		});
+		
+		logger.info('报告状态更新成功', { reportId: id, status });
+		res.json(report);
+	} catch (error) {
+		logger.error('更新报告状态失败:', error);
+		res.status(500).json({ error: "更新报告状态失败" });
+	}
+});
+
+// 导出报告数据为Excel文件
+app.get('/api/reports/export', async (req, res) => {
+	try {
+		const Excel = require('exceljs');
+		const { project, category, reporter, fromDate, toDate } = req.query;
+		
+		// 构建查询条件
+		const whereClause = {
+			...(project && { project }),
+			...(category && { category }),
+			...(reporter && { reporter }),
+			...(fromDate && toDate && {
+				foundAt: {
+					gte: new Date(fromDate),
+					lte: new Date(toDate)
+				}
+			})
+		};
+		
+		// 获取所有符合条件的报告
+		const reports = await prisma.report.findMany({
+			where: whereClause,
+			orderBy: { createdAt: 'desc' }
+		});
+		
+		// 创建工作簿和工作表
+		const workbook = new Excel.Workbook();
+		workbook.creator = '隐患上报平台';
+		workbook.created = new Date();
+		
+		const worksheet = workbook.addWorksheet('隐患报告', {
+			properties: { tabColor: { argb: '4F81BD' } }
+		});
+		
+		// 设置列定义
+		worksheet.columns = [
+			{ header: 'ID', key: 'id', width: 10 },
+			{ header: '项目', key: 'project', width: 30 },
+			{ header: '上报人', key: 'reporter', width: 15 },
+			{ header: '联系电话', key: 'phone', width: 15 },
+			{ header: '隐患类别', key: 'category', width: 15 },
+			{ header: '发现时间', key: 'foundAt', width: 20 },
+			{ header: '地点', key: 'location', width: 30 },
+			{ header: '描述', key: 'description', width: 40 },
+			{ header: '图片数量', key: 'imageCount', width: 10 },
+			{ header: '状态', key: 'status', width: 10 },
+			{ header: '状态更新时间', key: 'statusUpdatedAt', width: 20 },
+			{ header: '创建时间', key: 'createdAt', width: 20 }
+		];
+		
+		// 设置表头样式
+		worksheet.getRow(1).font = { bold: true, size: 12 };
+		worksheet.getRow(1).fill = {
+			type: 'pattern',
+			pattern: 'solid',
+			fgColor: { argb: 'E6F2FF' }
+		};
+		
+		// 添加数据
+		reports.forEach(report => {
+			worksheet.addRow({
+				id: report.id,
+				project: report.project,
+				reporter: report.reporter,
+				phone: report.phone,
+				category: report.category || '未分类',
+				foundAt: report.foundAt,
+				location: report.location,
+				description: report.description,
+				imageCount: report.images ? report.images.length : 0,
+				status: report.status || '进行中',
+				statusUpdatedAt: report.statusUpdatedAt,
+				createdAt: report.createdAt
+			});
+		});
+		
+		// 格式化日期列
+		worksheet.eachRow((row, rowNumber) => {
+			if (rowNumber > 1) {
+				// 日期格式化
+				if (row.getCell('foundAt').value) {
+					row.getCell('foundAt').numFmt = 'yyyy-mm-dd hh:mm:ss';
+				}
+				if (row.getCell('statusUpdatedAt').value) {
+					row.getCell('statusUpdatedAt').numFmt = 'yyyy-mm-dd hh:mm:ss';
+				}
+				if (row.getCell('createdAt').value) {
+					row.getCell('createdAt').numFmt = 'yyyy-mm-dd hh:mm:ss';
+				}
+				
+				// 根据状态设置颜色
+				if (row.getCell('status').value === '已整改') {
+					row.getCell('status').fill = {
+						type: 'pattern',
+						pattern: 'solid',
+						fgColor: { argb: 'E2EFDA' } // 浅绿色
+					};
+				} else if (row.getCell('status').value === '进行中') {
+					row.getCell('status').fill = {
+						type: 'pattern',
+						pattern: 'solid',
+						fgColor: { argb: 'FFFBCC' } // 浅黄色
+					};
+				}
+			}
+		});
+		
+		// 生成文件名
+		const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+		const filename = `隐患报告导出_${timestamp}.xlsx`;
+		
+		// 设置响应头
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		res.setHeader('Content-Disposition', `attachment; filename=${encodeURIComponent(filename)}`);
+		
+		// 将工作簿写入响应
+		await workbook.xlsx.write(res);
+		res.end();
+		
+		logger.info('报告数据成功导出为Excel', { filters: whereClause, count: reports.length });
+	} catch (error) {
+		logger.error('导出报告数据失败:', error);
+		res.status(500).json({ error: "导出报告数据失败" });
+	}
+});
+
 // 错误处理中间件
 app.use((err, req, res, next) => {
 	logger.error('服务器错误:', err);
@@ -312,8 +493,8 @@ prisma.$connect()
 		});
 
 		// 设置超时
-		server.timeout = 30000; // 30秒
-		server.keepAliveTimeout = 65000; // 65秒
+//		server.timeout = 30000; // 30秒
+//		server.keepAliveTimeout = 65000; // 65秒
 	})
 	.catch((error) => {
 		console.error('数据库连接失败:', error);
