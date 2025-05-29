@@ -80,10 +80,15 @@ log "创建必要的目录..."
 mkdir -p uploads logs orders
 chmod 755 uploads logs orders
 
-# 重置数据库
-log "重置数据库..."
+# 清理并重置数据库
+log "清理并重置数据库..."
 rm -f prisma/dev.db
-npx prisma migrate reset --force
+rm -rf prisma/migrations/*
+mkdir -p prisma/migrations
+
+# 创建新的迁移
+log "创建新的迁移..."
+npx prisma migrate dev --name init
 
 # 编译 TypeScript
 log "编译 TypeScript..."
