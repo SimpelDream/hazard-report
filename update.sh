@@ -9,34 +9,44 @@ NC='\033[0m'
 
 # 设置日志文件
 LOGDIR="logs"
-mkdir -p $LOGDIR 2>/dev/null || true
 LOGFILE="$LOGDIR/update_$(date +%Y%m%d_%H%M%S).log"
-touch $LOGFILE 2>/dev/null || echo "无法创建日志文件，将只输出到控制台"
+
+# 确保日志目录存在
+mkdir -p "$LOGDIR" 2>/dev/null || {
+    echo -e "${RED}[-] 无法创建日志目录${NC}"
+    exit 1
+}
+
+# 创建日志文件
+touch "$LOGFILE" 2>/dev/null || {
+    echo -e "${RED}[-] 无法创建日志文件${NC}"
+    exit 1
+}
 
 # 输出带颜色的日志函数
 log() {
     echo -e "${2:-$GREEN}[+] $1${NC}"
-    echo "[+] $(date +"%Y-%m-%d %H:%M:%S") - $1" >> $LOGFILE 2>/dev/null || true
+    echo "[+] $(date +"%Y-%m-%d %H:%M:%S") - $1" >> "$LOGFILE" 2>/dev/null || true
 }
 
 error() {
     echo -e "${RED}[-] $1${NC}"
-    echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - ERROR: $1" >> $LOGFILE 2>/dev/null || true
+    echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - ERROR: $1" >> "$LOGFILE" 2>/dev/null || true
     if [ "$2" = "exit" ]; then
         echo -e "${RED}[-] 因错误终止脚本执行${NC}"
-        echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - 因错误终止脚本执行" >> $LOGFILE 2>/dev/null || true
+        echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - 因错误终止脚本执行" >> "$LOGFILE" 2>/dev/null || true
         exit 1
     fi
 }
 
 warn() {
     echo -e "${YELLOW}[!] $1${NC}"
-    echo "[!] $(date +"%Y-%m-%d %H:%M:%S") - WARNING: $1" >> $LOGFILE 2>/dev/null || true
+    echo "[!] $(date +"%Y-%m-%d %H:%M:%S") - WARNING: $1" >> "$LOGFILE" 2>/dev/null || true
 }
 
 info() {
     echo -e "${BLUE}[*] $1${NC}"
-    echo "[*] $(date +"%Y-%m-%d %H:%M:%S") - INFO: $1" >> $LOGFILE 2>/dev/null || true
+    echo "[*] $(date +"%Y-%m-%d %H:%M:%S") - INFO: $1" >> "$LOGFILE" 2>/dev/null || true
 }
 
 # 检查命令是否存在
@@ -285,9 +295,32 @@ if [ ! -f "ecosystem.config.js" ]; then
     log "已创建默认 PM2 配置文件"
 fi
 
+# 检查项目结构
+check_project_structure() {
+    log "检查项目结构..."
+    
+    # 检查项目根目录
+    if [ ! -d "backend" ]; then
+        error "找不到后端目录 'backend'" "exit"
+    fi
+    
+    # 创建必要的目录
+    mkdir -p backend/logs 2>/dev/null || warn "创建日志目录失败"
+    mkdir -p backend/uploads 2>/dev/null || warn "创建上传目录失败"
+    mkdir -p backend/prisma 2>/dev/null || warn "创建prisma目录失败"
+    
+    # 设置目录权限
+    chmod -R 755 backend 2>/dev/null || warn "设置目录权限失败"
+    chmod -R 777 backend/uploads 2>/dev/null || warn "设置上传目录权限失败"
+    chmod -R 777 backend/logs 2>/dev/null || warn "设置日志目录权限失败"
+}
+
 # 在启动服务之前添加问题排查函数
 check_and_fix_issues() {
     log "开始排查系统问题..."
+    
+    # 首先检查项目结构
+    check_project_structure
     
     # 1. 检查端口占用
     log "检查端口占用..."
@@ -296,14 +329,7 @@ check_and_fix_issues() {
         lsof -i :3000 | awk 'NR!=1 {print $2}' | xargs kill -9 2>/dev/null || warn "无法释放端口"
     fi
     
-    # 2. 检查文件权限
-    log "检查文件权限..."
-    # 设置正确的目录权限
-    chmod -R 755 backend 2>/dev/null || warn "设置目录权限失败"
-    chmod -R 777 backend/uploads 2>/dev/null || warn "设置上传目录权限失败"
-    chmod -R 777 backend/logs 2>/dev/null || warn "设置日志目录权限失败"
-    
-    # 3. 检查数据库
+    # 2. 检查数据库
     log "检查数据库..."
     if [ ! -f "backend/prisma/dev.db" ]; then
         warn "数据库文件不存在，尝试初始化..."
@@ -315,7 +341,7 @@ check_and_fix_issues() {
         cd ..
     fi
     
-    # 4. 检查环境变量
+    # 3. 检查环境变量
     log "检查环境变量..."
     if [ ! -f "backend/.env" ]; then
         warn "环境配置文件不存在，创建默认配置..."
@@ -362,13 +388,7 @@ EOF
         done
     fi
     
-    # 5. 检查必要的目录
-    log "检查必要的目录..."
-    mkdir -p backend/logs 2>/dev/null || warn "创建日志目录失败"
-    mkdir -p backend/uploads 2>/dev/null || warn "创建上传目录失败"
-    mkdir -p backend/prisma 2>/dev/null || warn "创建prisma目录失败"
-    
-    # 6. 检查Node.js版本和依赖
+    # 4. 检查Node.js版本和依赖
     log "检查Node.js版本和依赖..."
     cd backend || { error "无法进入后端目录" "exit"; }
     npm install
