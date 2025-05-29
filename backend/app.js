@@ -47,6 +47,34 @@ app.use(config.API.PREFIX + config.API.ROUTES.ORDERS, ordersRouter);
 // 错误处理中间件
 app.use((err, req, res, next) => {
     console.error('服务器错误:', err);
+    
+    // 检查是否是 Multer 错误
+    if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).json({ 
+                success: false,
+                error: '文件大小超过限制' 
+            });
+        }
+        if (err.code === 'LIMIT_FILE_COUNT') {
+            return res.status(400).json({ 
+                success: false,
+                error: '上传的文件数量超过限制' 
+            });
+        }
+        if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+            return res.status(400).json({ 
+                success: false,
+                error: '意外的字段名称，请确保表单字段名称正确' 
+            });
+        }
+        return res.status(400).json({ 
+            success: false,
+            error: `上传文件错误: ${err.message}` 
+        });
+    }
+    
+    // 其他一般错误
     res.status(500).json({
         success: false,
         error: '服务器内部错误'

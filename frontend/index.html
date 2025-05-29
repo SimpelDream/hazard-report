@@ -72,7 +72,7 @@
         通信分公司内部隐患上报平台</h1>
     </div>
 
-    <form id="reportForm" class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-4 space-y-4">
+    <form id="reportForm" class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-4 space-y-4" enctype="multipart/form-data">
       <div>
         <label class="block mb-2 text-gray-700 dark:text-gray-200">项目选择<span class="text-red-500">*</span></label>
         <select required name="project" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white">
@@ -139,8 +139,8 @@
       </div>
 
       <div>
-        <label class="block mb-2 text-gray-700 dark:text-gray-200">上传图片（最多4张）</label>
-        <input type="file" name="images" multiple accept="image/*" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white" onchange="handleImageUpload(this)">
+        <label class="block mb-2 text-gray-700 dark:text-gray-200">上传图片（最多4张）<span class="text-red-500">*</span></label>
+        <input type="file" name="images" multiple accept="image/*" required class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white" onchange="handleImageUpload(this)">
         <div id="imagePreview" class="mt-2 flex flex-wrap"></div>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">支持jpg、png格式，每张图片不超过5MB</p>
       </div>
@@ -249,11 +249,26 @@
         });
         
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || '提交失败，请稍后重试');
+          // 检查响应内容类型
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            // 如果是JSON响应，解析错误信息
+            const errorData = await response.json();
+            throw new Error(errorData.error || '提交失败，请稍后重试');
+          } else {
+            // 如果不是JSON响应，返回通用错误信息
+            throw new Error('服务器返回了非预期的响应格式，可能是服务器端出现错误');
+          }
         }
         
-        const result = await response.json();
+        // 尝试解析响应为JSON
+        let result;
+        try {
+          result = await response.json();
+        } catch (jsonError) {
+          console.error('解析响应JSON失败:', jsonError);
+          throw new Error('服务器返回了无效的数据格式');
+        }
         
         if (!result.success) {
           throw new Error(result.error || '提交失败，请稍后重试');
