@@ -375,101 +375,50 @@
     document.getElementById('reportForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      // 检查所有必填字段
-      const requiredFields = ['project', 'reporter', 'phone', 'foundAt', 'location', 'description'];
-      for (const field of requiredFields) {
-        const input = this.elements[field];
-        if (!input.value) {
-          alert(`请填写${field}字段`);
-          input.focus();
-          return;
-        }
-      }
-      
-      // 检查电话号码格式
-      if (!validatePhone(this.elements.phone)) {
-        return;
-      }
-      
-      // 检查日期格式
-      if (!validateDateTime(this.elements.foundAt)) {
-        return;
-      }
-      
-      // 显示加载提示
-      document.getElementById('loading').classList.remove('hidden');
+      // 显示加载动画
+      const loadingSpinner = document.getElementById('loading');
+      loadingSpinner.classList.remove('hidden');
       
       try {
-        // 准备表单数据
-        const formData = new FormData();
+        const formData = new FormData(this);
         
-        // 添加文本字段
+        // 验证必填字段
+        const requiredFields = ['project', 'reporter', 'phone', 'foundAt', 'location', 'description'];
         for (const field of requiredFields) {
-          formData.append(field, this.elements[field].value);
-        }
-        
-        // 添加分类字段（如果有）
-        if (this.elements.category.value) {
-          formData.append('category', this.elements.category.value);
-        }
-        
-        // 添加图片文件
-        const fileInput = this.elements.images;
-        if (fileInput.files.length > 0) {
-          for (let i = 0; i < fileInput.files.length; i++) {
-            formData.append('images', fileInput.files[i]);
+          if (!formData.get(field)) {
+            throw new Error(`请填写${this.querySelector(`[name="${field}"]`).getAttribute('placeholder')}`);
           }
         }
         
-        console.log('准备提交数据到服务器...');
+        // 验证图片
+        const images = formData.getAll('images');
+        if (images.length === 0) {
+          throw new Error('请至少上传一张图片');
+        }
         
-        // 添加超时控制
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时
-        
-        // 发送请求
         const response = await fetch('/api/reports', {
           method: 'POST',
-          body: formData,
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json'
-          }
+          body: formData
         });
         
-        clearTimeout(timeoutId);
-        
-        console.log('服务器响应状态:', response.status);
+        const result = await response.json();
         
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || '提交失败，请稍后重试');
+          throw new Error(result.error || '提交失败，请稍后重试');
         }
         
-        const result = await response.json();
-        console.log('提交成功:', result);
+        if (!result.success) {
+          throw new Error(result.error || '提交失败，请稍后重试');
+        }
         
-        // 提交成功
-        alert('隐患上报成功！');
+        alert('提交成功！');
         this.reset();
         document.getElementById('imagePreview').innerHTML = '';
         document.getElementById('charCount').textContent = '0';
       } catch (error) {
-        console.error('提交错误:', error);
-        
-        // 详细错误处理
-        if (error.name === 'AbortError') {
-          alert('请求超时，请检查网络连接');
-        } else if (error.name === 'TypeError' && error.message.includes('NetworkError')) {
-          alert('网络连接失败，请检查网络后重试');
-        } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-          alert('无法连接到服务器，请确认服务器已启动');
-        } else {
-          alert(error.message || '网络连接失败，请检查网络后重试');
-        }
+        alert(error.message);
       } finally {
-        // 隐藏加载提示
-        document.getElementById('loading').classList.add('hidden');
+        loadingSpinner.classList.add('hidden');
       }
     });
 

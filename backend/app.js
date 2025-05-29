@@ -7,6 +7,7 @@ const reportsRouter = require('./src/routes/reports');
 const ordersRouter = require('./src/routes/orders');
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 // 启用 CORS
 app.use(cors({
@@ -29,7 +30,24 @@ app.use(config.API.ROUTES.UPLOADS, express.static(path.join(__dirname, config.UP
 app.use(config.API.PREFIX + config.API.ROUTES.REPORTS, reportsRouter);
 app.use(config.API.PREFIX + config.API.ROUTES.ORDERS, ordersRouter);
 
+// 错误处理中间件
+app.use((err, req, res, next) => {
+  console.error('服务器错误:', err);
+  res.status(500).json({
+    success: false,
+    error: '服务器内部错误'
+  });
+});
+
+// 404 处理
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    error: '请求的资源不存在'
+  });
+});
+
 // 启动服务器
-app.listen(config.SERVER.PORT, config.SERVER.HOST, () => {
-    console.log(`服务器运行在 http://${config.SERVER.HOST}:${config.SERVER.PORT}`);
+app.listen(port, () => {
+  console.log(`服务器运行在 http://localhost:${port}`);
 });
