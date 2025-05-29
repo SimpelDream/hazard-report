@@ -91,7 +91,6 @@ const upload = multer({
 });
 
 // 创建报告
-<<<<<<< HEAD
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
   // 使用try-catch包装multer中间件
   try {
@@ -136,30 +135,6 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
             images: imagePaths
           },
         });
-=======
-router.post('/', upload.single('image'), async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { project, reporter, phone, category, foundAt, location, description } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
-    
-    // 验证必填字段
-    if (!project || !reporter || !phone || !foundAt || !location || !description) {
-      return res.status(400).json({ error: '请填写所有必填字段' });
-    }
-
-    const report = await prisma.report.create({
-      data: {
-        project,
-        reporter,
-        phone,
-        category,
-        foundAt: new Date(foundAt),
-        location,
-        description,
-        image: imageUrl
-      },
-    });
->>>>>>> parent of 85b183f (改错17)
 
         res.status(201).json({
           success: true,
