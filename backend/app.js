@@ -1,11 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const path = require('path');
 const config = require('./src/config');
 const reportsRouter = require('./dist/routes/reports');
 const ordersRouter = require('./dist/routes/orders');
+const { PrismaClient } = require('@prisma/client');
 
 const app = express();
+const prisma = new PrismaClient();
 const port = process.env.PORT || 3000;
 
 // 启用 CORS
@@ -24,6 +27,18 @@ if (!require('fs').existsSync(uploadDir)) {
 
 // 静态文件服务
 app.use(config.API.ROUTES.UPLOADS, express.static(path.join(__dirname, config.UPLOAD.DIR)));
+
+// Multer 配置：将上传文件存到 backend/uploads 目录
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'uploads'));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
 
 // API 路由
 app.use(config.API.PREFIX + config.API.ROUTES.REPORTS, reportsRouter);

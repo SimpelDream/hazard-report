@@ -4,6 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import cors from 'cors';
+import { config } from '../config';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -69,26 +70,15 @@ const upload = multer({
 });
 
 // 创建报告
-router.post('/', upload.array('images', 4), async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', upload.single('image'), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { project, reporter, phone, category, foundAt, location, description } = req.body;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
     
     // 验证必填字段
     if (!project || !reporter || !phone || !foundAt || !location || !description) {
       return res.status(400).json({ error: '请填写所有必填字段' });
     }
-
-    // 验证文件上传
-    if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
-      return res.status(400).json({ error: '请至少上传一张图片' });
-    }
-
-    const files = req.files as Express.Multer.File[];
-    // 修改图片路径处理
-    const imagePaths = files.map(file => {
-      const relativePath = path.relative(path.join(__dirname, '../..'), file.path);
-      return relativePath.replace(/\\/g, '/');
-    }).join(',');
 
     const report = await prisma.report.create({
       data: {
@@ -99,7 +89,7 @@ router.post('/', upload.array('images', 4), async (req: Request, res: Response, 
         foundAt: new Date(foundAt),
         location,
         description,
-        images: imagePaths,
+        image: imageUrl
       },
     });
 
@@ -116,36 +106,40 @@ router.post('/', upload.array('images', 4), async (req: Request, res: Response, 
 // 获取报告列表（分页）
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const pageSize = parseInt(req.query.pageSize as string) || 10;
-    const skip = (page - 1) * pageSize;
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 10;
+    const project = req.query.project as string;
+    const category = req.query.category as string;
+    const reporter = req.query.reporter as string;
+    const fromDate = req.query.fromDate as string;
+    const toDate = req.query.toDate as string;
 
-    const [reports, total] = await Promise.all([
-      prisma.report.findMany({
-        skip,
-        take: pageSize,
-        orderBy: {
-          createdAt: 'desc',
-        },
-      }),
-      prisma.report.count(),
-    ]);
+    // 构建查询条件
+    const where: any = {};
+    if (project) where.project = project;
+    if (category) where.category = category;
+    if (reporter) where.reporter = reporter;
+    if (fromDate && toDate) {
+      where.foundAt = {
+        gte: new Date(fromDate),
+        lte: new Date(toDate)
+      };
+    }
 
-    res.json({
-      success: true,
-      data: {
-        reports,
-        pagination: {
-          total,
-          page,
-          pageSize,
-          totalPages: Math.ceil(total / pageSize),
-        },
-      }
+    const total = await prisma.report.count({ where });
+    const pages = Math.ceil(total / limit);
+
+    const data = await prisma.report.findMany({
+      where,
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: { createdAt: 'desc' }
     });
-  } catch (error) {
-    console.error('获取报告列表失败:', error);
-    next(error);
+
+    res.json({ data, total, pages });
+  } catch (err) {
+    console.error('查询报告失败:', err);
+    res.status(500).json({ error: '查询失败' });
   }
 });
 
@@ -176,6 +170,26 @@ const getReport: RequestHandler = async (req: Request, res: Response, next: Next
 };
 
 router.get('/:id', getReport);
+
+// 更新报告状态
+router.patch('/:id/status', async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const { status } = req.body;
+
+  try {
+    const updated = await prisma.report.update({
+      where: { id },
+      data: {
+        status,
+        statusUpdatedAt: new Date()
+      }
+    });
+    res.json(updated);
+  } catch (err) {
+    console.error(`更新报告 ${id} 状态失败:`, err);
+    res.status(500).json({ error: '更新状态失败' });
+  }
+});
 
 // 使用错误处理中间件
 router.use(errorHandler);
