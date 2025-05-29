@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# 检查脚本权限并自动修复
-if [ ! -x "$0" ]; then
-    echo "正在修复脚本权限..."
-    chmod +x "$0"
-    if [ $? -eq 0 ]; then
-        echo "权限修复成功，重新运行脚本..."
-        exec "$0" "$@"
-    else
-        echo "权限修复失败，请手动运行: chmod +x $0"
-        exit 1
-    fi
-fi
-
 # 设置颜色输出
 RED='\033[0;31m'
 GREEN='\033[0;32m'
