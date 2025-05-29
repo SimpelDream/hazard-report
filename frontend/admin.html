@@ -213,6 +213,9 @@
       'manager': 'manager123456'
     };
     
+    // API基础URL
+    const API_BASE_URL = '/api';
+    
     // 检查用户是否已登录
     function checkAuth() {
       const auth = localStorage.getItem(AUTH_KEY);
@@ -399,11 +402,21 @@
         }
         
         // 发送请求
-        const response = await fetch(`/api/reports?${params.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}/reports?${params.toString()}`, {
           headers: {
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
           }
         });
+        
+        if (response.status === 304) {
+          // 如果返回 304，说明数据没有变化，使用缓存的数据
+          if (reportsData.length > 0) {
+            updateTable(reportsData);
+            return;
+          }
+        }
         
         if (!response.ok) {
           throw new Error('获取数据失败');
@@ -510,7 +523,7 @@
         });
         
         // 获取所有报告用于加载分类选项
-        const response = await fetch('/api/reports?limit=1000', {
+        const response = await fetch(`${API_BASE_URL}/reports?limit=1000`, {
           headers: {
             'Accept': 'application/json'
           }
@@ -556,8 +569,8 @@
       if (report.images && report.images.length > 0) {
         imagesHtml = '<div class="mt-4"><h3 class="font-semibold">图片：</h3><div class="flex flex-wrap gap-2 mt-2">';
         report.images.forEach(image => {
-          imagesHtml += `<a href="http://8.148.69.112:3000${image}" target="_blank" class="block">
-            <img src="http://8.148.69.112:3000${image}" alt="隐患图片" class="w-32 h-32 object-cover rounded border">
+          imagesHtml += `<a href="${image}" target="_blank" class="block">
+            <img src="${image}" alt="隐患图片" class="w-32 h-32 object-cover rounded border">
           </a>`;
         });
         imagesHtml += '</div></div>';
@@ -685,7 +698,7 @@
           await new Promise(resolve => setTimeout(resolve, 500));
           
           // 如果在实际项目中需要真正更新后端数据，可以取消下面的注释，并添加适当的错误处理
-          const response = await fetch(`/api/reports/${reportId}/status`, {
+          const response = await fetch(`${API_BASE_URL}/reports/${reportId}/status`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -746,7 +759,7 @@
         }
         
         // 创建URL
-        const url = `/api/reports/export?${params.toString()}`;
+        const url = `${API_BASE_URL}/reports/export?${params.toString()}`;
         
         // 创建一个临时链接并模拟点击以下载文件
         const link = document.createElement('a');
