@@ -40,8 +40,6 @@ const storage = multer.diskStorage({
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
-      // 确保目录有正确的权限
-      fs.chmodSync(uploadDir, '755');
       cb(null, uploadDir);
     } catch (error) {
       console.error('创建上传目录失败:', error);
