@@ -54,17 +54,13 @@ show_help() {
     echo -e "用法: ./$(basename $0) [选项]"
     echo -e "选项:"
     echo -e "  -h, --help     显示帮助信息"
-    echo -e "  -b, --backup   在更新前创建数据库备份"
     echo -e "  -s, --skip-db  跳过数据库重置（保留现有数据）"
-    echo -e "  -f, --force    强制更新，忽略本地修改"
     echo -e "  -y, --yes      自动确认所有提示（非交互模式）"
     exit 0
 }
 
 # 解析命令行参数
-BACKUP=false
 SKIP_DB=false
-FORCE=false
 AUTO_YES=false
 
 while [ $# -gt 0 ]; do
@@ -72,16 +68,8 @@ while [ $# -gt 0 ]; do
         -h|--help)
             show_help
             ;;
-        -b|--backup)
-            BACKUP=true
-            shift
-            ;;
         -s|--skip-db)
             SKIP_DB=true
-            shift
-            ;;
-        -f|--force)
-            FORCE=true
             shift
             ;;
         -y|--yes)
@@ -136,73 +124,19 @@ fi
 
 # 检查项目目录
 if [ ! -d ".git" ]; then
-    error "当前目录不是有效的 Git 仓库，请确保在项目根目录运行此脚本" "exit"
+    warn "当前目录不是Git仓库，尝试初始化"
+    git init
+    git remote add origin https://github.com/yourusername/hazard-report.git
+    # 请替换上面的URL为您的实际仓库地址
 fi
 
-# 检查工作区状态
-if [ "$FORCE" = false ]; then
-    GIT_STATUS=$(git status -s 2>/dev/null)
-    if [ -n "$GIT_STATUS" ]; then
-        info "检测到本地有未提交的修改"
-        echo "$GIT_STATUS"
-        
-        if [ "$AUTO_YES" = false ]; then
-            read -p "是否继续更新? 本地修改将会被临时保存 (y/n) " REPLY
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                error "用户取消更新" "exit"
-            fi
-        else
-            warn "自动确认模式：继续执行并保存本地修改"
-        fi
-    fi
-fi
+# 强制重置本地修改
+log "强制重置本地修改..."
+git fetch origin 2>/dev/null || error "Git fetch失败，检查网络连接" "exit"
+git reset --hard origin/main 2>/dev/null || git reset --hard origin/master 2>/dev/null || error "重置失败，检查分支名称" "exit"
+git clean -fd 2>/dev/null || warn "清理工作目录失败"
 
-# 创建备份
-if [ "$BACKUP" = true ]; then
-    BACKUP_DIR="backups/$(date +%Y%m%d_%H%M%S)"
-    log "创建备份目录 $BACKUP_DIR..."
-    mkdir -p "$BACKUP_DIR" 2>/dev/null || { error "无法创建备份目录"; BACKUP=false; }
-    
-    if [ "$BACKUP" = true ] && [ -f "backend/prisma/dev.db" ]; then
-        log "备份数据库..."
-        cp backend/prisma/dev.db "$BACKUP_DIR/" 2>/dev/null
-        if [ $? -ne 0 ]; then
-            error "数据库备份失败"
-        else
-            log "数据库备份成功: $BACKUP_DIR/dev.db"
-        fi
-    else
-        warn "找不到数据库文件 backend/prisma/dev.db"
-    fi
-fi
-
-# 保存本地修改
-if [ "$FORCE" = true ]; then
-    log "强制更新模式，忽略本地修改..."
-    git reset --hard 2>/dev/null || error "重置工作区失败"
-else
-    log "保存本地修改..."
-    git stash 2>/dev/null
-    if [ $? -ne 0 ]; then
-        warn "保存本地修改失败，可能没有需要保存的修改"
-    fi
-fi
-
-# 拉取最新代码
-log "拉取最新代码..."
-git pull 2>/dev/null
-if [ $? -ne 0 ]; then
-    error "拉取代码失败，请检查网络连接和仓库权限" "exit"
-fi
-
-# 恢复本地修改
-if [ "$FORCE" = false ]; then
-    log "恢复本地修改..."
-    git stash pop 2>/dev/null
-    if [ $? -ne 0 ]; then
-        warn "恢复本地修改失败，可能没有保存的修改或出现冲突"
-    fi
-fi
+log "更新完成，现在本地代码与远程一致"
 
 # 更新后端依赖
 log "更新后端依赖..."
