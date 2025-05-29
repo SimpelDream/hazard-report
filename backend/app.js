@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fileUpload = require('express-fileupload');
 const config = require('./src/config');
 const reportsRouter = require('./dist/routes/reports');
 const ordersRouter = require('./dist/routes/orders');
@@ -16,12 +15,6 @@ app.use(cors({
 
 // 解析 JSON 请求体
 app.use(express.json());
-
-// 文件上传中间件
-app.use(fileUpload({
-    limits: { fileSize: config.UPLOAD.MAX_SIZE },
-    createParentPath: true
-}));
 
 // 确保上传目录存在
 const uploadDir = path.join(__dirname, config.UPLOAD.DIR);
