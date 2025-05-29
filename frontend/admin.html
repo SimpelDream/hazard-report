@@ -311,9 +311,27 @@
         logout();
       });
       
-      // 关闭模态框
-      document.getElementById('close-modal').addEventListener('click', function() {
-        document.getElementById('report-modal').classList.add('hidden');
+      // 初始化模态框事件监听
+      const modal = document.getElementById('report-modal');
+      const closeBtn = document.getElementById('close-modal');
+      
+      // 关闭按钮事件
+      closeBtn.addEventListener('click', function() {
+        modal.classList.add('hidden');
+      });
+      
+      // 点击模态框背景关闭
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+        }
+      });
+      
+      // ESC 键关闭
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+        }
       });
     });
     
