@@ -142,7 +142,7 @@
         <label class="block mb-2 text-gray-700 dark:text-gray-200">上传图片（最多4张）</label>
         <input type="file" name="images" multiple accept="image/*" class="w-full p-2 rounded border dark:bg-gray-700 dark:text-white" onchange="handleImageUpload(this)">
         <div id="imagePreview" class="mt-2 flex flex-wrap"></div>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">支持jpg、png格式，每张图片不超过2MB</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">支持jpg、png格式，每张图片不超过5MB</p>
       </div>
 
       <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition duration-300">
@@ -234,8 +234,8 @@
         
         // 验证文件大小和类型
         for (const file of files) {
-          if (file.size > 2 * 1024 * 1024) {
-            throw new Error('图片大小不能超过2MB');
+          if (file.size > 5 * 1024 * 1024) {
+            throw new Error('图片大小不能超过5MB');
           }
           if (!['image/jpeg', 'image/png'].includes(file.type)) {
             throw new Error('只支持jpg、png格式的图片');
@@ -245,10 +245,7 @@
         // 添加请求头
         const response = await fetch('/api/reports', {
           method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
+          body: formData
         });
         
         if (!response.ok) {
@@ -288,14 +285,8 @@
       }
       
       Array.from(input.files).forEach((file, index) => {
-        if (!['image/jpeg', 'image/png'].includes(file.type)) {
-          alert('只支持jpg、png格式的图片');
-          input.value = '';
-          return;
-        }
-        
-        if (file.size > 2 * 1024 * 1024) {
-          alert('图片大小不能超过2MB');
+        if (file.size > 5 * 1024 * 1024) {
+          alert('图片大小不能超过5MB');
           input.value = '';
           return;
         }

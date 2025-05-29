@@ -18,6 +18,9 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({ error: '图片大小不能超过2MB' });
     }
+    if (err.code === 'LIMIT_FILE_COUNT') {
+      return res.status(400).json({ error: '最多只能上传4张图片' });
+    }
     return res.status(400).json({ error: err.message });
   }
   res.status(500).json({ error: '服务器内部错误，请稍后重试' });
@@ -54,7 +57,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    fileSize: 2 * 1024 * 1024, // 限制2MB
+    fileSize: 5 * 1024 * 1024, // 限制5MB
     files: 4 // 最多4个文件
   },
   fileFilter: (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
