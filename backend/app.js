@@ -28,59 +28,9 @@ if (!require('fs').existsSync(uploadDir)) {
     console.log(`上传目录已存在: ${uploadDir}`);
 }
 
-// 静态文件服务
+// 静态文件服务 - 只提供上传文件访问
 console.log(`配置静态文件服务: ${config.API.ROUTES.UPLOADS} -> ${uploadDir}`);
 app.use(config.API.ROUTES.UPLOADS, express.static(uploadDir));
-
-// 添加前端静态文件服务
-const frontendDir = path.join(__dirname, '../frontend');
-console.log(`配置前端静态文件服务: / -> ${frontendDir}`);
-app.use(express.static(frontendDir));
-
-// Multer 配置：将上传文件存到 backend/uploads 目录
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    try {
-      cb(null, uploadDir);
-    } catch (error) {
-      console.error('Multer目标目录错误:', error);
-      cb(error, '');
-    }
-  },
-  filename: (req, file, cb) => {
-    try {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-      const filename = uniqueSuffix + path.extname(file.originalname);
-      console.log(`生成文件名: ${filename} (原文件: ${file.originalname})`);
-      cb(null, filename);
-    } catch (error) {
-      console.error('Multer文件名生成错误:', error);
-      cb(error, '');
-    }
-  }
-});
-
-// 这个配置仅供参考，实际使用的是routes/reports.ts中的配置
-const upload = multer({ 
-  storage,
-  limits: {
-    fileSize: config.UPLOAD.MAX_SIZE,
-    files: 4
-  },
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = config.UPLOAD.ALLOWED_TYPES;
-    if (allowedTypes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error(`不支持的文件类型: ${file.mimetype}`), false);
-    }
-  }
-});
-
-// 记录Multer配置信息
-console.log('Multer配置完成');
-console.log(`- 最大文件大小: ${config.UPLOAD.MAX_SIZE / (1024*1024)}MB`);
-console.log(`- 允许的文件类型: ${config.UPLOAD.ALLOWED_TYPES.join(', ')}`);
 
 // API 路由
 app.use(config.API.PREFIX + config.API.ROUTES.REPORTS, reportsRouter);
@@ -144,5 +94,5 @@ app.use((req, res) => {
 
 // 启动服务器
 app.listen(port, () => {
-    console.log(`服务器运行在 http://localhost:${port}`);
+    console.log(`API 服务器运行在 http://localhost:${port}`);
 });
