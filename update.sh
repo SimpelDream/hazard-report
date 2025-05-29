@@ -9,15 +9,10 @@ NC='\033[0m'
 # 设置日志文件
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 LOGDIR="logs"
 mkdir -p $LOGDIR 2>/dev/null || true
 LOGFILE="$LOGDIR/update_$(date +%Y%m%d_%H%M%S).log"
 touch $LOGFILE 2>/dev/null || echo "无法创建日志文件，将只输出到控制台"
-=======
-LOGFILE="update.log"
-echo "===== 更新开始 $(date) =====" > $LOGFILE
->>>>>>> parent of 85b183f (改错17)
 =======
 LOGFILE="update.log"
 echo "===== 更新开始 $(date) =====" > $LOGFILE
@@ -32,11 +27,7 @@ log() {
     echo -e "${2:-$GREEN}[+] $1${NC}"
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
     echo "[+] $(date +"%Y-%m-%d %H:%M:%S") - $1" >> $LOGFILE 2>/dev/null || true
-=======
-    echo "[+] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
 =======
     echo "[+] $1" >> $LOGFILE
 >>>>>>> parent of 85b183f (改错17)
@@ -47,7 +38,6 @@ log() {
 
 error() {
     echo -e "${RED}[-] $1${NC}"
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - ERROR: $1" >> $LOGFILE 2>/dev/null || true
@@ -62,14 +52,10 @@ error() {
 =======
     echo "[-] $1" >> $LOGFILE
 >>>>>>> parent of 85b183f (改错17)
-=======
-    echo "[-] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
 }
 
 warn() {
     echo -e "${YELLOW}[!] $1${NC}"
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     echo "[!] $(date +"%Y-%m-%d %H:%M:%S") - WARNING: $1" >> $LOGFILE 2>/dev/null || true
@@ -84,14 +70,10 @@ info() {
 =======
     echo "[!] $1" >> $LOGFILE
 >>>>>>> parent of 85b183f (改错17)
-=======
-    echo "[!] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
 }
 
 # 检查命令是否存在
 check_command() {
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     command -v $1 >/dev/null 2>&1
@@ -105,16 +87,11 @@ check_command() {
     if ! command -v $1 &> /dev/null; then
         error "$1 未安装"
 >>>>>>> parent of 85b183f (改错17)
-=======
-    if ! command -v $1 &> /dev/null; then
-        error "$1 未安装"
->>>>>>> parent of 85b183f (改错17)
         return 1
     fi
     return 0
 }
 
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 # 显示帮助信息
@@ -157,8 +134,6 @@ log "===== 开始更新 $(date) =====" "$BLUE"
 >>>>>>> parent of 85b183f (改错17)
 =======
 >>>>>>> parent of 85b183f (改错17)
-=======
->>>>>>> parent of 85b183f (改错17)
 # 检查必要的命令
 log "检查必要的命令..."
 for cmd in node npm git; do
@@ -168,7 +143,6 @@ for cmd in node npm git; do
     fi
 done
 
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 # 可选检查 PM2
@@ -328,45 +302,10 @@ mkdir -p prisma/migrations
 log "创建新的迁移..."
 npx prisma migrate dev --name init
 >>>>>>> parent of 85b183f (改错17)
-=======
-# 检查项目目录
-if [ ! -d ".git" ]; then
-    error "当前目录不是有效的 Git 仓库"
-    exit 1
-fi
-
-# 保存本地修改
-log "保存本地修改..."
-git stash
-
-# 拉取最新代码
-log "拉取最新代码..."
-git pull
-
-# 恢复本地修改
-log "恢复本地修改..."
-git stash pop
-
-# 更新后端依赖
-log "更新后端依赖..."
-cd backend
-npm install
-
-# 清理并重置数据库
-log "清理并重置数据库..."
-rm -f prisma/dev.db
-rm -rf prisma/migrations/*
-mkdir -p prisma/migrations
-
-# 创建新的迁移
-log "创建新的迁移..."
-npx prisma migrate dev --name init
->>>>>>> parent of 85b183f (改错17)
 
 # 编译 TypeScript
 log "编译 TypeScript..."
 npm run build
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 if [ $? -ne 0 ]; then
@@ -384,13 +323,10 @@ fi
 >>>>>>> parent of 85b183f (改错17)
 =======
 >>>>>>> parent of 85b183f (改错17)
-=======
->>>>>>> parent of 85b183f (改错17)
 
 # 生成 Prisma 客户端
 log "生成 Prisma 客户端..."
 npx prisma generate
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 if [ $? -ne 0 ]; then
@@ -514,33 +450,12 @@ else
 fi
 
 >>>>>>> parent of 85b183f (改错17)
-=======
-
-# 执行数据库迁移
-log "执行数据库迁移..."
-npx prisma migrate deploy
-
-# 重启后端服务
-log "重启后端服务..."
-pm2 restart hazard-report-api
-
-# 检查服务状态
-log "检查服务状态..."
-if pm2 list | grep -q "hazard-report-api"; then
-    log "后端服务已重启"
-else
-    error "后端服务重启失败"
-    exit 1
-fi
-
->>>>>>> parent of 85b183f (改错17)
 # 输出更新完成信息
 log "更新完成！"
 log "详细日志请查看: $LOGFILE"
 
 # 显示服务状态
 echo -e "\n${YELLOW}服务状态:${NC}"
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 pm2 list 2>/dev/null || echo "无法获取服务状态"
@@ -555,9 +470,6 @@ fi
 echo -e "\n${GREEN}更新成功!${NC}"
 echo -e "${GREEN}前端访问地址: http://$SERVER_ADDRESS${NC}"
 echo -e "${GREEN}API 地址: http://$SERVER_ADDRESS/api${NC}" 
-=======
-pm2 list 
->>>>>>> parent of 85b183f (改错17)
 =======
 pm2 list 
 >>>>>>> parent of 85b183f (改错17)
