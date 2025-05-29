@@ -243,21 +243,47 @@
         }
         
         // 添加请求头
-        const response = await fetch('/api/reports', {
-          method: 'POST',
-          body: formData
-        });
+        let response;
+        try {
+          console.log('正在提交表单数据...');
+          response = await fetch('/api/reports', {
+            method: 'POST',
+            body: formData,
+            // 增加请求超时
+            signal: AbortSignal.timeout(30000) // 30秒超时
+          });
+        } catch (fetchError) {
+          console.error('网络请求错误:', fetchError);
+          throw new Error('网络连接错误，请检查网络连接后重试');
+        }
+        
+        // 记录响应状态和类型，帮助调试
+        console.log('服务器响应状态:', response.status, response.statusText);
+        console.log('响应内容类型:', response.headers.get('content-type'));
         
         if (!response.ok) {
           // 检查响应内容类型
           const contentType = response.headers.get('content-type');
           if (contentType && contentType.includes('application/json')) {
             // 如果是JSON响应，解析错误信息
-            const errorData = await response.json();
-            throw new Error(errorData.error || '提交失败，请稍后重试');
+            try {
+              const errorData = await response.json();
+              throw new Error(errorData.error || '提交失败，请稍后重试');
+            } catch (jsonError) {
+              console.error('解析错误JSON失败:', jsonError);
+              // 如果无法解析JSON，返回HTTP状态错误
+              throw new Error(`服务器错误 (${response.status}): ${response.statusText}`);
+            }
           } else {
-            // 如果不是JSON响应，返回通用错误信息
-            throw new Error('服务器返回了非预期的响应格式，可能是服务器端出现错误');
+            // 如果不是JSON响应，尝试读取文本内容作为错误信息
+            try {
+              const errorText = await response.text();
+              console.error('服务器返回的非JSON错误:', errorText.substring(0, 500));
+              throw new Error('服务器返回了非预期的响应格式，可能是服务器端出现错误');
+            } catch (textError) {
+              console.error('读取错误响应失败:', textError);
+              throw new Error(`服务器错误 (${response.status}): ${response.statusText}`);
+            }
           }
         }
         
@@ -265,6 +291,7 @@
         let result;
         try {
           result = await response.json();
+          console.log('成功解析响应JSON:', result);
         } catch (jsonError) {
           console.error('解析响应JSON失败:', jsonError);
           throw new Error('服务器返回了无效的数据格式');

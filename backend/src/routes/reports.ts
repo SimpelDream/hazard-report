@@ -17,14 +17,32 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
   console.error('错误:', err);
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
-      return res.status(400).json({ error: '图片大小不能超过2MB' });
+      return res.status(400).json({ 
+        success: false,
+        error: '图片大小不能超过5MB' 
+      });
     }
     if (err.code === 'LIMIT_FILE_COUNT') {
-      return res.status(400).json({ error: '最多只能上传4张图片' });
+      return res.status(400).json({ 
+        success: false,
+        error: '最多只能上传4张图片' 
+      });
     }
-    return res.status(400).json({ error: err.message });
+    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return res.status(400).json({ 
+        success: false,
+        error: '意外的字段名称，请确保表单字段名称正确' 
+      });
+    }
+    return res.status(400).json({ 
+      success: false,
+      error: `上传文件错误: ${err.message}` 
+    });
   }
-  res.status(500).json({ error: '服务器内部错误，请稍后重试' });
+  res.status(500).json({ 
+    success: false,
+    error: '服务器内部错误，请稍后重试' 
+  });
 };
 
 interface ReportRequest extends Request {
@@ -70,43 +88,62 @@ const upload = multer({
 });
 
 // 创建报告
-router.post('/', upload.array('images', 4), async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', (req: Request, res: Response, next: NextFunction) => {
+  // 使用try-catch包装multer中间件
   try {
-    const { project, reporter, phone, category, foundAt, location, description } = req.body;
-    
-    // 验证必填字段
-    if (!project || !reporter || !phone || !foundAt || !location || !description) {
-      return res.status(400).json({ error: '请填写所有必填字段' });
-    }
+    upload.array('images', 4)(req, res, async (err) => {
+      if (err) {
+        // 如果multer处理过程中出错，直接传递给错误处理中间件
+        return next(err);
+      }
+      
+      try {
+        const { project, reporter, phone, category, foundAt, location, description } = req.body;
+        
+        // 验证必填字段
+        if (!project || !reporter || !phone || !foundAt || !location || !description) {
+          return res.status(400).json({ 
+            success: false,
+            error: '请填写所有必填字段' 
+          });
+        }
 
-    // 验证文件上传
-    if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
-      return res.status(400).json({ error: '请至少上传一张图片' });
-    }
+        // 验证文件上传
+        if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+          return res.status(400).json({ 
+            success: false,
+            error: '请至少上传一张图片' 
+          });
+        }
 
-    const files = req.files as Express.Multer.File[];
-    // 处理图片路径
-    const imagePaths = files.map(file => `/uploads/${file.filename}`).join(',');
+        const files = req.files as Express.Multer.File[];
+        // 处理图片路径
+        const imagePaths = files.map(file => `/uploads/${file.filename}`).join(',');
 
-    const report = await prisma.report.create({
-      data: {
-        project,
-        reporter,
-        phone,
-        category,
-        foundAt: new Date(foundAt),
-        location,
-        description,
-        images: imagePaths
-      },
-    });
+        const report = await prisma.report.create({
+          data: {
+            project,
+            reporter,
+            phone,
+            category,
+            foundAt: new Date(foundAt),
+            location,
+            description,
+            images: imagePaths
+          },
+        });
 
-    res.status(201).json({
-      success: true,
-      data: report
+        res.status(201).json({
+          success: true,
+          data: report
+        });
+      } catch (error) {
+        console.error('创建报告失败:', error);
+        next(error);
+      }
     });
   } catch (error) {
-    console.error('创建报告失败:', error);
+    console.error('Multer处理失败:', error);
     next(error);
   }
 });
