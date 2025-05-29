@@ -11,8 +11,12 @@ npm install >> $LOGFILE 2>&1
 
 # 创建必要的目录
 echo "[+] 创建目录..." >> $LOGFILE
-mkdir -p uploads logs
-chmod 755 uploads logs
+mkdir -p uploads logs orders
+chmod 755 uploads logs orders
+
+# 编译 TypeScript
+echo "[+] 编译 TypeScript..." >> $LOGFILE
+npm run build >> $LOGFILE 2>&1
 
 # 生成 Prisma 客户端
 echo "[+] 生成 Prisma 客户端..." >> $LOGFILE

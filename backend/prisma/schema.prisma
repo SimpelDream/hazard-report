@@ -11,10 +11,15 @@ datasource db {
 }
 
 model Report {
-	id        Int      @id @default(autoincrement())
-	createdAt DateTime @default(now())
-	updatedAt DateTime @updatedAt
-	title     String
-	content   String
-	filePath  String?
+	id          Int      @id @default(autoincrement())
+	createdAt   DateTime @default(now())
+	updatedAt   DateTime @updatedAt
+	project     String
+	reporter    String
+	phone       String
+	category    String?
+	foundAt     DateTime
+	location    String
+	description String
+	images      String[]
 }
