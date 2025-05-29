@@ -92,7 +92,6 @@ const upload = multer({
 
 // 创建报告
 <<<<<<< HEAD
-<<<<<<< HEAD
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
   // 使用try-catch包装multer中间件
   try {
@@ -138,8 +137,6 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
           },
         });
 =======
-=======
->>>>>>> parent of 85b183f (改错17)
 router.post('/', upload.single('image'), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { project, reporter, phone, category, foundAt, location, description } = req.body;
