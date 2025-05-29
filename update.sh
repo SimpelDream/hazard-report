@@ -285,29 +285,134 @@ if [ ! -f "ecosystem.config.js" ]; then
     log "已创建默认 PM2 配置文件"
 fi
 
+# 在启动服务之前添加问题排查函数
+check_and_fix_issues() {
+    log "开始排查系统问题..."
+    
+    # 1. 检查端口占用
+    log "检查端口占用..."
+    if lsof -i :3000 > /dev/null 2>&1; then
+        warn "端口 3000 已被占用，尝试释放..."
+        lsof -i :3000 | awk 'NR!=1 {print $2}' | xargs kill -9 2>/dev/null || warn "无法释放端口"
+    fi
+    
+    # 2. 检查文件权限
+    log "检查文件权限..."
+    # 设置正确的目录权限
+    chmod -R 755 backend 2>/dev/null || warn "设置目录权限失败"
+    chmod -R 777 backend/uploads 2>/dev/null || warn "设置上传目录权限失败"
+    chmod -R 777 backend/logs 2>/dev/null || warn "设置日志目录权限失败"
+    
+    # 3. 检查数据库
+    log "检查数据库..."
+    if [ ! -f "backend/prisma/dev.db" ]; then
+        warn "数据库文件不存在，尝试初始化..."
+        cd backend || { error "无法进入后端目录" "exit"; }
+        npx prisma migrate reset --force
+        if [ $? -ne 0 ]; then
+            error "数据库初始化失败" "exit"
+        fi
+        cd ..
+    fi
+    
+    # 4. 检查环境变量
+    log "检查环境变量..."
+    if [ ! -f "backend/.env" ]; then
+        warn "环境配置文件不存在，创建默认配置..."
+        cat > backend/.env << EOF
+DATABASE_URL="file:./prisma/dev.db"
+PORT=3000
+NODE_ENV=production
+CORS_ORIGIN="*"
+JWT_SECRET="your-jwt-secret-key"
+UPLOAD_DIR="./uploads"
+MAX_FILE_SIZE=5242880
+MAX_FILES=4
+ALLOWED_TYPES="image/jpeg,image/png"
+EOF
+    else
+        # 验证环境变量是否完整
+        required_vars=(
+            "DATABASE_URL"
+            "PORT"
+            "NODE_ENV"
+            "CORS_ORIGIN"
+            "JWT_SECRET"
+            "UPLOAD_DIR"
+            "MAX_FILE_SIZE"
+            "MAX_FILES"
+            "ALLOWED_TYPES"
+        )
+        
+        for var in "${required_vars[@]}"; do
+            if ! grep -q "^$var=" backend/.env; then
+                warn "环境变量 $var 缺失，添加默认值..."
+                case $var in
+                    "DATABASE_URL") echo "DATABASE_URL=\"file:./prisma/dev.db\"" >> backend/.env ;;
+                    "PORT") echo "PORT=3000" >> backend/.env ;;
+                    "NODE_ENV") echo "NODE_ENV=production" >> backend/.env ;;
+                    "CORS_ORIGIN") echo "CORS_ORIGIN=\"*\"" >> backend/.env ;;
+                    "JWT_SECRET") echo "JWT_SECRET=\"your-jwt-secret-key\"" >> backend/.env ;;
+                    "UPLOAD_DIR") echo "UPLOAD_DIR=\"./uploads\"" >> backend/.env ;;
+                    "MAX_FILE_SIZE") echo "MAX_FILE_SIZE=5242880" >> backend/.env ;;
+                    "MAX_FILES") echo "MAX_FILES=4" >> backend/.env ;;
+                    "ALLOWED_TYPES") echo "ALLOWED_TYPES=\"image/jpeg,image/png\"" >> backend/.env ;;
+                esac
+            fi
+        done
+    fi
+    
+    # 5. 检查必要的目录
+    log "检查必要的目录..."
+    mkdir -p backend/logs 2>/dev/null || warn "创建日志目录失败"
+    mkdir -p backend/uploads 2>/dev/null || warn "创建上传目录失败"
+    mkdir -p backend/prisma 2>/dev/null || warn "创建prisma目录失败"
+    
+    # 6. 检查Node.js版本和依赖
+    log "检查Node.js版本和依赖..."
+    cd backend || { error "无法进入后端目录" "exit"; }
+    npm install
+    npx prisma generate
+    cd ..
+    
+    log "问题排查完成"
+}
+
+# 在启动服务之前调用问题排查函数
+check_and_fix_issues
+
 # 检查 PM2 是否已经有服务在运行
 log "检查服务状态..."
 if pm2 list | grep -q "hazard-report-api" 2>/dev/null; then
-    log "重启后端服务..."
-    pm2 restart hazard-report-api
+    log "停止后端服务..."
+    pm2 stop hazard-report-api
     if [ $? -ne 0 ]; then
-        error "重启服务失败，尝试启动新实例..."
-        pm2 start ecosystem.config.js
+        warn "停止服务失败，尝试强制删除..."
+        pm2 delete hazard-report-api
     fi
-else
-    log "启动后端服务..."
-    pm2 start ecosystem.config.js
-    if [ $? -ne 0 ]; then
-        error "启动服务失败"
-        if [ "$AUTO_YES" = false ]; then
-            read -p "是否继续? (y/n) " REPLY
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                error "用户取消更新" "exit"
-            fi
-        else
-            warn "自动确认模式：继续执行"
-        fi
-    fi
+fi
+
+# 启动服务
+log "启动后端服务..."
+cd backend || { error "无法进入后端目录" "exit"; }
+
+# 使用更详细的启动配置
+pm2 start ecosystem.config.js --update-env
+if [ $? -ne 0 ]; then
+    error "启动服务失败，检查错误日志..."
+    pm2 logs hazard-report-api --lines 50
+    error "服务启动失败，请检查日志" "exit"
+fi
+
+# 等待服务启动
+log "等待服务启动..."
+sleep 5
+
+# 检查服务状态
+if ! pm2 list | grep -q "hazard-report-api.*online"; then
+    error "服务未正常启动，显示错误日志..."
+    pm2 logs hazard-report-api --lines 50
+    error "服务启动失败，请检查日志" "exit"
 fi
 
 # 返回到项目根目录
@@ -325,6 +430,10 @@ log "详细日志保存在: $LOGFILE"
 # 显示服务状态
 echo -e "\n${YELLOW}服务状态:${NC}"
 pm2 list 2>/dev/null || echo "无法获取服务状态"
+
+# 显示最近的错误日志
+echo -e "\n${YELLOW}最近的错误日志:${NC}"
+pm2 logs hazard-report-api --lines 20 2>/dev/null || echo "无法获取错误日志"
 
 # 获取服务器IP或域名
 SERVER_ADDRESS=$(hostname -I 2>/dev/null | awk '{print $1}')
