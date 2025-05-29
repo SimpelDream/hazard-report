@@ -488,7 +488,28 @@
     // 加载筛选选项
     async function loadFilterOptions() {
       try {
-        // 获取所有报告
+        // 项目选项
+        const projectSelect = document.getElementById('project-filter');
+        const projects = [
+          "济源市盘通仓储服务有限公司铁路专用线工程",
+          "江宁开发区滨水风光带等基础设施运营维护工程",
+          "胶济客专自然灾害及异物侵限系统工程",
+          "郑州市轨道交通警用通信系统委外维保项目",
+          "济源盘通仓储专用线引入莲东站适应性改造工程",
+          "北京市轨道交通12号线通信、信号、站台门设备服务项目",
+          "兰新线通信城域网建设项目002标段",
+          "长沙站改项目",
+          "南昌局管段GTTXGLSG-2标段项目部"
+        ];
+        
+        projects.forEach(project => {
+          const option = document.createElement('option');
+          option.value = project;
+          option.textContent = project;
+          projectSelect.appendChild(option);
+        });
+        
+        // 获取所有报告用于加载分类选项
         const response = await fetch('http://8.148.69.112:3000/api/reports?limit=1000', {
           headers: {
             'Accept': 'application/json'
@@ -501,20 +522,6 @@
         
         const data = await response.json();
         const reports = data.data;
-        
-        // 项目选项
-        const projectOptions = new Set();
-        reports.forEach(report => {
-          if (report.project) projectOptions.add(report.project);
-        });
-        
-        const projectSelect = document.getElementById('project-filter');
-        projectOptions.forEach(project => {
-          const option = document.createElement('option');
-          option.value = project;
-          option.textContent = project;
-          projectSelect.appendChild(option);
-        });
         
         // 分类选项
         const categoryOptions = new Set();
