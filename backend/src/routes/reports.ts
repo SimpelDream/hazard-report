@@ -14,7 +14,13 @@ router.use(cors());
 // 错误处理中间件
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error('错误:', err);
-  res.status(500).json({ error: '服务器内部错误' });
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ error: '图片大小不能超过2MB' });
+    }
+    return res.status(400).json({ error: err.message });
+  }
+  res.status(500).json({ error: '服务器内部错误，请稍后重试' });
 };
 
 interface ReportRequest extends Request {
@@ -27,10 +33,17 @@ interface ReportRequest extends Request {
 const storage = multer.diskStorage({
   destination: (req: Request, file: Express.Multer.File, cb: (error: Error | null, destination: string) => void) => {
     const uploadDir = path.join(__dirname, '../../uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    try {
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      // 确保目录有正确的权限
+      fs.chmodSync(uploadDir, '755');
+      cb(null, uploadDir);
+    } catch (error) {
+      console.error('创建上传目录失败:', error);
+      cb(new Error('无法创建上传目录'), '');
     }
-    cb(null, uploadDir);
   },
   filename: (req: Request, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -41,14 +54,15 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 限制5MB
+    fileSize: 2 * 1024 * 1024, // 限制2MB
+    files: 4 // 最多4个文件
   },
   fileFilter: (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedTypes = ['image/jpeg', 'image/png'];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('不支持的文件类型'));
+      cb(new Error('只支持jpg、png格式的图片'));
     }
   }
 });
@@ -69,7 +83,11 @@ router.post('/', upload.array('images', 4), async (req: Request, res: Response, 
     }
 
     const files = req.files as Express.Multer.File[];
-    const imagePaths = files.map(file => file.path.replace(/\\/g, '/')).join(',');
+    // 修改图片路径处理
+    const imagePaths = files.map(file => {
+      const relativePath = path.relative(path.join(__dirname, '../..'), file.path);
+      return relativePath.replace(/\\/g, '/');
+    }).join(',');
 
     const report = await prisma.report.create({
       data: {
