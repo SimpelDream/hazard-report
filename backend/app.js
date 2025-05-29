@@ -32,6 +32,11 @@ if (!require('fs').existsSync(uploadDir)) {
 console.log(`配置静态文件服务: ${config.API.ROUTES.UPLOADS} -> ${uploadDir}`);
 app.use(config.API.ROUTES.UPLOADS, express.static(uploadDir));
 
+// 添加前端静态文件服务
+const frontendDir = path.join(__dirname, '../frontend');
+console.log(`配置前端静态文件服务: / -> ${frontendDir}`);
+app.use(express.static(frontendDir));
+
 // Multer 配置：将上传文件存到 backend/uploads 目录
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
