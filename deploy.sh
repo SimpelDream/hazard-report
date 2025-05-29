@@ -63,7 +63,7 @@ sudo chown -R $USER:$USER $PROJECT_DIR
 # 克隆代码
 if [ ! -d "$PROJECT_DIR/.git" ]; then
     log "克隆代码仓库..."
-    git clone <repository_url> $PROJECT_DIR
+    git clone https://github.com/SimpelDream/hazard-report.git $PROJECT_DIR
 else
     log "更新代码..."
     cd $PROJECT_DIR
@@ -79,6 +79,11 @@ npm install
 log "创建必要的目录..."
 mkdir -p uploads logs orders
 chmod 755 uploads logs orders
+
+# 重置数据库
+log "重置数据库..."
+rm -f prisma/dev.db
+npx prisma migrate reset --force
 
 # 编译 TypeScript
 log "编译 TypeScript..."
