@@ -89,7 +89,7 @@ router.post('/', upload.single('image'), async (req: Request, res: Response, nex
         foundAt: new Date(foundAt),
         location,
         description,
-        images: imageUrl ? [imageUrl] : []
+        image: imageUrl
       },
     });
 
@@ -181,7 +181,7 @@ router.patch('/:id/status', async (req, res) => {
       where: { id },
       data: {
         status,
-        updatedAt: new Date()
+        statusUpdatedAt: new Date()
       }
     });
     res.json(updated);
