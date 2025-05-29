@@ -3,8 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const fileUpload = require('express-fileupload');
 const config = require('./src/config');
-const reportsRouter = require('./src/routes/reports');
-const ordersRouter = require('./src/routes/orders');
+const reportsRouter = require('./dist/routes/reports');
+const ordersRouter = require('./dist/routes/orders');
 
 const app = express();
 const port = process.env.PORT || 3000;
