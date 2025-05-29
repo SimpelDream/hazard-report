@@ -13,7 +13,9 @@ const port = process.env.PORT || 3000;
 
 // 启用 CORS
 app.use(cors({
-    origin: config.SECURITY.CORS_ORIGIN
+    origin: config.SECURITY.CORS_ORIGIN,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // 解析 JSON 请求体
@@ -31,6 +33,11 @@ if (!require('fs').existsSync(uploadDir)) {
 // 静态文件服务 - 只提供上传文件访问
 console.log(`配置静态文件服务: ${config.API.ROUTES.UPLOADS} -> ${uploadDir}`);
 app.use(config.API.ROUTES.UPLOADS, express.static(uploadDir));
+
+// 健康检查端点
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // API 路由
 app.use(config.API.PREFIX + config.API.ROUTES.REPORTS, reportsRouter);
@@ -93,6 +100,6 @@ app.use((req, res) => {
 });
 
 // 启动服务器
-app.listen(port, () => {
-    console.log(`API 服务器运行在 http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`API 服务器运行在 http://0.0.0.0:${port}`);
 });
