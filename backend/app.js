@@ -4,23 +4,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const config = require('./src/config');
-const reportsRouter = require('./src/routes/reports');
-const ordersRouter = require('./src/routes/orders');
-const { PrismaClient } = require('@prisma/client');
 
 const app = express();
-const prisma = new PrismaClient();
-const port = process.env.PORT || 3000;
-
-// 启用 CORS
-app.use(cors({
-    origin: config.SECURITY.CORS_ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// 解析 JSON 请求体
-app.use(express.json());
 
 // 确保上传目录存在
 const uploadDir = config.UPLOAD.DIR;
@@ -39,6 +24,20 @@ if (!fs.existsSync(logDir)) {
 } else {
     console.log(`日志目录已存在: ${logDir}`);
 }
+
+// 配置 CORS
+app.use(cors({
+    origin: config.SECURITY.CORS_ORIGIN,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
+
+// 解析 JSON 请求体
+app.use(express.json());
+
+// 解析 URL 编码的请求体
+app.use(express.urlencoded({ extended: true }));
 
 // 配置 multer 存储
 const storage = multer.diskStorage({
@@ -70,84 +69,31 @@ const upload = multer({
     }
 });
 
-// 静态文件服务 - 只提供上传文件访问
-console.log(`配置静态文件服务: ${config.API.ROUTES.UPLOADS} -> ${uploadDir}`);
-app.use(config.API.ROUTES.UPLOADS, express.static(uploadDir));
-
-// 健康检查端点
-app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'ok', 
-        timestamp: new Date().toISOString(),
-        version: require('./package.json').version
-    });
-});
+// 配置静态文件服务
+app.use('/uploads', express.static(uploadDir));
+console.log(`配置静态文件服务: /uploads -> ${uploadDir}`);
 
 // API 路由
-app.use(config.API.PREFIX + config.API.ROUTES.REPORTS, reportsRouter);
-app.use(config.API.PREFIX + config.API.ROUTES.ORDERS, ordersRouter);
+app.use('/api/reports', require('./src/routes/reports'));
+app.use('/api/orders', require('./src/routes/orders'));
 
 // 错误处理中间件
 app.use((err, req, res, next) => {
     console.error('服务器错误:', err);
-    
-    // 确保Content-Type头设置为JSON
-    res.setHeader('Content-Type', 'application/json');
-    
-    // 检查是否是 Multer 错误
-    if (err instanceof multer.MulterError) {
-        if (err.code === 'LIMIT_FILE_SIZE') {
-            return res.status(400).json({ 
-                success: false,
-                error: `文件大小超过限制 (最大 ${config.UPLOAD.MAX_SIZE / 1024 / 1024}MB)` 
-            });
-        }
-        if (err.code === 'LIMIT_FILE_COUNT') {
-            return res.status(400).json({ 
-                success: false,
-                error: `上传的文件数量超过限制 (最多 ${config.UPLOAD.MAX_FILES} 个文件)` 
-            });
-        }
-        if (err.code === 'LIMIT_UNEXPECTED_FILE') {
-            return res.status(400).json({ 
-                success: false,
-                error: '意外的字段名称，请确保表单字段名称正确' 
-            });
-        }
-        return res.status(400).json({ 
-            success: false,
-            error: `上传文件错误: ${err.message}` 
-        });
-    }
-    
-    // 其他一般错误
     res.status(500).json({
         success: false,
         error: '服务器内部错误',
-        message: process.env.NODE_ENV === 'development' ? err.message : undefined
-    });
-});
-
-// 404 处理
-app.use((req, res) => {
-    // 确保Content-Type头设置为JSON
-    res.setHeader('Content-Type', 'application/json');
-    
-    // 记录请求信息以帮助调试
-    console.warn(`404 - 未找到: ${req.method} ${req.originalUrl}`);
-    
-    res.status(404).json({
-        success: false,
-        error: '请求的资源不存在',
-        path: req.originalUrl
+        details: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
 });
 
 // 启动服务器
-app.listen(port, '0.0.0.0', () => {
-    console.log(`API 服务器运行在 http://0.0.0.0:${port}`);
-    console.log(`环境: ${process.env.NODE_ENV || 'development'}`);
+const PORT = config.SERVER.PORT;
+const HOST = config.SERVER.HOST;
+app.listen(PORT, HOST, () => {
+    console.log(`API 服务器运行在 http://${HOST}:${PORT}`);
+    console.log(`环境: ${config.SERVER.NODE_ENV}`);
     console.log(`CORS 来源: ${config.SECURITY.CORS_ORIGIN}`);
-    console.log(`上传目录: ${uploadDir}`);
-    console.log(`日志目录: ${logDir}`);
+    console.log(`上传目录: ${config.UPLOAD.DIR}`);
+    console.log(`日志目录: ${config.LOG.DIR}`);
 });

@@ -269,8 +269,21 @@
         const formData = new FormData(this);
         const response = await fetch(`${API_BASE_URL}/reports`, {
           method: 'POST',
-          body: formData
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
         });
+        
+        if (!response.ok) {
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || '提交失败');
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+        }
         
         const result = await response.json();
         
@@ -279,9 +292,10 @@
           this.reset();
           document.getElementById('imagePreview').innerHTML = '';
         } else {
-          alert('提交失败：' + result.error);
+          alert('提交失败：' + (result.error || '未知错误'));
         }
       } catch (error) {
+        console.error('提交失败:', error);
         alert('提交失败：' + error.message);
       } finally {
         loading.classList.add('hidden');
