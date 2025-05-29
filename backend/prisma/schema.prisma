@@ -7,13 +7,11 @@ generator client {
 
 datasource db {
 	provider = "sqlite"
-	url      = "file:./dev.db"
+	url      = env("DATABASE_URL")
 }
 
 model Report {
 	id          Int      @id @default(autoincrement())
-	createdAt   DateTime @default(now())
-	updatedAt   DateTime @updatedAt
 	project     String
 	reporter    String
 	phone       String
@@ -21,5 +19,7 @@ model Report {
 	foundAt     DateTime
 	location    String
 	description String
-	images      String   // 存储图片路径，多个图片用逗号分隔
+	images      String?
+	status      String   @default("pending")
+	createdAt   DateTime @default(now())
 }

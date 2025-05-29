@@ -17,4 +17,17 @@ CREATE TABLE "Report" (
     "location" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "images" TEXT NOT NULL
-); 
+);
+
+-- 检查表是否存在
+SELECT CASE 
+    WHEN EXISTS (SELECT 1 FROM sqlite_master WHERE type='table' AND name='Report') 
+    THEN 1 
+    ELSE 0 
+END as table_exists;
+
+-- 如果表存在，添加 status 字段
+ALTER TABLE "Report" ADD COLUMN "status" TEXT NOT NULL DEFAULT 'pending';
+
+-- 添加 images 字段
+ALTER TABLE "Report" ADD COLUMN "images" TEXT; 
