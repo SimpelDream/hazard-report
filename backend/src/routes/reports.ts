@@ -95,6 +95,9 @@ const upload = multer({
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
   // 使用try-catch包装multer中间件
@@ -143,7 +146,10 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
 <<<<<<< HEAD
 =======
 =======
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 1393684 (回滚2)
 >>>>>>> parent of 85b183f (改错17)
 router.post('/', upload.single('image'), async (req: Request, res: Response, next: NextFunction) => {
   try {

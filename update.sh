@@ -12,6 +12,9 @@ NC='\033[0m'
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 LOGDIR="logs"
 mkdir -p $LOGDIR 2>/dev/null || true
@@ -27,6 +30,9 @@ echo "===== 更新开始 $(date) =====" > $LOGFILE
 LOGFILE="update.log"
 echo "===== 更新开始 $(date) =====" > $LOGFILE
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 
 # 输出带颜色的日志函数
@@ -36,7 +42,6 @@ log() {
     echo "[+] $(date +"%Y-%m-%d %H:%M:%S") - $1" >> $LOGFILE 2>/dev/null || true
 =======
 <<<<<<< HEAD
-<<<<<<< HEAD
     echo "[+] $(date +"%Y-%m-%d %H:%M:%S") - $1" >> $LOGFILE 2>/dev/null || true
 =======
     echo "[+] $1" >> $LOGFILE
@@ -44,6 +49,9 @@ log() {
 =======
     echo "[+] $1" >> $LOGFILE
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 }
 
@@ -53,6 +61,9 @@ error() {
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
     echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - ERROR: $1" >> $LOGFILE 2>/dev/null || true
     if [ "$2" = "exit" ]; then
@@ -68,6 +79,9 @@ error() {
 =======
     echo "[-] $1" >> $LOGFILE
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 }
 
@@ -77,6 +91,9 @@ warn() {
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
     echo "[!] $(date +"%Y-%m-%d %H:%M:%S") - WARNING: $1" >> $LOGFILE 2>/dev/null || true
 }
@@ -92,6 +109,9 @@ info() {
 =======
     echo "[!] $1" >> $LOGFILE
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 }
 
@@ -103,7 +123,6 @@ check_command() {
         error "$1 未安装" 
 =======
 <<<<<<< HEAD
-<<<<<<< HEAD
     command -v $1 >/dev/null 2>&1
     if [ $? -ne 0 ]; then
         error "$1 未安装" 
@@ -115,6 +134,9 @@ check_command() {
     if ! command -v $1 &> /dev/null; then
         error "$1 未安装"
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
         return 1
     fi
@@ -125,6 +147,9 @@ check_command() {
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 # 显示帮助信息
 show_help() {
@@ -168,6 +193,9 @@ log "===== 开始更新 $(date) =====" "$BLUE"
 >>>>>>> parent of 85b183f (改错17)
 =======
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 # 检查必要的命令
 log "检查必要的命令..."
@@ -181,6 +209,9 @@ done
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 # 可选检查 PM2
 if ! check_command pm2; then
@@ -341,6 +372,9 @@ mkdir -p prisma/migrations
 log "创建新的迁移..."
 npx prisma migrate dev --name init
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 
 # 编译 TypeScript
@@ -350,6 +384,9 @@ npm run build
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 if [ $? -ne 0 ]; then
     error "TypeScript 编译失败"
@@ -368,6 +405,9 @@ fi
 >>>>>>> parent of 85b183f (改错17)
 =======
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 
 # 生成 Prisma 客户端
@@ -377,6 +417,9 @@ npx prisma generate
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 if [ $? -ne 0 ]; then
     error "生成 Prisma 客户端失败"
@@ -501,6 +544,9 @@ else
 fi
 
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 # 输出更新完成信息
 log "===== 更新完成 $(date) =====" "$BLUE"
@@ -512,6 +558,9 @@ echo -e "\n${YELLOW}服务状态:${NC}"
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
 pm2 list 2>/dev/null || echo "无法获取服务状态"
 
@@ -534,4 +583,7 @@ pm2 list
 =======
 pm2 list 
 >>>>>>> parent of 85b183f (改错17)
+<<<<<<< HEAD
+>>>>>>> parent of 1393684 (回滚2)
+=======
 >>>>>>> parent of 1393684 (回滚2)
