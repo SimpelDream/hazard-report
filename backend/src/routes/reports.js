@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs').promises;
 const { PrismaClient } = require('@prisma/client');
 const config = require('../config');
 
@@ -46,47 +47,121 @@ router.get('/', async (req, res) => {
         res.json({ success: true, data: reports });
     } catch (error) {
         console.error('获取报告列表失败:', error);
-        res.status(500).json({ success: false, error: '获取报告列表失败' });
+        res.status(500).json({ 
+            success: false, 
+            error: '获取报告列表失败',
+            details: error.message 
+        });
     }
 });
 
 // 创建新报告
 router.post('/', upload.array('images', config.UPLOAD.MAX_FILES), async (req, res) => {
     try {
-        const { project, reporter, phone, category, foundAt, location, description } = req.body;
-        const images = req.files ? req.files.map(file => file.filename).join(',') : null;
+        // 验证必填字段
+        const requiredFields = ['project', 'reporter', 'phone', 'foundAt', 'location', 'description'];
+        const missingFields = requiredFields.filter(field => !req.body[field]);
+        
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                success: false,
+                error: '缺少必填字段',
+                details: `缺少字段: ${missingFields.join(', ')}`
+            });
+        }
 
+        // 验证图片
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({
+                success: false,
+                error: '请至少上传一张图片'
+            });
+        }
+
+        const { project, reporter, phone, category, foundAt, location, description } = req.body;
+        const images = req.files.map(file => file.filename).join(',');
+
+        // 创建报告
         const report = await prisma.report.create({
             data: {
                 project,
                 reporter,
                 phone,
-                category,
+                category: category || null,
                 foundAt: new Date(foundAt),
                 location,
                 description,
-                images
+                images,
+                status: 'pending',
+                createdAt: new Date()
             }
         });
 
         res.json({ success: true, data: report });
     } catch (error) {
         console.error('创建报告失败:', error);
-        res.status(500).json({ success: false, error: '创建报告失败' });
+        
+        // 如果创建失败，删除已上传的图片
+        if (req.files) {
+            for (const file of req.files) {
+                try {
+                    await fs.unlink(path.join(config.UPLOAD.DIR, file.filename));
+                } catch (unlinkError) {
+                    console.error('删除上传文件失败:', unlinkError);
+                }
+            }
+        }
+
+        res.status(500).json({ 
+            success: false, 
+            error: '创建报告失败',
+            details: error.message
+        });
     }
 });
 
 // 删除报告
-router.delete('/:filename', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        const filename = req.params.filename;
-        const filePath = path.join(__dirname, '../../', config.UPLOAD.DIR, filename);
+        const { id } = req.params;
         
-        await fs.unlink(filePath);
-        res.json({ message: '文件删除成功' });
+        // 获取报告信息
+        const report = await prisma.report.findUnique({
+            where: { id: parseInt(id) }
+        });
+
+        if (!report) {
+            return res.status(404).json({
+                success: false,
+                error: '报告不存在'
+            });
+        }
+
+        // 删除关联的图片文件
+        if (report.images) {
+            const imageFiles = report.images.split(',');
+            for (const filename of imageFiles) {
+                try {
+                    await fs.unlink(path.join(config.UPLOAD.DIR, filename));
+                } catch (unlinkError) {
+                    console.error('删除图片文件失败:', unlinkError);
+                }
+            }
+        }
+
+        // 删除报告记录
+        await prisma.report.delete({
+            where: { id: parseInt(id) }
+        });
+
+        res.json({ success: true, message: '报告删除成功' });
     } catch (error) {
-        console.error('删除文件失败:', error);
-        res.status(500).json({ error: '删除文件失败' });
+        console.error('删除报告失败:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: '删除报告失败',
+            details: error.message
+        });
     }
 });
 
