@@ -399,7 +399,7 @@
         }
         
         // 发送请求
-        const response = await fetch(`http://8.148.69.112:3000/api/reports?${params.toString()}`, {
+        const response = await fetch(`/api/reports?${params.toString()}`, {
           headers: {
             'Accept': 'application/json'
           }
@@ -510,7 +510,7 @@
         });
         
         // 获取所有报告用于加载分类选项
-        const response = await fetch('http://8.148.69.112:3000/api/reports?limit=1000', {
+        const response = await fetch('/api/reports?limit=1000', {
           headers: {
             'Accept': 'application/json'
           }
@@ -685,8 +685,7 @@
           await new Promise(resolve => setTimeout(resolve, 500));
           
           // 如果在实际项目中需要真正更新后端数据，可以取消下面的注释，并添加适当的错误处理
-          /*
-          const response = await fetch(`http://8.148.69.112:3000/api/reports/${reportId}/status`, {
+          const response = await fetch(`/api/reports/${reportId}/status`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -698,7 +697,6 @@
           if (!response.ok) {
             throw new Error('更新状态失败');
           }
-          */
           
           // 显示成功消息
           alert(`状态已更新为: ${newStatus}`);
@@ -748,7 +746,7 @@
         }
         
         // 创建URL
-        const url = `http://8.148.69.112:3000/api/reports/export?${params.toString()}`;
+        const url = `/api/reports/export?${params.toString()}`;
         
         // 创建一个临时链接并模拟点击以下载文件
         const link = document.createElement('a');
