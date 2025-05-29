@@ -6,6 +6,12 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+# 配置参数
+SERVER_IP=${SERVER_IP:-"8.148.69.112"}
+PROJECT_DIR=${PROJECT_DIR:-"/var/www/hazard-report"}
+NODE_VERSION=${NODE_VERSION:-"18.18.0"}
+REPO_URL=${REPO_URL:-"https://github.com/SimpelDream/hazard-report.git"}
+
 # 设置日志文件
 LOGFILE="deploy.log"
 echo "===== 部署开始 $(date) =====" > $LOGFILE
@@ -45,17 +51,15 @@ for cmd in node npm git nginx pm2; do
 done
 
 # 检查 Node.js 版本
-NODE_VERSION=$(node -v | cut -d'v' -f2)
-REQUIRED_VERSION="18.18.0"
-if [ "$(printf '%s\n' "$REQUIRED_VERSION" "$NODE_VERSION" | sort -V | head -n1)" != "$REQUIRED_VERSION" ]; then
-    warn "Node.js 版本过低，当前版本: $NODE_VERSION，需要版本 >= $REQUIRED_VERSION"
+CURRENT_VERSION=$(node -v | cut -d'v' -f2)
+if [ "$(printf '%s\n' "$NODE_VERSION" "$CURRENT_VERSION" | sort -V | head -n1)" != "$NODE_VERSION" ]; then
+    warn "Node.js 版本过低，当前版本: $CURRENT_VERSION，需要版本 >= $NODE_VERSION"
     log "正在安装新版本的 Node.js..."
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
     sudo apt-get install -y nodejs
 fi
 
 # 创建项目目录
-PROJECT_DIR="/var/www/hazard-report"
 log "创建项目目录: $PROJECT_DIR"
 sudo mkdir -p $PROJECT_DIR
 sudo chown -R $USER:$USER $PROJECT_DIR
@@ -63,7 +67,7 @@ sudo chown -R $USER:$USER $PROJECT_DIR
 # 克隆代码
 if [ ! -d "$PROJECT_DIR/.git" ]; then
     log "克隆代码仓库..."
-    git clone https://github.com/SimpelDream/hazard-report.git $PROJECT_DIR
+    git clone $REPO_URL $PROJECT_DIR
 else
     log "更新代码..."
     cd $PROJECT_DIR
@@ -77,8 +81,10 @@ npm install
 
 # 创建必要的目录
 log "创建必要的目录..."
-mkdir -p uploads logs orders
-chmod 755 uploads logs orders
+sudo mkdir -p /var/log/nginx
+sudo mkdir -p $PROJECT_DIR/backend/{uploads,logs,orders}
+sudo chown -R $USER:$USER $PROJECT_DIR/backend/{uploads,logs,orders}
+sudo chmod -R 755 $PROJECT_DIR/backend/{uploads,logs,orders}
 
 # 清理并重置数据库
 log "清理并重置数据库..."
@@ -104,31 +110,31 @@ npx prisma migrate deploy
 
 # 配置 Nginx
 log "配置 Nginx..."
-sudo tee /etc/nginx/sites-available/hazard-report > /dev/null << 'EOF'
+sudo tee /etc/nginx/sites-available/hazard-report > /dev/null << EOF
 server {
     listen 80;
-    server_name 8.148.69.112;
+    server_name $SERVER_IP;
 
     # 前端静态文件
     location / {
-        root /var/www/hazard-report/frontend;
+        root $PROJECT_DIR/frontend;
         index index.html;
-        try_files $uri $uri/ /index.html;
+        try_files \$uri \$uri/ /index.html;
     }
 
     # 后端 API
     location /api {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
     }
 
     # 上传文件访问
     location /uploads {
-        alias /var/www/hazard-report/backend/uploads;
+        alias $PROJECT_DIR/backend/uploads;
         expires 30d;
         add_header Cache-Control "public, no-transform";
     }
@@ -162,8 +168,8 @@ fi
 
 # 输出部署完成信息
 log "部署完成！"
-log "前端访问地址: http://8.148.69.112"
-log "API 地址: http://8.148.69.112/api"
+log "前端访问地址: http://$SERVER_IP"
+log "API 地址: http://$SERVER_IP/api"
 log "详细日志请查看: $LOGFILE"
 
 # 显示服务状态

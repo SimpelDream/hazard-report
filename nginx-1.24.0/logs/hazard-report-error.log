@@ -1,0 +1,1723 @@
+2025/05/29 23:12:50 [debug] 19676#17380: select add event fd:636 ev:768
+2025/05/29 23:16:17 [debug] 19676#17380: post event 02F5B230
+2025/05/29 23:16:17 [debug] 19676#17380: delete posted event 02F5B230
+2025/05/29 23:16:17 [debug] 19676#17380: accept on 0.0.0.0:80, ready: 0
+2025/05/29 23:16:17 [debug] 19676#17380: malloc: 02EFD8F8:256
+2025/05/29 23:16:17 [debug] 19676#17380: *1 accept: 127.0.0.1:63031 fd:692
+2025/05/29 23:16:17 [debug] 19676#17380: *1 event timer add: 692: 60000:480148463
+2025/05/29 23:16:17 [debug] 19676#17380: *1 reusable connection: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 select add event fd:692 ev:768
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post event 02F5B280
+2025/05/29 23:16:17 [debug] 19676#17380: *1 delete posted event 02F5B280
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http wait request handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 malloc: 02F13058:1024
+2025/05/29 23:16:17 [debug] 19676#17380: *1 WSARecv: fd:692 rc:0 154 of 1024
+2025/05/29 23:16:17 [debug] 19676#17380: *1 reusable connection: 0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 malloc: 02F2ACB0:4096
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http process request line
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request line: "GET / HTTP/1.1"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http uri: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http args: ""
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http exten: ""
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http process request header line
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http header: "Host: localhost"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http header: "Connection: Keep-Alive"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http header done
+2025/05/29 23:16:17 [debug] 19676#17380: *1 event timer del: 692: 480148463
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/" "E:\project\hazard-report\nginx-1.24.0/frontend/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/" "E:\project\hazard-report\nginx-1.24.0/frontend/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 internal redirect: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "uploads/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 test location: "api/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 using configuration "/"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http cl:-1 max:1048576
+2025/05/29 23:16:17 [debug] 19676#17380: *1 rewrite phase: 3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post rewrite phase: 4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 access phase: 10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 post access phase: 11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 generic phase: 12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 try files handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http script var: "/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use dir: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 trying to use file: "/index.html" "E:\project\hazard-report\nginx-1.24.0/frontend/index.html"
+2025/05/29 23:16:17 [error] 19676#17380: *1 rewrite or internal redirection cycle while internally redirecting to "/index.html", client: 127.0.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: 500, "/index.html?" a:1, c:12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http special response: 500, "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http set discard body
+2025/05/29 23:16:17 [debug] 19676#17380: *1 HTTP/1.1 500 Internal Server Error
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:16:17 GMT
+Content-Type: text/html
+Content-Length: 177
+Connection: close
+
+2025/05/29 23:16:17 [debug] 19676#17380: *1 write new buf t:1 f:0 02F2B998, pos 02F2B998, size: 162 file: 0, size: 0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http write filter: l:0 f:0 s:162
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http output filter "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http copy filter: "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http postpone filter "/index.html?" 02F2BB04
+2025/05/29 23:16:17 [debug] 19676#17380: *1 write old buf t:1 f:0 02F2B998, pos 02F2B998, size: 162 file: 0, size: 0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 write new buf t:0 f:0 00000000, pos 00D8D980, size: 124 file: 0, size: 0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 write new buf t:0 f:0 00000000, pos 00D8C968, size: 53 file: 0, size: 0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http write filter: l:1 f:0 s:339
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http write filter limit 2097152
+2025/05/29 23:16:17 [debug] 19676#17380: *1 WSASend: fd:692, s:339
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http write filter 00000000
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http copy filter: 0 "/index.html?"
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: 0, "/index.html?" a:1, c:12
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:12 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:11
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:11 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:10
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:10 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:9
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:9 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:8
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:8 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:7
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:7 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:6
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:6 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:5
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:5 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:4
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:4 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:3
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:3 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:2
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:2 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http finalize request: -4, "/index.html?" a:1, c:1
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http request count:1 blk:0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http close request
+2025/05/29 23:16:17 [debug] 19676#17380: *1 http log handler
+2025/05/29 23:16:17 [debug] 19676#17380: *1 free: 02F2ACB0, unused: 214
+2025/05/29 23:16:17 [debug] 19676#17380: *1 close http connection: 692
+2025/05/29 23:16:17 [debug] 19676#17380: *1 select del event fd:692 ev:768
+2025/05/29 23:16:17 [debug] 19676#17380: *1 reusable connection: 0
+2025/05/29 23:16:17 [debug] 19676#17380: *1 free: 02F13058
+2025/05/29 23:16:17 [debug] 19676#17380: *1 free: 02EFD8F8, unused: 28
+2025/05/29 23:17:33 [debug] 7620#23420: select add event fd:624 ev:768
+2025/05/29 23:17:33 [debug] 19676#17380: select del event fd:636 ev:768
+2025/05/29 23:17:38 [debug] 7620#23420: post event 02D51628
+2025/05/29 23:17:38 [debug] 7620#23420: delete posted event 02D51628
+2025/05/29 23:17:38 [debug] 7620#23420: accept on 0.0.0.0:80, ready: 0
+2025/05/29 23:17:38 [debug] 7620#23420: malloc: 02D03E88:256
+2025/05/29 23:17:38 [debug] 7620#23420: *2 accept: 127.0.0.1:63066 fd:672
+2025/05/29 23:17:38 [debug] 7620#23420: *2 event timer add: 672: 60000:480228993
+2025/05/29 23:17:38 [debug] 7620#23420: *2 reusable connection: 1
+2025/05/29 23:17:38 [debug] 7620#23420: *2 select add event fd:672 ev:768
+2025/05/29 23:17:38 [debug] 7620#23420: *2 post event 02D51678
+2025/05/29 23:17:38 [debug] 7620#23420: *2 delete posted event 02D51678
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http wait request handler
+2025/05/29 23:17:38 [debug] 7620#23420: *2 malloc: 02C7BEB8:1024
+2025/05/29 23:17:38 [debug] 7620#23420: *2 WSARecv: fd:672 rc:0 130 of 1024
+2025/05/29 23:17:38 [debug] 7620#23420: *2 reusable connection: 0
+2025/05/29 23:17:38 [debug] 7620#23420: *2 malloc: 02D210A8:4096
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http process request line
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http request line: "GET / HTTP/1.1"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http uri: "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http args: ""
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http exten: ""
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http process request header line
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http header: "Host: localhost"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http header done
+2025/05/29 23:17:38 [debug] 7620#23420: *2 event timer del: 672: 480228993
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 0
+2025/05/29 23:17:38 [debug] 7620#23420: *2 rewrite phase: 1
+2025/05/29 23:17:38 [debug] 7620#23420: *2 test location: "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 using configuration "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http cl:-1 max:1048576
+2025/05/29 23:17:38 [debug] 7620#23420: *2 rewrite phase: 3
+2025/05/29 23:17:38 [debug] 7620#23420: *2 post rewrite phase: 4
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 5
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 6
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 7
+2025/05/29 23:17:38 [debug] 7620#23420: *2 access phase: 8
+2025/05/29 23:17:38 [debug] 7620#23420: *2 access phase: 9
+2025/05/29 23:17:38 [debug] 7620#23420: *2 access phase: 10
+2025/05/29 23:17:38 [debug] 7620#23420: *2 post access phase: 11
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 12
+2025/05/29 23:17:38 [debug] 7620#23420: *2 try files handler
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http script var: "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 trying to use file: "/" "E:/project/hazard-report/frontend/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http script var: "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 trying to use dir: "/" "E:/project/hazard-report/frontend/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 try file uri: "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 13
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 14
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 15
+2025/05/29 23:17:38 [debug] 7620#23420: *2 open index "E:/project/hazard-report/frontend/index.html"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 internal redirect: "/index.html?"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 rewrite phase: 1
+2025/05/29 23:17:38 [debug] 7620#23420: *2 test location: "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 test location: "uploads/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 test location: "api/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 using configuration "/"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http cl:-1 max:1048576
+2025/05/29 23:17:38 [debug] 7620#23420: *2 rewrite phase: 3
+2025/05/29 23:17:38 [debug] 7620#23420: *2 post rewrite phase: 4
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 5
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 6
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 7
+2025/05/29 23:17:38 [debug] 7620#23420: *2 access phase: 8
+2025/05/29 23:17:38 [debug] 7620#23420: *2 access phase: 9
+2025/05/29 23:17:38 [debug] 7620#23420: *2 access phase: 10
+2025/05/29 23:17:38 [debug] 7620#23420: *2 post access phase: 11
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 12
+2025/05/29 23:17:38 [debug] 7620#23420: *2 try files handler
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http script var: "/index.html"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 trying to use file: "/index.html" "E:/project/hazard-report/frontend/index.html"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 try file uri: "/index.html"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 generic phase: 13
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 14
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 15
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 16
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 17
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 18
+2025/05/29 23:17:38 [debug] 7620#23420: *2 content phase: 19
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http filename: "E:/project/hazard-report/frontend/index.html"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 add cleanup: 02D21AEC
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http static fd: 676
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http set discard body
+2025/05/29 23:17:38 [debug] 7620#23420: *2 HTTP/1.1 200 OK
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:17:38 GMT
+Content-Type: text/html
+Content-Length: 21364
+Last-Modified: Thu, 29 May 2025 15:11:05 GMT
+Connection: keep-alive
+ETag: "68387909-5374"
+Accept-Ranges: bytes
+
+2025/05/29 23:17:38 [debug] 7620#23420: *2 write new buf t:1 f:0 02D21BF0, pos 02D21BF0, size: 241 file: 0, size: 0
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http write filter: l:0 f:0 s:241
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http output filter "/index.html?"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http copy filter: "/index.html?"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 malloc: 02D79638:21364
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http postpone filter "/index.html?" 02D21D80
+2025/05/29 23:17:38 [debug] 7620#23420: *2 write old buf t:1 f:0 02D21BF0, pos 02D21BF0, size: 241 file: 0, size: 0
+2025/05/29 23:17:38 [debug] 7620#23420: *2 write new buf t:1 f:0 02D79638, pos 02D79638, size: 21364 file: 0, size: 0
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http write filter: l:1 f:0 s:21605
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http write filter limit 2097152
+2025/05/29 23:17:38 [debug] 7620#23420: *2 WSASend: fd:672, s:21605
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http write filter 00000000
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http copy filter: 0 "/index.html?"
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http finalize request: 0, "/index.html?" a:1, c:2
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http request count:2 blk:0
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http finalize request: -4, "/index.html?" a:1, c:1
+2025/05/29 23:17:38 [debug] 7620#23420: *2 set http keepalive handler
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http close request
+2025/05/29 23:17:38 [debug] 7620#23420: *2 http log handler
+2025/05/29 23:17:38 [debug] 7620#23420: *2 run cleanup: 02D21AEC
+2025/05/29 23:17:38 [debug] 7620#23420: *2 file cleanup: fd:676
+2025/05/29 23:17:38 [debug] 7620#23420: *2 free: 02D79638
+2025/05/29 23:17:38 [debug] 7620#23420: *2 free: 02D210A8, unused: 610
+2025/05/29 23:17:38 [debug] 7620#23420: *2 free: 02C7BEB8
+2025/05/29 23:17:38 [debug] 7620#23420: *2 hc free: 00000000
+2025/05/29 23:17:38 [debug] 7620#23420: *2 hc busy: 00000000 0
+2025/05/29 23:17:38 [debug] 7620#23420: *2 tcp_nodelay
+2025/05/29 23:17:38 [debug] 7620#23420: *2 reusable connection: 1
+2025/05/29 23:17:38 [debug] 7620#23420: *2 event timer add: 672: 65000:480233993
+2025/05/29 23:18:02 [debug] 7620#23420: *2 post event 02D51678
+2025/05/29 23:18:02 [debug] 7620#23420: *2 delete posted event 02D51678
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http keepalive handler
+2025/05/29 23:18:02 [debug] 7620#23420: *2 malloc: 02C7BEB8:1024
+2025/05/29 23:18:02 [debug] 7620#23420: *2 WSARecv: fd:672 rc:0 141 of 1024
+2025/05/29 23:18:02 [debug] 7620#23420: *2 reusable connection: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 malloc: 02D210A8:4096
+2025/05/29 23:18:02 [debug] 7620#23420: *2 event timer del: 672: 480233993
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http process request line
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http request line: "GET /api/reports HTTP/1.1"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http uri: "/api/reports"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http args: ""
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http exten: ""
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http process request header line
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http header: "Host: localhost"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http header done
+2025/05/29 23:18:02 [debug] 7620#23420: *2 generic phase: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 rewrite phase: 1
+2025/05/29 23:18:02 [debug] 7620#23420: *2 test location: "/"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 test location: "uploads/"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 test location: "api/"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 using configuration "/api/"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http cl:-1 max:1048576
+2025/05/29 23:18:02 [debug] 7620#23420: *2 rewrite phase: 3
+2025/05/29 23:18:02 [debug] 7620#23420: *2 post rewrite phase: 4
+2025/05/29 23:18:02 [debug] 7620#23420: *2 generic phase: 5
+2025/05/29 23:18:02 [debug] 7620#23420: *2 generic phase: 6
+2025/05/29 23:18:02 [debug] 7620#23420: *2 generic phase: 7
+2025/05/29 23:18:02 [debug] 7620#23420: *2 access phase: 8
+2025/05/29 23:18:02 [debug] 7620#23420: *2 access phase: 9
+2025/05/29 23:18:02 [debug] 7620#23420: *2 access phase: 10
+2025/05/29 23:18:02 [debug] 7620#23420: *2 post access phase: 11
+2025/05/29 23:18:02 [debug] 7620#23420: *2 generic phase: 12
+2025/05/29 23:18:02 [debug] 7620#23420: *2 generic phase: 13
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http init upstream, client timer: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: "Host"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script var: "localhost"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: "X-Real-IP"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script var: "127.0.0.1"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: "X-Forwarded-For"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script var: "127.0.0.1"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: "X-Forwarded-Proto"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script var: "http"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: "Connection"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: "close"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: ""
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http script copy: ""
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header:
+"GET /reports HTTP/1.1
+Host: localhost
+X-Real-IP: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-Proto: http
+Connection: close
+User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391
+
+"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http cleanup add: 02D21F2C
+2025/05/29 23:18:02 [debug] 7620#23420: *2 get rr peer, try: 1
+2025/05/29 23:18:02 [debug] 7620#23420: *2 stream socket 676
+2025/05/29 23:18:02 [debug] 7620#23420: *2 connect to 127.0.0.1:3000, fd:676 #3
+2025/05/29 23:18:02 [debug] 7620#23420: *2 select add event fd:676 ev:768
+2025/05/29 23:18:02 [debug] 7620#23420: *2 select add event fd:676 ev:16
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream connect: -2
+2025/05/29 23:18:02 [debug] 7620#23420: *2 malloc: 02D03F90:128
+2025/05/29 23:18:02 [debug] 7620#23420: *2 event timer add: 676: 300000:480493295
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http finalize request: -4, "/api/reports?" a:1, c:2
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http request count:2 blk:0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 post event 02D656D0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 delete posted event 02D656D0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream request: "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream send request handler
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream send request
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream send request body
+2025/05/29 23:18:02 [debug] 7620#23420: *2 chain writer buf fl:1 s:231
+2025/05/29 23:18:02 [debug] 7620#23420: *2 chain writer in: 02D21F4C
+2025/05/29 23:18:02 [debug] 7620#23420: *2 WSASend: fd:676, s:231
+2025/05/29 23:18:02 [debug] 7620#23420: *2 chain writer out: 00000000
+2025/05/29 23:18:02 [debug] 7620#23420: *2 event timer del: 676: 480493295
+2025/05/29 23:18:02 [debug] 7620#23420: *2 select del event fd:676 ev:16
+2025/05/29 23:18:02 [debug] 7620#23420: *2 event timer add: 676: 300000:480493296
+2025/05/29 23:18:02 [debug] 7620#23420: *2 post event 02D516C8
+2025/05/29 23:18:02 [debug] 7620#23420: *2 delete posted event 02D516C8
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream request: "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream process header
+2025/05/29 23:18:02 [debug] 7620#23420: *2 malloc: 02D18090:4096
+2025/05/29 23:18:02 [debug] 7620#23420: *2 WSARecv: fd:676 rc:0 316 of 4096
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy status 404 "404 Not Found"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "X-Powered-By: Express"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 malloc: 02D19098:4096
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "Access-Control-Allow-Origin: *"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "Content-Type: application/json; charset=utf-8"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "Content-Length: 70"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "ETag: W/"46-+yoFupbFFZwmQ66H+IPMOdHZZdY""
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "Date: Thu, 29 May 2025 15:18:02 GMT"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header: "Connection: close"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy header done
+2025/05/29 23:18:02 [debug] 7620#23420: *2 HTTP/1.1 404 Not Found
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:18:02 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 70
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"46-+yoFupbFFZwmQ66H+IPMOdHZZdY"
+
+2025/05/29 23:18:02 [debug] 7620#23420: *2 write new buf t:1 f:0 02D191E0, pos 02D191E0, size: 273 file: 0, size: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http write filter: l:0 f:0 s:273
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http cacheable: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http proxy filter init s:404 h:0 c:0 l:70
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream process upstream
+2025/05/29 23:18:02 [debug] 7620#23420: *2 pipe read upstream: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 pipe preread: 70
+2025/05/29 23:18:02 [debug] 7620#23420: *2 pipe buf free s:0 t:1 f:0 02D18090, pos 02D18186, size: 70 file: 0, size: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 pipe length: 70
+2025/05/29 23:18:02 [debug] 7620#23420: *2 input buf #0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 pipe write downstream: 1
+2025/05/29 23:18:02 [debug] 7620#23420: *2 pipe write downstream flush in
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http output filter "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http copy filter: "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http postpone filter "/api/reports?" 02D19384
+2025/05/29 23:18:02 [debug] 7620#23420: *2 write old buf t:1 f:0 02D191E0, pos 02D191E0, size: 273 file: 0, size: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 write new buf t:1 f:0 02D18090, pos 02D18186, size: 70 file: 0, size: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http write filter: l:0 f:0 s:343
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http copy filter: 0 "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 pipe write downstream done
+2025/05/29 23:18:02 [debug] 7620#23420: *2 event timer: 676, old: 480493296, new: 480493297
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream exit: 00000000
+2025/05/29 23:18:02 [debug] 7620#23420: *2 finalize http upstream request: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 finalize http proxy request
+2025/05/29 23:18:02 [debug] 7620#23420: *2 free rr peer 1 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 close http upstream connection: 676
+2025/05/29 23:18:02 [debug] 7620#23420: *2 free: 02D03F90, unused: 88
+2025/05/29 23:18:02 [debug] 7620#23420: *2 event timer del: 676: 480493296
+2025/05/29 23:18:02 [debug] 7620#23420: *2 select del event fd:676 ev:768
+2025/05/29 23:18:02 [debug] 7620#23420: *2 reusable connection: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http upstream temp fd: -1
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http output filter "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http copy filter: "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http postpone filter "/api/reports?" 0323F7BC
+2025/05/29 23:18:02 [debug] 7620#23420: *2 write old buf t:1 f:0 02D191E0, pos 02D191E0, size: 273 file: 0, size: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 write old buf t:1 f:0 02D18090, pos 02D18186, size: 70 file: 0, size: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 write new buf t:0 f:0 00000000, pos 00000000, size: 0 file: 0, size: 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http write filter: l:1 f:0 s:343
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http write filter limit 2097152
+2025/05/29 23:18:02 [debug] 7620#23420: *2 WSASend: fd:672, s:343
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http write filter 00000000
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http copy filter: 0 "/api/reports?"
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http finalize request: 0, "/api/reports?" a:1, c:1
+2025/05/29 23:18:02 [debug] 7620#23420: *2 set http keepalive handler
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http close request
+2025/05/29 23:18:02 [debug] 7620#23420: *2 http log handler
+2025/05/29 23:18:02 [debug] 7620#23420: *2 free: 02D18090
+2025/05/29 23:18:02 [debug] 7620#23420: *2 free: 02D210A8, unused: 6
+2025/05/29 23:18:02 [debug] 7620#23420: *2 free: 02D19098, unused: 2963
+2025/05/29 23:18:02 [debug] 7620#23420: *2 free: 02C7BEB8
+2025/05/29 23:18:02 [debug] 7620#23420: *2 hc free: 00000000
+2025/05/29 23:18:02 [debug] 7620#23420: *2 hc busy: 00000000 0
+2025/05/29 23:18:02 [debug] 7620#23420: *2 reusable connection: 1
+2025/05/29 23:18:02 [debug] 7620#23420: *2 event timer add: 672: 65000:480258297
+2025/05/29 23:18:15 [debug] 428#14640: select add event fd:628 ev:768
+2025/05/29 23:18:15 [debug] 7620#23420: select del event fd:624 ev:768
+2025/05/29 23:18:15 [debug] 7620#23420: *2 http keepalive handler
+2025/05/29 23:18:15 [debug] 7620#23420: *2 close http connection: 672
+2025/05/29 23:18:15 [debug] 7620#23420: *2 event timer del: 672: 480258297
+2025/05/29 23:18:15 [debug] 7620#23420: *2 select del event fd:672 ev:768
+2025/05/29 23:18:15 [debug] 7620#23420: *2 reusable connection: 0
+2025/05/29 23:18:15 [debug] 7620#23420: *2 free: 00000000
+2025/05/29 23:18:15 [debug] 7620#23420: *2 free: 02D03E88, unused: 28
+2025/05/29 23:18:20 [debug] 428#14640: post event 02F91628
+2025/05/29 23:18:20 [debug] 428#14640: delete posted event 02F91628
+2025/05/29 23:18:20 [debug] 428#14640: accept on 0.0.0.0:80, ready: 0
+2025/05/29 23:18:20 [debug] 428#14640: malloc: 02F43E88:256
+2025/05/29 23:18:20 [debug] 428#14640: *4 accept: 127.0.0.1:63125 fd:676
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer add: 676: 60000:480271171
+2025/05/29 23:18:20 [debug] 428#14640: *4 reusable connection: 1
+2025/05/29 23:18:20 [debug] 428#14640: *4 select add event fd:676 ev:768
+2025/05/29 23:18:20 [debug] 428#14640: *4 post event 02F91678
+2025/05/29 23:18:20 [debug] 428#14640: *4 delete posted event 02F91678
+2025/05/29 23:18:20 [debug] 428#14640: *4 http wait request handler
+2025/05/29 23:18:20 [debug] 428#14640: *4 malloc: 0304BEB8:1024
+2025/05/29 23:18:20 [debug] 428#14640: *4 WSARecv: fd:676 rc:0 141 of 1024
+2025/05/29 23:18:20 [debug] 428#14640: *4 reusable connection: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 malloc: 02F610A8:4096
+2025/05/29 23:18:20 [debug] 428#14640: *4 http process request line
+2025/05/29 23:18:20 [debug] 428#14640: *4 http request line: "GET /api/reports HTTP/1.1"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http uri: "/api/reports"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http args: ""
+2025/05/29 23:18:20 [debug] 428#14640: *4 http exten: ""
+2025/05/29 23:18:20 [debug] 428#14640: *4 http process request header line
+2025/05/29 23:18:20 [debug] 428#14640: *4 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http header: "Host: localhost"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http header done
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer del: 676: 480271171
+2025/05/29 23:18:20 [debug] 428#14640: *4 generic phase: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 rewrite phase: 1
+2025/05/29 23:18:20 [debug] 428#14640: *4 test location: "/"
+2025/05/29 23:18:20 [debug] 428#14640: *4 test location: "uploads/"
+2025/05/29 23:18:20 [debug] 428#14640: *4 test location: "api/"
+2025/05/29 23:18:20 [debug] 428#14640: *4 using configuration "/api/"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http cl:-1 max:1048576
+2025/05/29 23:18:20 [debug] 428#14640: *4 rewrite phase: 3
+2025/05/29 23:18:20 [debug] 428#14640: *4 post rewrite phase: 4
+2025/05/29 23:18:20 [debug] 428#14640: *4 generic phase: 5
+2025/05/29 23:18:20 [debug] 428#14640: *4 generic phase: 6
+2025/05/29 23:18:20 [debug] 428#14640: *4 generic phase: 7
+2025/05/29 23:18:20 [debug] 428#14640: *4 access phase: 8
+2025/05/29 23:18:20 [debug] 428#14640: *4 access phase: 9
+2025/05/29 23:18:20 [debug] 428#14640: *4 access phase: 10
+2025/05/29 23:18:20 [debug] 428#14640: *4 post access phase: 11
+2025/05/29 23:18:20 [debug] 428#14640: *4 generic phase: 12
+2025/05/29 23:18:20 [debug] 428#14640: *4 generic phase: 13
+2025/05/29 23:18:20 [debug] 428#14640: *4 http init upstream, client timer: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: "Host"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script var: "localhost"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: "X-Real-IP"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script var: "127.0.0.1"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: "X-Forwarded-For"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script var: "127.0.0.1"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: "X-Forwarded-Proto"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script var: "http"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: "Connection"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: "close"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: ""
+2025/05/29 23:18:20 [debug] 428#14640: *4 http script copy: ""
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header:
+"GET /reports HTTP/1.1
+Host: localhost
+X-Real-IP: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-Proto: http
+Connection: close
+User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391
+
+"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http cleanup add: 02F61F2C
+2025/05/29 23:18:20 [debug] 428#14640: *4 get rr peer, try: 1
+2025/05/29 23:18:20 [debug] 428#14640: *4 stream socket 680
+2025/05/29 23:18:20 [debug] 428#14640: *4 connect to 127.0.0.1:3000, fd:680 #5
+2025/05/29 23:18:20 [debug] 428#14640: *4 select add event fd:680 ev:768
+2025/05/29 23:18:20 [debug] 428#14640: *4 select add event fd:680 ev:16
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream connect: -2
+2025/05/29 23:18:20 [debug] 428#14640: *4 malloc: 02F43F90:128
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer add: 680: 300000:480511171
+2025/05/29 23:18:20 [debug] 428#14640: *4 http finalize request: -4, "/api/reports?" a:1, c:2
+2025/05/29 23:18:20 [debug] 428#14640: *4 http request count:2 blk:0
+2025/05/29 23:18:20 [debug] 428#14640: *4 post event 02FA56D0
+2025/05/29 23:18:20 [debug] 428#14640: *4 delete posted event 02FA56D0
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream request: "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream send request handler
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream send request
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream send request body
+2025/05/29 23:18:20 [debug] 428#14640: *4 chain writer buf fl:1 s:231
+2025/05/29 23:18:20 [debug] 428#14640: *4 chain writer in: 02F61F4C
+2025/05/29 23:18:20 [debug] 428#14640: *4 WSASend: fd:680, s:231
+2025/05/29 23:18:20 [debug] 428#14640: *4 chain writer out: 00000000
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer del: 680: 480511171
+2025/05/29 23:18:20 [debug] 428#14640: *4 select del event fd:680 ev:16
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer add: 680: 300000:480511171
+2025/05/29 23:18:20 [debug] 428#14640: *4 post event 02F916C8
+2025/05/29 23:18:20 [debug] 428#14640: *4 delete posted event 02F916C8
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream request: "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream process header
+2025/05/29 23:18:20 [debug] 428#14640: *4 malloc: 02FB9638:4096
+2025/05/29 23:18:20 [debug] 428#14640: *4 WSARecv: fd:680 rc:0 316 of 4096
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy status 404 "404 Not Found"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "X-Powered-By: Express"
+2025/05/29 23:18:20 [debug] 428#14640: *4 malloc: 02FBA640:4096
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "Access-Control-Allow-Origin: *"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "Content-Type: application/json; charset=utf-8"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "Content-Length: 70"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "ETag: W/"46-+yoFupbFFZwmQ66H+IPMOdHZZdY""
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "Date: Thu, 29 May 2025 15:18:20 GMT"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header: "Connection: close"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy header done
+2025/05/29 23:18:20 [debug] 428#14640: *4 HTTP/1.1 404 Not Found
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:18:20 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 70
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"46-+yoFupbFFZwmQ66H+IPMOdHZZdY"
+
+2025/05/29 23:18:20 [debug] 428#14640: *4 write new buf t:1 f:0 02FBA788, pos 02FBA788, size: 273 file: 0, size: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 http write filter: l:0 f:0 s:273
+2025/05/29 23:18:20 [debug] 428#14640: *4 http cacheable: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 http proxy filter init s:404 h:0 c:0 l:70
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream process upstream
+2025/05/29 23:18:20 [debug] 428#14640: *4 pipe read upstream: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 pipe preread: 70
+2025/05/29 23:18:20 [debug] 428#14640: *4 pipe buf free s:0 t:1 f:0 02FB9638, pos 02FB972E, size: 70 file: 0, size: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 pipe length: 70
+2025/05/29 23:18:20 [debug] 428#14640: *4 input buf #0
+2025/05/29 23:18:20 [debug] 428#14640: *4 pipe write downstream: 1
+2025/05/29 23:18:20 [debug] 428#14640: *4 pipe write downstream flush in
+2025/05/29 23:18:20 [debug] 428#14640: *4 http output filter "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http copy filter: "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http postpone filter "/api/reports?" 02FBA92C
+2025/05/29 23:18:20 [debug] 428#14640: *4 write old buf t:1 f:0 02FBA788, pos 02FBA788, size: 273 file: 0, size: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 write new buf t:1 f:0 02FB9638, pos 02FB972E, size: 70 file: 0, size: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 http write filter: l:0 f:0 s:343
+2025/05/29 23:18:20 [debug] 428#14640: *4 http copy filter: 0 "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 pipe write downstream done
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer: 680, old: 480511171, new: 480511172
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream exit: 00000000
+2025/05/29 23:18:20 [debug] 428#14640: *4 finalize http upstream request: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 finalize http proxy request
+2025/05/29 23:18:20 [debug] 428#14640: *4 free rr peer 1 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 close http upstream connection: 680
+2025/05/29 23:18:20 [debug] 428#14640: *4 free: 02F43F90, unused: 88
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer del: 680: 480511171
+2025/05/29 23:18:20 [debug] 428#14640: *4 select del event fd:680 ev:768
+2025/05/29 23:18:20 [debug] 428#14640: *4 reusable connection: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 http upstream temp fd: -1
+2025/05/29 23:18:20 [debug] 428#14640: *4 http output filter "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http copy filter: "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http postpone filter "/api/reports?" 0348FC14
+2025/05/29 23:18:20 [debug] 428#14640: *4 write old buf t:1 f:0 02FBA788, pos 02FBA788, size: 273 file: 0, size: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 write old buf t:1 f:0 02FB9638, pos 02FB972E, size: 70 file: 0, size: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 write new buf t:0 f:0 00000000, pos 00000000, size: 0 file: 0, size: 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 http write filter: l:1 f:0 s:343
+2025/05/29 23:18:20 [debug] 428#14640: *4 http write filter limit 2097152
+2025/05/29 23:18:20 [debug] 428#14640: *4 WSASend: fd:676, s:343
+2025/05/29 23:18:20 [debug] 428#14640: *4 http write filter 00000000
+2025/05/29 23:18:20 [debug] 428#14640: *4 http copy filter: 0 "/api/reports?"
+2025/05/29 23:18:20 [debug] 428#14640: *4 http finalize request: 0, "/api/reports?" a:1, c:1
+2025/05/29 23:18:20 [debug] 428#14640: *4 set http keepalive handler
+2025/05/29 23:18:20 [debug] 428#14640: *4 http close request
+2025/05/29 23:18:20 [debug] 428#14640: *4 http log handler
+2025/05/29 23:18:20 [debug] 428#14640: *4 free: 02FB9638
+2025/05/29 23:18:20 [debug] 428#14640: *4 free: 02F610A8, unused: 6
+2025/05/29 23:18:20 [debug] 428#14640: *4 free: 02FBA640, unused: 2963
+2025/05/29 23:18:20 [debug] 428#14640: *4 free: 0304BEB8
+2025/05/29 23:18:20 [debug] 428#14640: *4 hc free: 00000000
+2025/05/29 23:18:20 [debug] 428#14640: *4 hc busy: 00000000 0
+2025/05/29 23:18:20 [debug] 428#14640: *4 tcp_nodelay
+2025/05/29 23:18:20 [debug] 428#14640: *4 reusable connection: 1
+2025/05/29 23:18:20 [debug] 428#14640: *4 event timer add: 676: 65000:480276172
+2025/05/29 23:18:39 [debug] 21292#23248: select add event fd:636 ev:768
+2025/05/29 23:18:39 [debug] 428#14640: select del event fd:628 ev:768
+2025/05/29 23:18:39 [debug] 428#14640: *4 http keepalive handler
+2025/05/29 23:18:39 [debug] 428#14640: *4 close http connection: 676
+2025/05/29 23:18:39 [debug] 428#14640: *4 event timer del: 676: 480276172
+2025/05/29 23:18:39 [debug] 428#14640: *4 select del event fd:676 ev:768
+2025/05/29 23:18:39 [debug] 428#14640: *4 reusable connection: 0
+2025/05/29 23:18:39 [debug] 428#14640: *4 free: 00000000
+2025/05/29 23:18:39 [debug] 428#14640: *4 free: 02F43E88, unused: 28
+2025/05/29 23:18:42 [debug] 21292#23248: post event 02BC1628
+2025/05/29 23:18:42 [debug] 21292#23248: delete posted event 02BC1628
+2025/05/29 23:18:42 [debug] 21292#23248: accept on 0.0.0.0:80, ready: 0
+2025/05/29 23:18:42 [debug] 21292#23248: malloc: 02B73E88:256
+2025/05/29 23:18:42 [debug] 21292#23248: *6 accept: 127.0.0.1:63164 fd:596
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer add: 596: 60000:480293320
+2025/05/29 23:18:42 [debug] 21292#23248: *6 reusable connection: 1
+2025/05/29 23:18:42 [debug] 21292#23248: *6 select add event fd:596 ev:768
+2025/05/29 23:18:42 [debug] 21292#23248: *6 post event 02BC1678
+2025/05/29 23:18:42 [debug] 21292#23248: *6 delete posted event 02BC1678
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http wait request handler
+2025/05/29 23:18:42 [debug] 21292#23248: *6 malloc: 02C7BEB8:1024
+2025/05/29 23:18:42 [debug] 21292#23248: *6 WSARecv: fd:596 rc:0 141 of 1024
+2025/05/29 23:18:42 [debug] 21292#23248: *6 reusable connection: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 malloc: 02B910A8:4096
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http process request line
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http request line: "GET /api/reports HTTP/1.1"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http uri: "/api/reports"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http args: ""
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http exten: ""
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http process request header line
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http header: "Host: localhost"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http header done
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer del: 596: 480293320
+2025/05/29 23:18:42 [debug] 21292#23248: *6 generic phase: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 rewrite phase: 1
+2025/05/29 23:18:42 [debug] 21292#23248: *6 test location: "/"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 test location: "uploads/"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 test location: "api/"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 using configuration "/api/"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http cl:-1 max:1048576
+2025/05/29 23:18:42 [debug] 21292#23248: *6 rewrite phase: 3
+2025/05/29 23:18:42 [debug] 21292#23248: *6 post rewrite phase: 4
+2025/05/29 23:18:42 [debug] 21292#23248: *6 generic phase: 5
+2025/05/29 23:18:42 [debug] 21292#23248: *6 generic phase: 6
+2025/05/29 23:18:42 [debug] 21292#23248: *6 generic phase: 7
+2025/05/29 23:18:42 [debug] 21292#23248: *6 access phase: 8
+2025/05/29 23:18:42 [debug] 21292#23248: *6 access phase: 9
+2025/05/29 23:18:42 [debug] 21292#23248: *6 access phase: 10
+2025/05/29 23:18:42 [debug] 21292#23248: *6 post access phase: 11
+2025/05/29 23:18:42 [debug] 21292#23248: *6 generic phase: 12
+2025/05/29 23:18:42 [debug] 21292#23248: *6 generic phase: 13
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http init upstream, client timer: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: "Host"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script var: "localhost"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: "X-Real-IP"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script var: "127.0.0.1"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: "X-Forwarded-For"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script var: "127.0.0.1"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: "X-Forwarded-Proto"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script var: "http"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: "Connection"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: "close"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: ""
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http script copy: ""
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header:
+"GET /api/reports HTTP/1.1
+Host: localhost
+X-Real-IP: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-Proto: http
+Connection: close
+User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391
+
+"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http cleanup add: 02B91F30
+2025/05/29 23:18:42 [debug] 21292#23248: *6 get rr peer, try: 1
+2025/05/29 23:18:42 [debug] 21292#23248: *6 stream socket 676
+2025/05/29 23:18:42 [debug] 21292#23248: *6 connect to 127.0.0.1:3000, fd:676 #7
+2025/05/29 23:18:42 [debug] 21292#23248: *6 select add event fd:676 ev:768
+2025/05/29 23:18:42 [debug] 21292#23248: *6 select add event fd:676 ev:16
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream connect: -2
+2025/05/29 23:18:42 [debug] 21292#23248: *6 malloc: 02B73F90:128
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer add: 676: 300000:480533320
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http finalize request: -4, "/api/reports?" a:1, c:2
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http request count:2 blk:0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 post event 02BD56D0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 delete posted event 02BD56D0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream request: "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream send request handler
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream send request
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream send request body
+2025/05/29 23:18:42 [debug] 21292#23248: *6 chain writer buf fl:1 s:235
+2025/05/29 23:18:42 [debug] 21292#23248: *6 chain writer in: 02B91F50
+2025/05/29 23:18:42 [debug] 21292#23248: *6 WSASend: fd:676, s:235
+2025/05/29 23:18:42 [debug] 21292#23248: *6 chain writer out: 00000000
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer del: 676: 480533320
+2025/05/29 23:18:42 [debug] 21292#23248: *6 select del event fd:676 ev:16
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer add: 676: 300000:480533320
+2025/05/29 23:18:42 [debug] 21292#23248: *6 post event 02BC16C8
+2025/05/29 23:18:42 [debug] 21292#23248: *6 delete posted event 02BC16C8
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream request: "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream process header
+2025/05/29 23:18:42 [debug] 21292#23248: *6 malloc: 02BE9638:4096
+2025/05/29 23:18:42 [debug] 21292#23248: *6 WSARecv: fd:676 rc:0 265 of 4096
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy status 200 "200 OK"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "X-Powered-By: Express"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 malloc: 02BEA640:4096
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "Access-Control-Allow-Origin: *"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "Content-Type: application/json; charset=utf-8"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "Content-Length: 26"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "ETag: W/"1a-s3B6blipWxCo2IriQlJeaz0uh7I""
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "Date: Thu, 29 May 2025 15:18:42 GMT"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header: "Connection: close"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy header done
+2025/05/29 23:18:42 [debug] 21292#23248: *6 HTTP/1.1 200 OK
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:18:42 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 26
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"1a-s3B6blipWxCo2IriQlJeaz0uh7I"
+
+2025/05/29 23:18:42 [debug] 21292#23248: *6 write new buf t:1 f:0 02BEA788, pos 02BEA788, size: 266 file: 0, size: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http write filter: l:0 f:0 s:266
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http cacheable: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http proxy filter init s:200 h:0 c:0 l:26
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream process upstream
+2025/05/29 23:18:42 [debug] 21292#23248: *6 pipe read upstream: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 pipe preread: 26
+2025/05/29 23:18:42 [debug] 21292#23248: *6 pipe buf free s:0 t:1 f:0 02BE9638, pos 02BE9727, size: 26 file: 0, size: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 pipe length: 26
+2025/05/29 23:18:42 [debug] 21292#23248: *6 input buf #0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 pipe write downstream: 1
+2025/05/29 23:18:42 [debug] 21292#23248: *6 pipe write downstream flush in
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http output filter "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http copy filter: "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http postpone filter "/api/reports?" 02BEA91C
+2025/05/29 23:18:42 [debug] 21292#23248: *6 write old buf t:1 f:0 02BEA788, pos 02BEA788, size: 266 file: 0, size: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 write new buf t:1 f:0 02BE9638, pos 02BE9727, size: 26 file: 0, size: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http write filter: l:0 f:0 s:292
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http copy filter: 0 "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 pipe write downstream done
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer: 676, old: 480533320, new: 480533322
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream exit: 00000000
+2025/05/29 23:18:42 [debug] 21292#23248: *6 finalize http upstream request: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 finalize http proxy request
+2025/05/29 23:18:42 [debug] 21292#23248: *6 free rr peer 1 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 close http upstream connection: 676
+2025/05/29 23:18:42 [debug] 21292#23248: *6 free: 02B73F90, unused: 88
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer del: 676: 480533320
+2025/05/29 23:18:42 [debug] 21292#23248: *6 select del event fd:676 ev:768
+2025/05/29 23:18:42 [debug] 21292#23248: *6 reusable connection: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http upstream temp fd: -1
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http output filter "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http copy filter: "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http postpone filter "/api/reports?" 0311F6DC
+2025/05/29 23:18:42 [debug] 21292#23248: *6 write old buf t:1 f:0 02BEA788, pos 02BEA788, size: 266 file: 0, size: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 write old buf t:1 f:0 02BE9638, pos 02BE9727, size: 26 file: 0, size: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 write new buf t:0 f:0 00000000, pos 00000000, size: 0 file: 0, size: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http write filter: l:1 f:0 s:292
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http write filter limit 2097152
+2025/05/29 23:18:42 [debug] 21292#23248: *6 WSASend: fd:596, s:292
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http write filter 00000000
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http copy filter: 0 "/api/reports?"
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http finalize request: 0, "/api/reports?" a:1, c:1
+2025/05/29 23:18:42 [debug] 21292#23248: *6 set http keepalive handler
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http close request
+2025/05/29 23:18:42 [debug] 21292#23248: *6 http log handler
+2025/05/29 23:18:42 [debug] 21292#23248: *6 free: 02BE9638
+2025/05/29 23:18:42 [debug] 21292#23248: *6 free: 02B910A8, unused: 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 free: 02BEA640, unused: 2979
+2025/05/29 23:18:42 [debug] 21292#23248: *6 free: 02C7BEB8
+2025/05/29 23:18:42 [debug] 21292#23248: *6 hc free: 00000000
+2025/05/29 23:18:42 [debug] 21292#23248: *6 hc busy: 00000000 0
+2025/05/29 23:18:42 [debug] 21292#23248: *6 tcp_nodelay
+2025/05/29 23:18:42 [debug] 21292#23248: *6 reusable connection: 1
+2025/05/29 23:18:42 [debug] 21292#23248: *6 event timer add: 596: 65000:480298322
+2025/05/29 23:19:47 [debug] 21292#23248: *6 event timer del: 596: 480298322
+2025/05/29 23:19:47 [debug] 21292#23248: *6 http keepalive handler
+2025/05/29 23:19:47 [debug] 21292#23248: *6 close http connection: 596
+2025/05/29 23:19:47 [debug] 21292#23248: *6 select del event fd:596 ev:768
+2025/05/29 23:19:47 [debug] 21292#23248: *6 reusable connection: 0
+2025/05/29 23:19:47 [debug] 21292#23248: *6 free: 00000000
+2025/05/29 23:19:47 [debug] 21292#23248: *6 free: 02B73E88, unused: 28
+2025/05/29 23:21:14 [debug] 21292#23248: post event 02BC1628
+2025/05/29 23:21:14 [debug] 21292#23248: delete posted event 02BC1628
+2025/05/29 23:21:14 [debug] 21292#23248: accept on 0.0.0.0:80, ready: 0
+2025/05/29 23:21:14 [debug] 21292#23248: malloc: 02B73E88:256
+2025/05/29 23:21:14 [debug] 21292#23248: *8 accept: 127.0.0.1:63341 fd:700
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer add: 700: 60000:480444723
+2025/05/29 23:21:14 [debug] 21292#23248: *8 reusable connection: 1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 select add event fd:700 ev:768
+2025/05/29 23:21:14 [debug] 21292#23248: *8 post event 02BC1678
+2025/05/29 23:21:14 [debug] 21292#23248: *8 delete posted event 02BC1678
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http wait request handler
+2025/05/29 23:21:14 [debug] 21292#23248: *8 malloc: 02C7BEB8:1024
+2025/05/29 23:21:14 [debug] 21292#23248: *8 WSARecv: fd:700 rc:0 165 of 1024
+2025/05/29 23:21:14 [debug] 21292#23248: *8 reusable connection: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 malloc: 02B910A8:4096
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http process request line
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http request line: "GET /api/reports HTTP/1.1"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http uri: "/api/reports"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http args: ""
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http exten: ""
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http process request header line
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http header: "Host: localhost"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http header: "Connection: Keep-Alive"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http header done
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer del: 700: 480444723
+2025/05/29 23:21:14 [debug] 21292#23248: *8 generic phase: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 rewrite phase: 1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 test location: "/"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 test location: "uploads/"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 test location: "api/"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 using configuration "/api/"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http cl:-1 max:1048576
+2025/05/29 23:21:14 [debug] 21292#23248: *8 rewrite phase: 3
+2025/05/29 23:21:14 [debug] 21292#23248: *8 post rewrite phase: 4
+2025/05/29 23:21:14 [debug] 21292#23248: *8 generic phase: 5
+2025/05/29 23:21:14 [debug] 21292#23248: *8 generic phase: 6
+2025/05/29 23:21:14 [debug] 21292#23248: *8 generic phase: 7
+2025/05/29 23:21:14 [debug] 21292#23248: *8 access phase: 8
+2025/05/29 23:21:14 [debug] 21292#23248: *8 access phase: 9
+2025/05/29 23:21:14 [debug] 21292#23248: *8 access phase: 10
+2025/05/29 23:21:14 [debug] 21292#23248: *8 post access phase: 11
+2025/05/29 23:21:14 [debug] 21292#23248: *8 generic phase: 12
+2025/05/29 23:21:14 [debug] 21292#23248: *8 generic phase: 13
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http init upstream, client timer: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: "Host"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script var: "localhost"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: "X-Real-IP"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script var: "127.0.0.1"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: "X-Forwarded-For"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script var: "127.0.0.1"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: "X-Forwarded-Proto"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script var: "http"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: "Connection"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: "close"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: ""
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http script copy: ""
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header:
+"GET /api/reports HTTP/1.1
+Host: localhost
+X-Real-IP: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-Proto: http
+Connection: close
+User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391
+
+"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http cleanup add: 02B91F38
+2025/05/29 23:21:14 [debug] 21292#23248: *8 get rr peer, try: 1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 stream socket 704
+2025/05/29 23:21:14 [debug] 21292#23248: *8 connect to 127.0.0.1:3000, fd:704 #9
+2025/05/29 23:21:14 [debug] 21292#23248: *8 select add event fd:704 ev:768
+2025/05/29 23:21:14 [debug] 21292#23248: *8 select add event fd:704 ev:16
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream connect: -2
+2025/05/29 23:21:14 [debug] 21292#23248: *8 malloc: 02BE9FF0:128
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer add: 704: 300000:480684723
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http finalize request: -4, "/api/reports?" a:1, c:2
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http request count:2 blk:0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 post event 02BD56D0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 delete posted event 02BD56D0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream request: "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream send request handler
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream send request
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream send request body
+2025/05/29 23:21:14 [debug] 21292#23248: *8 chain writer buf fl:1 s:235
+2025/05/29 23:21:14 [debug] 21292#23248: *8 chain writer in: 02B91F58
+2025/05/29 23:21:14 [debug] 21292#23248: *8 WSASend: fd:704, s:235
+2025/05/29 23:21:14 [debug] 21292#23248: *8 chain writer out: 00000000
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer del: 704: 480684723
+2025/05/29 23:21:14 [debug] 21292#23248: *8 select del event fd:704 ev:16
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer add: 704: 300000:480684723
+2025/05/29 23:21:14 [debug] 21292#23248: *8 post event 02BC16C8
+2025/05/29 23:21:14 [debug] 21292#23248: *8 delete posted event 02BC16C8
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream request: "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream process header
+2025/05/29 23:21:14 [debug] 21292#23248: *8 malloc: 02BEA640:4096
+2025/05/29 23:21:14 [debug] 21292#23248: *8 WSARecv: fd:704 rc:0 265 of 4096
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy status 200 "200 OK"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "X-Powered-By: Express"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 malloc: 02BEB648:4096
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "Access-Control-Allow-Origin: *"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "Content-Type: application/json; charset=utf-8"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "Content-Length: 26"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "ETag: W/"1a-s3B6blipWxCo2IriQlJeaz0uh7I""
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "Date: Thu, 29 May 2025 15:21:14 GMT"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header: "Connection: close"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy header done
+2025/05/29 23:21:14 [debug] 21292#23248: *8 HTTP/1.1 200 OK
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:21:14 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 26
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"1a-s3B6blipWxCo2IriQlJeaz0uh7I"
+
+2025/05/29 23:21:14 [debug] 21292#23248: *8 write new buf t:1 f:0 02BEB790, pos 02BEB790, size: 266 file: 0, size: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http write filter: l:0 f:0 s:266
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http cacheable: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http proxy filter init s:200 h:0 c:0 l:26
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream process upstream
+2025/05/29 23:21:14 [debug] 21292#23248: *8 pipe read upstream: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 pipe preread: 26
+2025/05/29 23:21:14 [debug] 21292#23248: *8 pipe buf free s:0 t:1 f:0 02BEA640, pos 02BEA72F, size: 26 file: 0, size: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 pipe length: 26
+2025/05/29 23:21:14 [debug] 21292#23248: *8 input buf #0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 pipe write downstream: 1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 pipe write downstream flush in
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http output filter "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http copy filter: "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http postpone filter "/api/reports?" 02BEB92C
+2025/05/29 23:21:14 [debug] 21292#23248: *8 write old buf t:1 f:0 02BEB790, pos 02BEB790, size: 266 file: 0, size: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 write new buf t:1 f:0 02BEA640, pos 02BEA72F, size: 26 file: 0, size: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http write filter: l:0 f:0 s:292
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http copy filter: 0 "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 pipe write downstream done
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer: 704, old: 480684723, new: 480684725
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream exit: 00000000
+2025/05/29 23:21:14 [debug] 21292#23248: *8 finalize http upstream request: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 finalize http proxy request
+2025/05/29 23:21:14 [debug] 21292#23248: *8 free rr peer 1 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 close http upstream connection: 704
+2025/05/29 23:21:14 [debug] 21292#23248: *8 free: 02BE9FF0, unused: 88
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer del: 704: 480684723
+2025/05/29 23:21:14 [debug] 21292#23248: *8 select del event fd:704 ev:768
+2025/05/29 23:21:14 [debug] 21292#23248: *8 reusable connection: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http upstream temp fd: -1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http output filter "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http copy filter: "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http postpone filter "/api/reports?" 0311F6DC
+2025/05/29 23:21:14 [debug] 21292#23248: *8 write old buf t:1 f:0 02BEB790, pos 02BEB790, size: 266 file: 0, size: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 write old buf t:1 f:0 02BEA640, pos 02BEA72F, size: 26 file: 0, size: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 write new buf t:0 f:0 00000000, pos 00000000, size: 0 file: 0, size: 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http write filter: l:1 f:0 s:292
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http write filter limit 2097152
+2025/05/29 23:21:14 [debug] 21292#23248: *8 WSASend: fd:700, s:292
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http write filter 00000000
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http copy filter: 0 "/api/reports?"
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http finalize request: 0, "/api/reports?" a:1, c:1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 set http keepalive handler
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http close request
+2025/05/29 23:21:14 [debug] 21292#23248: *8 http log handler
+2025/05/29 23:21:14 [debug] 21292#23248: *8 free: 02BEA640
+2025/05/29 23:21:14 [debug] 21292#23248: *8 free: 02B910A8, unused: 1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 free: 02BEB648, unused: 2971
+2025/05/29 23:21:14 [debug] 21292#23248: *8 free: 02C7BEB8
+2025/05/29 23:21:14 [debug] 21292#23248: *8 hc free: 00000000
+2025/05/29 23:21:14 [debug] 21292#23248: *8 hc busy: 00000000 0
+2025/05/29 23:21:14 [debug] 21292#23248: *8 tcp_nodelay
+2025/05/29 23:21:14 [debug] 21292#23248: *8 reusable connection: 1
+2025/05/29 23:21:14 [debug] 21292#23248: *8 event timer add: 700: 65000:480449725
+2025/05/29 23:21:26 [debug] 21292#23248: post event 02BC1628
+2025/05/29 23:21:26 [debug] 21292#23248: delete posted event 02BC1628
+2025/05/29 23:21:26 [debug] 21292#23248: accept on 0.0.0.0:80, ready: 0
+2025/05/29 23:21:26 [debug] 21292#23248: malloc: 02C7D8F8:256
+2025/05/29 23:21:26 [debug] 21292#23248: *10 accept: 127.0.0.1:63360 fd:676
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer add: 676: 60000:480456632
+2025/05/29 23:21:26 [debug] 21292#23248: *10 reusable connection: 1
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select add event fd:676 ev:768
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 delete posted event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http wait request handler
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02C7BEB8:1024
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:0 1024 of 1024
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: avail:35187
+2025/05/29 23:21:26 [debug] 21292#23248: *10 reusable connection: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02B910A8:4096
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http process request line
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http request line: "POST /api/reports HTTP/1.1"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http uri: "/api/reports"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http args: ""
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http exten: ""
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http process request header line
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http header: "Host: localhost"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http header: "User-Agent: curl/8.12.1"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http header: "Accept: */*"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http header: "Content-Length: 36011"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http header: "Content-Type: multipart/form-data; boundary=------------------------HB5r9DsHKLwWHrnQTdhXd4"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http header done
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer del: 676: 480456632
+2025/05/29 23:21:26 [debug] 21292#23248: *10 generic phase: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 rewrite phase: 1
+2025/05/29 23:21:26 [debug] 21292#23248: *10 test location: "/"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 test location: "uploads/"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 test location: "api/"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 using configuration "/api/"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http cl:36011 max:1048576
+2025/05/29 23:21:26 [debug] 21292#23248: *10 rewrite phase: 3
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post rewrite phase: 4
+2025/05/29 23:21:26 [debug] 21292#23248: *10 generic phase: 5
+2025/05/29 23:21:26 [debug] 21292#23248: *10 generic phase: 6
+2025/05/29 23:21:26 [debug] 21292#23248: *10 generic phase: 7
+2025/05/29 23:21:26 [debug] 21292#23248: *10 access phase: 8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 access phase: 9
+2025/05/29 23:21:26 [debug] 21292#23248: *10 access phase: 10
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post access phase: 11
+2025/05/29 23:21:26 [debug] 21292#23248: *10 generic phase: 12
+2025/05/29 23:21:26 [debug] 21292#23248: *10 generic phase: 13
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http client request body preread 824
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http request body content length filter
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http body new buf t:1 f:0 02C7BF80, pos 02C7BF80, size: 824 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02BEA640:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http read client request body
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:0 8192 of 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: avail:26995
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http client request body recv 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http body new buf t:1 f:0 02BEA640, pos 02BEA640, size: 8192 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write client request body, bufs 02B91E18
+2025/05/29 23:21:26 [debug] 21292#23248: *10 add cleanup: 02B91F68
+2025/05/29 23:21:26 [debug] 21292#23248: *10 hashed path: E:\project\hazard-report\nginx-1.24.0/temp/client_body_temp/0000000001
+2025/05/29 23:21:26 [debug] 21292#23248: *10 temp fd:704
+2025/05/29 23:21:26 [warn] 21292#23248: *10 a client request body is buffered to a temporary file E:\project\hazard-report\nginx-1.24.0/temp/client_body_temp/0000000001, client: 127.0.0.1, server: localhost, request: "POST /api/reports HTTP/1.1", host: "localhost"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:0 8192 of 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: avail:18803
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http client request body recv 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http body new buf t:1 f:0 02BEA640, pos 02BEA640, size: 8192 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write client request body, bufs 02B91EA0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:0 8192 of 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: avail:10611
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http client request body recv 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http body new buf t:1 f:0 02BEA640, pos 02BEA640, size: 8192 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write client request body, bufs 02B91EA0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:0 8192 of 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: avail:2419
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http client request body recv 8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http body new buf t:1 f:0 02BEA640, pos 02BEA640, size: 8192 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write client request body, bufs 02B91EA0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:0 2419 of 2419
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: avail:0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http client request body recv 2419
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http body new buf t:1 f:0 02BEA640, pos 02BEA640, size: 2419 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write client request body, bufs 02B91EA0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http client request body rest 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http init upstream, client timer: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02BEC648:4096
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: "Host"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script var: "localhost"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: "X-Real-IP"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script var: "127.0.0.1"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: "X-Forwarded-For"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script var: "127.0.0.1"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: "X-Forwarded-Proto"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script var: "http"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: "Connection"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: "close"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: "Content-Length"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script var: "36011"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http script copy: ""
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "User-Agent: curl/8.12.1"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "Accept: */*"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "Content-Type: multipart/form-data; boundary=------------------------HB5r9DsHKLwWHrnQTdhXd4"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header:
+"POST /api/reports HTTP/1.1
+Host: localhost
+X-Real-IP: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-Proto: http
+Connection: close
+Content-Length: 36011
+User-Agent: curl/8.12.1
+Accept: */*
+Content-Type: multipart/form-data; boundary=------------------------HB5r9DsHKLwWHrnQTdhXd4
+
+"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http cleanup add: 02B92050
+2025/05/29 23:21:26 [debug] 21292#23248: *10 get rr peer, try: 1
+2025/05/29 23:21:26 [debug] 21292#23248: *10 stream socket 448
+2025/05/29 23:21:26 [debug] 21292#23248: *10 connect to 127.0.0.1:3000, fd:448 #11
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select add event fd:448 ev:768
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select add event fd:448 ev:16
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream connect: -2
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02BE9CC0:128
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer add: 448: 300000:480696632
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http finalize request: -4, "/api/reports?" a:1, c:2
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http request count:2 blk:0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 delete posted event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http run request: "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream check client, write event:0, "/api/reports"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream recv(): -1 (10035: A non-blocking socket operation could not be completed immediately)
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select del event fd:676 ev:768
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post event 02BD5720
+2025/05/29 23:21:26 [debug] 21292#23248: *10 delete posted event 02BD5720
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream request: "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream send request handler
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream send request
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream send request body
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer buf fl:0 s:294
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer buf fl:0 s:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer in: 02B92088
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSASend: fd:448, s:8486
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer out: 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer buf fl:0 s:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer in: 02B92078
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSASend: fd:448, s:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer out: 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer buf fl:0 s:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer in: 02B92078
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSASend: fd:448, s:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer out: 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer buf fl:0 s:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer in: 02B92078
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSASend: fd:448, s:8192
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer out: 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer buf fl:1 s:3243
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer in: 02B92078
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSASend: fd:448, s:3243
+2025/05/29 23:21:26 [debug] 21292#23248: *10 chain writer out: 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer del: 448: 480696632
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select del event fd:448 ev:16
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer add: 448: 300000:480696633
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post event 02BC1718
+2025/05/29 23:21:26 [debug] 21292#23248: *10 delete posted event 02BC1718
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream request: "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream process header
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02B88090:4096
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:448 rc:0 606 of 4096
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy status 200 "200 OK"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "X-Powered-By: Express"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "Access-Control-Allow-Origin: *"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "Content-Type: application/json; charset=utf-8"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "Content-Length: 365"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "ETag: W/"16d-5pZfg1xrYo3UnnMf4BNerT74IoA""
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "Date: Thu, 29 May 2025 15:21:26 GMT"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header: "Connection: close"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy header done
+2025/05/29 23:21:26 [debug] 21292#23248: *10 HTTP/1.1 200 OK
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:21:26 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 365
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"16d-5pZfg1xrYo3UnnMf4BNerT74IoA"
+
+2025/05/29 23:21:26 [debug] 21292#23248: *10 write new buf t:1 f:0 02BEC9F4, pos 02BEC9F4, size: 268 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write filter: l:0 f:0 s:268
+2025/05/29 23:21:26 [debug] 21292#23248: *10 file cleanup: fd:704
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http cacheable: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http proxy filter init s:200 h:0 c:0 l:365
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream process upstream
+2025/05/29 23:21:26 [debug] 21292#23248: *10 pipe read upstream: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 pipe preread: 365
+2025/05/29 23:21:26 [debug] 21292#23248: *10 pipe buf free s:0 t:1 f:0 02B88090, pos 02B88181, size: 365 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 pipe length: 365
+2025/05/29 23:21:26 [debug] 21292#23248: *10 input buf #0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 pipe write downstream: 1
+2025/05/29 23:21:26 [debug] 21292#23248: *10 pipe write downstream flush in
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http output filter "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http copy filter: "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http postpone filter "/api/reports?" 02B92088
+2025/05/29 23:21:26 [debug] 21292#23248: *10 write old buf t:1 f:0 02BEC9F4, pos 02BEC9F4, size: 268 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 write new buf t:1 f:0 02B88090, pos 02B88181, size: 365 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write filter: l:0 f:0 s:633
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http copy filter: 0 "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 pipe write downstream done
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer: 448, old: 480696633, new: 480696645
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream exit: 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 finalize http upstream request: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 finalize http proxy request
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free rr peer 1 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 close http upstream connection: 448
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02BE9CC0, unused: 88
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer del: 448: 480696633
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select del event fd:448 ev:768
+2025/05/29 23:21:26 [debug] 21292#23248: *10 reusable connection: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http upstream temp fd: -1
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http output filter "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http copy filter: "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http postpone filter "/api/reports?" 0311F6DC
+2025/05/29 23:21:26 [debug] 21292#23248: *10 write old buf t:1 f:0 02BEC9F4, pos 02BEC9F4, size: 268 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 write old buf t:1 f:0 02B88090, pos 02B88181, size: 365 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 write new buf t:0 f:0 00000000, pos 00000000, size: 0 file: 0, size: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write filter: l:1 f:0 s:633
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write filter limit 2097152
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSASend: fd:676, s:633
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http write filter 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http copy filter: 0 "/api/reports?"
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http finalize request: 0, "/api/reports?" a:1, c:1
+2025/05/29 23:21:26 [debug] 21292#23248: *10 set http keepalive handler
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http close request
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http log handler
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02B88090
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02BEA640
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02B910A8, unused: 2
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02BEC648, unused: 2440
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02C7BEB8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 hc free: 00000000
+2025/05/29 23:21:26 [debug] 21292#23248: *10 hc busy: 00000000 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 tcp_nodelay
+2025/05/29 23:21:26 [debug] 21292#23248: *10 reusable connection: 1
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer add: 676: 65000:480461645
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 delete posted event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http keepalive handler
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02C7BEB8:1024
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:-1 0 of 1024
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv() not ready (10035: A non-blocking socket operation could not be completed immediately)
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select add event fd:676 ev:768
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02C7BEB8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 post event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 delete posted event 02BC16C8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 http keepalive handler
+2025/05/29 23:21:26 [debug] 21292#23248: *10 malloc: 02C7BEB8:1024
+2025/05/29 23:21:26 [debug] 21292#23248: *10 WSARecv: fd:676 rc:0 0 of 1024
+2025/05/29 23:21:26 [info] 21292#23248: *10 client 127.0.0.1 closed keepalive connection
+2025/05/29 23:21:26 [debug] 21292#23248: *10 close http connection: 676
+2025/05/29 23:21:26 [debug] 21292#23248: *10 event timer del: 676: 480461645
+2025/05/29 23:21:26 [debug] 21292#23248: *10 select del event fd:676 ev:768
+2025/05/29 23:21:26 [debug] 21292#23248: *10 reusable connection: 0
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02C7BEB8
+2025/05/29 23:21:26 [debug] 21292#23248: *10 free: 02C7D8F8, unused: 28
+2025/05/29 23:21:37 [debug] 21292#23248: *8 post event 02BC1678
+2025/05/29 23:21:37 [debug] 21292#23248: *8 delete posted event 02BC1678
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http keepalive handler
+2025/05/29 23:21:37 [debug] 21292#23248: *8 malloc: 02C7BEB8:1024
+2025/05/29 23:21:37 [debug] 21292#23248: *8 WSARecv: fd:700 rc:0 141 of 1024
+2025/05/29 23:21:37 [debug] 21292#23248: *8 reusable connection: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 malloc: 02B910A8:4096
+2025/05/29 23:21:37 [debug] 21292#23248: *8 event timer del: 700: 480449725
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http process request line
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http request line: "GET /api/reports HTTP/1.1"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http uri: "/api/reports"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http args: ""
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http exten: ""
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http process request header line
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http header: "Host: localhost"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http header done
+2025/05/29 23:21:37 [debug] 21292#23248: *8 generic phase: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 rewrite phase: 1
+2025/05/29 23:21:37 [debug] 21292#23248: *8 test location: "/"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 test location: "uploads/"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 test location: "api/"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 using configuration "/api/"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http cl:-1 max:1048576
+2025/05/29 23:21:37 [debug] 21292#23248: *8 rewrite phase: 3
+2025/05/29 23:21:37 [debug] 21292#23248: *8 post rewrite phase: 4
+2025/05/29 23:21:37 [debug] 21292#23248: *8 generic phase: 5
+2025/05/29 23:21:37 [debug] 21292#23248: *8 generic phase: 6
+2025/05/29 23:21:37 [debug] 21292#23248: *8 generic phase: 7
+2025/05/29 23:21:37 [debug] 21292#23248: *8 access phase: 8
+2025/05/29 23:21:37 [debug] 21292#23248: *8 access phase: 9
+2025/05/29 23:21:37 [debug] 21292#23248: *8 access phase: 10
+2025/05/29 23:21:37 [debug] 21292#23248: *8 post access phase: 11
+2025/05/29 23:21:37 [debug] 21292#23248: *8 generic phase: 12
+2025/05/29 23:21:37 [debug] 21292#23248: *8 generic phase: 13
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http init upstream, client timer: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: "Host"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script var: "localhost"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: "X-Real-IP"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script var: "127.0.0.1"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: "X-Forwarded-For"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script var: "127.0.0.1"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: "X-Forwarded-Proto"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script var: "http"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: "Connection"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: "close"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: ""
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http script copy: ""
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header:
+"GET /api/reports HTTP/1.1
+Host: localhost
+X-Real-IP: 127.0.0.1
+X-Forwarded-For: 127.0.0.1
+X-Forwarded-Proto: http
+Connection: close
+User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391
+
+"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http cleanup add: 02B91F30
+2025/05/29 23:21:37 [debug] 21292#23248: *8 get rr peer, try: 1
+2025/05/29 23:21:37 [debug] 21292#23248: *8 stream socket 676
+2025/05/29 23:21:37 [debug] 21292#23248: *8 connect to 127.0.0.1:3000, fd:676 #12
+2025/05/29 23:21:37 [debug] 21292#23248: *8 select add event fd:676 ev:768
+2025/05/29 23:21:37 [debug] 21292#23248: *8 select add event fd:676 ev:16
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream connect: -2
+2025/05/29 23:21:37 [debug] 21292#23248: *8 malloc: 02BE9F68:128
+2025/05/29 23:21:37 [debug] 21292#23248: *8 event timer add: 676: 300000:480707760
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http finalize request: -4, "/api/reports?" a:1, c:2
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http request count:2 blk:0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 post event 02BD56D0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 delete posted event 02BD56D0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream request: "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream send request handler
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream send request
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream send request body
+2025/05/29 23:21:37 [debug] 21292#23248: *8 chain writer buf fl:1 s:235
+2025/05/29 23:21:37 [debug] 21292#23248: *8 chain writer in: 02B91F50
+2025/05/29 23:21:37 [debug] 21292#23248: *8 WSASend: fd:676, s:235
+2025/05/29 23:21:37 [debug] 21292#23248: *8 chain writer out: 00000000
+2025/05/29 23:21:37 [debug] 21292#23248: *8 event timer del: 676: 480707760
+2025/05/29 23:21:37 [debug] 21292#23248: *8 select del event fd:676 ev:16
+2025/05/29 23:21:37 [debug] 21292#23248: *8 event timer add: 676: 300000:480707760
+2025/05/29 23:21:37 [debug] 21292#23248: *8 post event 02BC16C8
+2025/05/29 23:21:37 [debug] 21292#23248: *8 delete posted event 02BC16C8
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream request: "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream process header
+2025/05/29 23:21:37 [debug] 21292#23248: *8 malloc: 02BEA640:4096
+2025/05/29 23:21:37 [debug] 21292#23248: *8 WSARecv: fd:676 rc:0 608 of 4096
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy status 200 "200 OK"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "X-Powered-By: Express"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 malloc: 02BEB648:4096
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "Access-Control-Allow-Origin: *"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "Content-Type: application/json; charset=utf-8"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "Content-Length: 367"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "ETag: W/"16f-WAxVFJf5NSBgGTFam8u0W42fFrg""
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "Date: Thu, 29 May 2025 15:21:37 GMT"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header: "Connection: close"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy header done
+2025/05/29 23:21:37 [debug] 21292#23248: *8 HTTP/1.1 200 OK
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:21:37 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 367
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"16f-WAxVFJf5NSBgGTFam8u0W42fFrg"
+
+2025/05/29 23:21:37 [debug] 21292#23248: *8 write new buf t:1 f:0 02BEB794, pos 02BEB794, size: 268 file: 0, size: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http write filter: l:0 f:0 s:268
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http cacheable: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http proxy filter init s:200 h:0 c:0 l:367
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream process upstream
+2025/05/29 23:21:37 [debug] 21292#23248: *8 pipe read upstream: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 pipe preread: 367
+2025/05/29 23:21:37 [debug] 21292#23248: *8 pipe buf free s:0 t:1 f:0 02BEA640, pos 02BEA731, size: 367 file: 0, size: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 pipe length: 367
+2025/05/29 23:21:37 [debug] 21292#23248: *8 input buf #0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 pipe write downstream: 1
+2025/05/29 23:21:37 [debug] 21292#23248: *8 pipe write downstream flush in
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http output filter "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http copy filter: "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http postpone filter "/api/reports?" 02BEB92C
+2025/05/29 23:21:37 [debug] 21292#23248: *8 write old buf t:1 f:0 02BEB794, pos 02BEB794, size: 268 file: 0, size: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 write new buf t:1 f:0 02BEA640, pos 02BEA731, size: 367 file: 0, size: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http write filter: l:0 f:0 s:635
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http copy filter: 0 "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 pipe write downstream done
+2025/05/29 23:21:37 [debug] 21292#23248: *8 event timer: 676, old: 480707760, new: 480707761
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream exit: 00000000
+2025/05/29 23:21:37 [debug] 21292#23248: *8 finalize http upstream request: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 finalize http proxy request
+2025/05/29 23:21:37 [debug] 21292#23248: *8 free rr peer 1 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 close http upstream connection: 676
+2025/05/29 23:21:37 [debug] 21292#23248: *8 free: 02BE9F68, unused: 88
+2025/05/29 23:21:37 [debug] 21292#23248: *8 event timer del: 676: 480707760
+2025/05/29 23:21:37 [debug] 21292#23248: *8 select del event fd:676 ev:768
+2025/05/29 23:21:37 [debug] 21292#23248: *8 reusable connection: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http upstream temp fd: -1
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http output filter "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http copy filter: "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http postpone filter "/api/reports?" 0311F6DC
+2025/05/29 23:21:37 [debug] 21292#23248: *8 write old buf t:1 f:0 02BEB794, pos 02BEB794, size: 268 file: 0, size: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 write old buf t:1 f:0 02BEA640, pos 02BEA731, size: 367 file: 0, size: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 write new buf t:0 f:0 00000000, pos 00000000, size: 0 file: 0, size: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http write filter: l:1 f:0 s:635
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http write filter limit 2097152
+2025/05/29 23:21:37 [debug] 21292#23248: *8 WSASend: fd:700, s:635
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http write filter 00000000
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http copy filter: 0 "/api/reports?"
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http finalize request: 0, "/api/reports?" a:1, c:1
+2025/05/29 23:21:37 [debug] 21292#23248: *8 set http keepalive handler
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http close request
+2025/05/29 23:21:37 [debug] 21292#23248: *8 http log handler
+2025/05/29 23:21:37 [debug] 21292#23248: *8 free: 02BEA640
+2025/05/29 23:21:37 [debug] 21292#23248: *8 free: 02B910A8, unused: 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 free: 02BEB648, unused: 2971
+2025/05/29 23:21:37 [debug] 21292#23248: *8 free: 02C7BEB8
+2025/05/29 23:21:37 [debug] 21292#23248: *8 hc free: 00000000
+2025/05/29 23:21:37 [debug] 21292#23248: *8 hc busy: 00000000 0
+2025/05/29 23:21:37 [debug] 21292#23248: *8 reusable connection: 1
+2025/05/29 23:21:37 [debug] 21292#23248: *8 event timer add: 700: 65000:480472761
+2025/05/29 23:22:42 [debug] 21292#23248: *8 event timer del: 700: 480472761
+2025/05/29 23:22:42 [debug] 21292#23248: *8 http keepalive handler
+2025/05/29 23:22:42 [debug] 21292#23248: *8 close http connection: 700
+2025/05/29 23:22:42 [debug] 21292#23248: *8 select del event fd:700 ev:768
+2025/05/29 23:22:42 [debug] 21292#23248: *8 reusable connection: 0
+2025/05/29 23:22:42 [debug] 21292#23248: *8 free: 00000000
+2025/05/29 23:22:42 [debug] 21292#23248: *8 free: 02B73E88, unused: 28
+2025/05/29 23:45:23 [debug] 21292#23248: post event 02BC1628
+2025/05/29 23:45:23 [debug] 21292#23248: delete posted event 02BC1628
+2025/05/29 23:45:23 [debug] 21292#23248: accept on 0.0.0.0:80, ready: 0
+2025/05/29 23:45:23 [debug] 21292#23248: malloc: 02B73E88:256
+2025/05/29 23:45:23 [debug] 21292#23248: *13 accept: 127.0.0.1:64075 fd:716
+2025/05/29 23:45:23 [debug] 21292#23248: *13 event timer add: 716: 60000:481893904
+2025/05/29 23:45:23 [debug] 21292#23248: *13 reusable connection: 1
+2025/05/29 23:45:23 [debug] 21292#23248: *13 select add event fd:716 ev:768
+2025/05/29 23:45:23 [debug] 21292#23248: *13 post event 02BC1678
+2025/05/29 23:45:23 [debug] 21292#23248: *13 delete posted event 02BC1678
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http wait request handler
+2025/05/29 23:45:23 [debug] 21292#23248: *13 malloc: 02C7BEB8:1024
+2025/05/29 23:45:23 [debug] 21292#23248: *13 WSARecv: fd:716 rc:0 154 of 1024
+2025/05/29 23:45:23 [debug] 21292#23248: *13 reusable connection: 0
+2025/05/29 23:45:23 [debug] 21292#23248: *13 malloc: 02B910A8:4096
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http process request line
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http request line: "GET / HTTP/1.1"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http uri: "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http args: ""
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http exten: ""
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http process request header line
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http header: "User-Agent: Mozilla/5.0 (Windows NT; Windows NT 10.0; zh-CN) WindowsPowerShell/5.1.22621.4391"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http header: "Host: localhost"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http header: "Connection: Keep-Alive"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http header done
+2025/05/29 23:45:23 [debug] 21292#23248: *13 event timer del: 716: 481893904
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 0
+2025/05/29 23:45:23 [debug] 21292#23248: *13 rewrite phase: 1
+2025/05/29 23:45:23 [debug] 21292#23248: *13 test location: "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 using configuration "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http cl:-1 max:1048576
+2025/05/29 23:45:23 [debug] 21292#23248: *13 rewrite phase: 3
+2025/05/29 23:45:23 [debug] 21292#23248: *13 post rewrite phase: 4
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 5
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 6
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 7
+2025/05/29 23:45:23 [debug] 21292#23248: *13 access phase: 8
+2025/05/29 23:45:23 [debug] 21292#23248: *13 access phase: 9
+2025/05/29 23:45:23 [debug] 21292#23248: *13 access phase: 10
+2025/05/29 23:45:23 [debug] 21292#23248: *13 post access phase: 11
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 12
+2025/05/29 23:45:23 [debug] 21292#23248: *13 try files handler
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http script var: "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 trying to use file: "/" "E:/project/hazard-report/frontend/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http script var: "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 trying to use dir: "/" "E:/project/hazard-report/frontend/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 try file uri: "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 13
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 14
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 15
+2025/05/29 23:45:23 [debug] 21292#23248: *13 open index "E:/project/hazard-report/frontend/index.html"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 internal redirect: "/index.html?"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 rewrite phase: 1
+2025/05/29 23:45:23 [debug] 21292#23248: *13 test location: "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 test location: "uploads/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 test location: "api/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 using configuration "/"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http cl:-1 max:1048576
+2025/05/29 23:45:23 [debug] 21292#23248: *13 rewrite phase: 3
+2025/05/29 23:45:23 [debug] 21292#23248: *13 post rewrite phase: 4
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 5
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 6
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 7
+2025/05/29 23:45:23 [debug] 21292#23248: *13 access phase: 8
+2025/05/29 23:45:23 [debug] 21292#23248: *13 access phase: 9
+2025/05/29 23:45:23 [debug] 21292#23248: *13 access phase: 10
+2025/05/29 23:45:23 [debug] 21292#23248: *13 post access phase: 11
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 12
+2025/05/29 23:45:23 [debug] 21292#23248: *13 try files handler
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http script var: "/index.html"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 trying to use file: "/index.html" "E:/project/hazard-report/frontend/index.html"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 try file uri: "/index.html"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 generic phase: 13
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 14
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 15
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 16
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 17
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 18
+2025/05/29 23:45:23 [debug] 21292#23248: *13 content phase: 19
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http filename: "E:/project/hazard-report/frontend/index.html"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 add cleanup: 02B91AF4
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http static fd: 720
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http set discard body
+2025/05/29 23:45:23 [debug] 21292#23248: *13 HTTP/1.1 200 OK
+Server: nginx/1.24.0
+Date: Thu, 29 May 2025 15:45:23 GMT
+Content-Type: text/html
+Content-Length: 21343
+Last-Modified: Thu, 29 May 2025 15:43:27 GMT
+Connection: keep-alive
+ETag: "6838809f-535f"
+Accept-Ranges: bytes
+
+2025/05/29 23:45:23 [debug] 21292#23248: *13 write new buf t:1 f:0 02B91BF8, pos 02B91BF8, size: 241 file: 0, size: 0
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http write filter: l:0 f:0 s:241
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http output filter "/index.html?"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http copy filter: "/index.html?"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 malloc: 02BEA640:21343
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http postpone filter "/index.html?" 02B91D88
+2025/05/29 23:45:23 [debug] 21292#23248: *13 write old buf t:1 f:0 02B91BF8, pos 02B91BF8, size: 241 file: 0, size: 0
+2025/05/29 23:45:23 [debug] 21292#23248: *13 write new buf t:1 f:0 02BEA640, pos 02BEA640, size: 21343 file: 0, size: 0
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http write filter: l:1 f:0 s:21584
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http write filter limit 2097152
+2025/05/29 23:45:23 [debug] 21292#23248: *13 WSASend: fd:716, s:21584
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http write filter 00000000
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http copy filter: 0 "/index.html?"
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http finalize request: 0, "/index.html?" a:1, c:2
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http request count:2 blk:0
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http finalize request: -4, "/index.html?" a:1, c:1
+2025/05/29 23:45:23 [debug] 21292#23248: *13 set http keepalive handler
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http close request
+2025/05/29 23:45:23 [debug] 21292#23248: *13 http log handler
+2025/05/29 23:45:23 [debug] 21292#23248: *13 run cleanup: 02B91AF4
+2025/05/29 23:45:23 [debug] 21292#23248: *13 file cleanup: fd:720
+2025/05/29 23:45:23 [debug] 21292#23248: *13 free: 02BEA640
+2025/05/29 23:45:23 [debug] 21292#23248: *13 free: 02B910A8, unused: 602
+2025/05/29 23:45:23 [debug] 21292#23248: *13 free: 02C7BEB8
+2025/05/29 23:45:23 [debug] 21292#23248: *13 hc free: 00000000
+2025/05/29 23:45:23 [debug] 21292#23248: *13 hc busy: 00000000 0
+2025/05/29 23:45:23 [debug] 21292#23248: *13 tcp_nodelay
+2025/05/29 23:45:23 [debug] 21292#23248: *13 reusable connection: 1
+2025/05/29 23:45:23 [debug] 21292#23248: *13 event timer add: 716: 65000:481898904
+2025/05/29 23:46:28 [debug] 21292#23248: *13 event timer del: 716: 481898904
+2025/05/29 23:46:28 [debug] 21292#23248: *13 http keepalive handler
+2025/05/29 23:46:28 [debug] 21292#23248: *13 close http connection: 716
+2025/05/29 23:46:28 [debug] 21292#23248: *13 select del event fd:716 ev:768
+2025/05/29 23:46:28 [debug] 21292#23248: *13 reusable connection: 0
+2025/05/29 23:46:28 [debug] 21292#23248: *13 free: 00000000
+2025/05/29 23:46:28 [debug] 21292#23248: *13 free: 02B73E88, unused: 28

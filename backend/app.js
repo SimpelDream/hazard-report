@@ -2,9 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const config = require('./src/config');
-const reportsRouter = require('./dist/routes/reports');
-const ordersRouter = require('./dist/routes/orders');
+const reportsRouter = require('./src/routes/reports');
+const ordersRouter = require('./src/routes/orders');
 const { PrismaClient } = require('@prisma/client');
 
 const app = express();
@@ -22,13 +23,52 @@ app.use(cors({
 app.use(express.json());
 
 // 确保上传目录存在
-const uploadDir = path.join(__dirname, config.UPLOAD.DIR);
-if (!require('fs').existsSync(uploadDir)) {
-    require('fs').mkdirSync(uploadDir, { recursive: true });
+const uploadDir = config.UPLOAD.DIR;
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
     console.log(`创建上传目录: ${uploadDir}`);
 } else {
     console.log(`上传目录已存在: ${uploadDir}`);
 }
+
+// 确保日志目录存在
+const logDir = config.LOG.DIR;
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+    console.log(`创建日志目录: ${logDir}`);
+} else {
+    console.log(`日志目录已存在: ${logDir}`);
+}
+
+// 配置 multer 存储
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadDir);
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+// 文件过滤器
+const fileFilter = (req, file, cb) => {
+    if (config.UPLOAD.ALLOWED_TYPES.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('不支持的文件类型'), false);
+    }
+};
+
+// 创建 multer 实例
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: {
+        fileSize: config.UPLOAD.MAX_SIZE,
+        files: config.UPLOAD.MAX_FILES
+    }
+});
 
 // 静态文件服务 - 只提供上传文件访问
 console.log(`配置静态文件服务: ${config.API.ROUTES.UPLOADS} -> ${uploadDir}`);
@@ -36,7 +76,11 @@ app.use(config.API.ROUTES.UPLOADS, express.static(uploadDir));
 
 // 健康检查端点
 app.get('/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+    res.json({ 
+        status: 'ok', 
+        timestamp: new Date().toISOString(),
+        version: require('./package.json').version
+    });
 });
 
 // API 路由
@@ -55,13 +99,13 @@ app.use((err, req, res, next) => {
         if (err.code === 'LIMIT_FILE_SIZE') {
             return res.status(400).json({ 
                 success: false,
-                error: '文件大小超过限制' 
+                error: `文件大小超过限制 (最大 ${config.UPLOAD.MAX_SIZE / 1024 / 1024}MB)` 
             });
         }
         if (err.code === 'LIMIT_FILE_COUNT') {
             return res.status(400).json({ 
                 success: false,
-                error: '上传的文件数量超过限制' 
+                error: `上传的文件数量超过限制 (最多 ${config.UPLOAD.MAX_FILES} 个文件)` 
             });
         }
         if (err.code === 'LIMIT_UNEXPECTED_FILE') {
@@ -102,4 +146,8 @@ app.use((req, res) => {
 // 启动服务器
 app.listen(port, '0.0.0.0', () => {
     console.log(`API 服务器运行在 http://0.0.0.0:${port}`);
+    console.log(`环境: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`CORS 来源: ${config.SECURITY.CORS_ORIGIN}`);
+    console.log(`上传目录: ${uploadDir}`);
+    console.log(`日志目录: ${logDir}`);
 });

@@ -13,9 +13,10 @@ const DATABASE = {
 
 // 文件上传配置
 const UPLOAD = {
-    DIR: process.env.UPLOAD_DIR || 'uploads',
-    MAX_SIZE: process.env.MAX_FILE_SIZE || 5 * 1024 * 1024, // 5MB
-    ALLOWED_TYPES: ['image/jpeg', 'image/png', 'application/pdf']
+    DIR: './uploads',
+    MAX_SIZE: 10 * 1024 * 1024, // 10MB
+    MAX_FILES: 5,
+    ALLOWED_TYPES: ['image/jpeg', 'image/png', 'image/gif']
 };
 
 // API 路由配置
@@ -31,7 +32,7 @@ const API = {
 
 // 安全配置
 const SECURITY = {
-    CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
+    CORS_ORIGIN: '*',
     RATE_LIMIT: {
         WINDOW_MS: 15 * 60 * 1000, // 15分钟
         MAX: 100 // 限制每个IP 15分钟内最多100个请求
@@ -40,7 +41,7 @@ const SECURITY = {
 
 // 日志配置
 const LOG = {
-    DIR: process.env.LOG_DIR || 'logs',
+    DIR: './logs',
     LEVEL: process.env.LOG_LEVEL || 'info'
 };
 

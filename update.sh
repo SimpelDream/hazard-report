@@ -8,149 +8,47 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # 设置日志文件
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 LOGDIR="logs"
 mkdir -p $LOGDIR 2>/dev/null || true
 LOGFILE="$LOGDIR/update_$(date +%Y%m%d_%H%M%S).log"
 touch $LOGFILE 2>/dev/null || echo "无法创建日志文件，将只输出到控制台"
-<<<<<<< HEAD
-=======
-=======
-LOGFILE="update.log"
-echo "===== 更新开始 $(date) =====" > $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-=======
-LOGFILE="update.log"
-echo "===== 更新开始 $(date) =====" > $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 
 # 输出带颜色的日志函数
 log() {
     echo -e "${2:-$GREEN}[+] $1${NC}"
-<<<<<<< HEAD
     echo "[+] $(date +"%Y-%m-%d %H:%M:%S") - $1" >> $LOGFILE 2>/dev/null || true
-=======
-<<<<<<< HEAD
-    echo "[+] $(date +"%Y-%m-%d %H:%M:%S") - $1" >> $LOGFILE 2>/dev/null || true
-=======
-    echo "[+] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-=======
-    echo "[+] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 }
 
 error() {
     echo -e "${RED}[-] $1${NC}"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
     echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - ERROR: $1" >> $LOGFILE 2>/dev/null || true
     if [ "$2" = "exit" ]; then
         echo -e "${RED}[-] 因错误终止脚本执行${NC}"
         echo "[-] $(date +"%Y-%m-%d %H:%M:%S") - 因错误终止脚本执行" >> $LOGFILE 2>/dev/null || true
         exit 1
     fi
-<<<<<<< HEAD
-=======
-=======
-    echo "[-] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-=======
-    echo "[-] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 }
 
 warn() {
     echo -e "${YELLOW}[!] $1${NC}"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
     echo "[!] $(date +"%Y-%m-%d %H:%M:%S") - WARNING: $1" >> $LOGFILE 2>/dev/null || true
 }
 
 info() {
     echo -e "${BLUE}[*] $1${NC}"
     echo "[*] $(date +"%Y-%m-%d %H:%M:%S") - INFO: $1" >> $LOGFILE 2>/dev/null || true
-<<<<<<< HEAD
-=======
-=======
-    echo "[!] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-=======
-    echo "[!] $1" >> $LOGFILE
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 }
 
 # 检查命令是否存在
 check_command() {
-<<<<<<< HEAD
     command -v $1 >/dev/null 2>&1
     if [ $? -ne 0 ]; then
         error "$1 未安装" 
-=======
-<<<<<<< HEAD
-    command -v $1 >/dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        error "$1 未安装" 
-=======
-    if ! command -v $1 &> /dev/null; then
-        error "$1 未安装"
->>>>>>> parent of 85b183f (改错17)
-=======
-    if ! command -v $1 &> /dev/null; then
-        error "$1 未安装"
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
         return 1
     fi
     return 0
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 # 显示帮助信息
 show_help() {
     echo -e "用法: ./$(basename $0) [选项]"
@@ -187,16 +85,6 @@ done
 
 log "===== 开始更新 $(date) =====" "$BLUE"
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 85b183f (改错17)
-=======
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 # 检查必要的命令
 log "检查必要的命令..."
 for cmd in node npm git; do
@@ -205,14 +93,6 @@ for cmd in node npm git; do
     fi
 done
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 # 可选检查 PM2
 if ! check_command pm2; then
     warn "PM2 未安装，将尝试全局安装..."
@@ -302,92 +182,10 @@ if [ "$SKIP_DB" = false ]; then
 else
     log "跳过数据库重置..."
 fi
-<<<<<<< HEAD
-=======
-=======
-# 检查项目目录
-if [ ! -d ".git" ]; then
-    error "当前目录不是有效的 Git 仓库"
-    exit 1
-fi
-
-# 保存本地修改
-log "保存本地修改..."
-git stash
-
-# 拉取最新代码
-log "拉取最新代码..."
-git pull
-
-# 恢复本地修改
-log "恢复本地修改..."
-git stash pop
-
-# 更新后端依赖
-log "更新后端依赖..."
-cd backend
-npm install
-
-# 清理并重置数据库
-log "清理并重置数据库..."
-rm -f prisma/dev.db
-rm -rf prisma/migrations/*
-mkdir -p prisma/migrations
-
-# 创建新的迁移
-log "创建新的迁移..."
-npx prisma migrate dev --name init
->>>>>>> parent of 85b183f (改错17)
-=======
-# 检查项目目录
-if [ ! -d ".git" ]; then
-    error "当前目录不是有效的 Git 仓库"
-    exit 1
-fi
-
-# 保存本地修改
-log "保存本地修改..."
-git stash
-
-# 拉取最新代码
-log "拉取最新代码..."
-git pull
-
-# 恢复本地修改
-log "恢复本地修改..."
-git stash pop
-
-# 更新后端依赖
-log "更新后端依赖..."
-cd backend
-npm install
-
-# 清理并重置数据库
-log "清理并重置数据库..."
-rm -f prisma/dev.db
-rm -rf prisma/migrations/*
-mkdir -p prisma/migrations
-
-# 创建新的迁移
-log "创建新的迁移..."
-npx prisma migrate dev --name init
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 
 # 编译 TypeScript
 log "编译 TypeScript..."
 npm run build
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 if [ $? -ne 0 ]; then
     error "TypeScript 编译失败"
     if [ "$AUTO_YES" = false ]; then
@@ -399,28 +197,10 @@ if [ $? -ne 0 ]; then
         warn "自动确认模式：继续执行"
     fi
 fi
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 85b183f (改错17)
-=======
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 
 # 生成 Prisma 客户端
 log "生成 Prisma 客户端..."
 npx prisma generate
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 if [ $? -ne 0 ]; then
     error "生成 Prisma 客户端失败"
     if [ "$AUTO_YES" = false ]; then
@@ -502,66 +282,12 @@ if [ -d "$LOGDIR" ]; then
     find "$LOGDIR" -name "update_*.log" -type f -mtime +7 -delete 2>/dev/null || warn "清理旧日志文件失败"
 fi
 
-<<<<<<< HEAD
-=======
-=======
-
-# 执行数据库迁移
-log "执行数据库迁移..."
-npx prisma migrate deploy
-
-# 重启后端服务
-log "重启后端服务..."
-pm2 restart hazard-report-api
-
-# 检查服务状态
-log "检查服务状态..."
-if pm2 list | grep -q "hazard-report-api"; then
-    log "后端服务已重启"
-else
-    error "后端服务重启失败"
-    exit 1
-fi
-
->>>>>>> parent of 85b183f (改错17)
-=======
-
-# 执行数据库迁移
-log "执行数据库迁移..."
-npx prisma migrate deploy
-
-# 重启后端服务
-log "重启后端服务..."
-pm2 restart hazard-report-api
-
-# 检查服务状态
-log "检查服务状态..."
-if pm2 list | grep -q "hazard-report-api"; then
-    log "后端服务已重启"
-else
-    error "后端服务重启失败"
-    exit 1
-fi
-
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 # 输出更新完成信息
 log "===== 更新完成 $(date) =====" "$BLUE"
 log "详细日志保存在: $LOGFILE"
 
 # 显示服务状态
 echo -e "\n${YELLOW}服务状态:${NC}"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
 pm2 list 2>/dev/null || echo "无法获取服务状态"
 
 # 获取服务器IP或域名
@@ -573,17 +299,4 @@ fi
 # 可选: 显示网站访问信息
 echo -e "\n${GREEN}更新成功!${NC}"
 echo -e "${GREEN}前端访问地址: http://$SERVER_ADDRESS${NC}"
-<<<<<<< HEAD
-echo -e "${GREEN}API 地址: http://$SERVER_ADDRESS/api${NC}" 
-=======
-echo -e "${GREEN}API 地址: http://$SERVER_ADDRESS/api${NC}" 
-=======
-pm2 list 
->>>>>>> parent of 85b183f (改错17)
-=======
-pm2 list 
->>>>>>> parent of 85b183f (改错17)
-<<<<<<< HEAD
->>>>>>> parent of 1393684 (回滚2)
-=======
->>>>>>> parent of 1393684 (回滚2)
+echo -e "${GREEN}API 地址: http://$SERVER_ADDRESS/api${NC}"

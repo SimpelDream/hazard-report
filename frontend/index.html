@@ -173,6 +173,9 @@
   </div>
 
   <script>
+    // API配置
+    const API_BASE_URL = 'http://8.148.69.112/api';
+    
     // 电话号码验证
     function validatePhone(input) {
       const phoneRegex = /^1[3-9]\d{9}$|^0\d{2,3}-?\d{7,8}$/;
@@ -216,106 +219,7 @@
       }
     }
 
-    // 表单提交处理
-    document.getElementById('reportForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      // 显示加载动画
-      document.getElementById('loading').classList.remove('hidden');
-      
-      try {
-        const formData = new FormData(this);
-        
-        // 验证文件
-        const files = formData.getAll('images');
-        if (files.length === 0) {
-          throw new Error('请至少上传一张图片');
-        }
-        
-        // 验证文件大小和类型
-        for (const file of files) {
-          if (file.size > 5 * 1024 * 1024) {
-            throw new Error('图片大小不能超过5MB');
-          }
-          if (!['image/jpeg', 'image/png'].includes(file.type)) {
-            throw new Error('只支持jpg、png格式的图片');
-          }
-        }
-        
-        // 添加请求头
-        let response;
-        try {
-          console.log('正在提交表单数据...');
-          response = await fetch('/api/reports', {
-            method: 'POST',
-            body: formData,
-            // 增加请求超时
-            signal: AbortSignal.timeout(30000) // 30秒超时
-          });
-        } catch (fetchError) {
-          console.error('网络请求错误:', fetchError);
-          throw new Error('网络连接错误，请检查网络连接后重试');
-        }
-        
-        // 记录响应状态和类型，帮助调试
-        console.log('服务器响应状态:', response.status, response.statusText);
-        console.log('响应内容类型:', response.headers.get('content-type'));
-        
-        if (!response.ok) {
-          // 检查响应内容类型
-          const contentType = response.headers.get('content-type');
-          if (contentType && contentType.includes('application/json')) {
-            // 如果是JSON响应，解析错误信息
-            try {
-              const errorData = await response.json();
-              throw new Error(errorData.error || '提交失败，请稍后重试');
-            } catch (jsonError) {
-              console.error('解析错误JSON失败:', jsonError);
-              // 如果无法解析JSON，返回HTTP状态错误
-              throw new Error(`服务器错误 (${response.status}): ${response.statusText}`);
-            }
-          } else {
-            // 如果不是JSON响应，尝试读取文本内容作为错误信息
-            try {
-              const errorText = await response.text();
-              console.error('服务器返回的非JSON错误:', errorText.substring(0, 500));
-              throw new Error('服务器返回了非预期的响应格式，可能是服务器端出现错误');
-            } catch (textError) {
-              console.error('读取错误响应失败:', textError);
-              throw new Error(`服务器错误 (${response.status}): ${response.statusText}`);
-            }
-          }
-        }
-        
-        // 尝试解析响应为JSON
-        let result;
-        try {
-          result = await response.json();
-          console.log('成功解析响应JSON:', result);
-        } catch (jsonError) {
-          console.error('解析响应JSON失败:', jsonError);
-          throw new Error('服务器返回了无效的数据格式');
-        }
-        
-        if (!result.success) {
-          throw new Error(result.error || '提交失败，请稍后重试');
-        }
-        
-        alert('提交成功！');
-        this.reset();
-        document.getElementById('imagePreview').innerHTML = '';
-        document.getElementById('charCount').textContent = '0';
-        
-      } catch (error) {
-        console.error('提交失败:', error);
-        alert(error.message || '提交失败，请稍后重试');
-      } finally {
-        // 隐藏加载动画
-        document.getElementById('loading').classList.add('hidden');
-      }
-    });
-
-    // 图片上传处理
+    // 处理图片上传
     function handleImageUpload(input) {
       const preview = document.getElementById('imagePreview');
       preview.innerHTML = '';
@@ -326,7 +230,7 @@
         return;
       }
       
-      Array.from(input.files).forEach((file, index) => {
+      for (let file of input.files) {
         if (file.size > 5 * 1024 * 1024) {
           alert('图片大小不能超过5MB');
           input.value = '';
@@ -334,36 +238,55 @@
         }
         
         const reader = new FileReader();
-        const div = document.createElement('div');
-        div.className = 'image-preview';
-        
         reader.onload = function(e) {
+          const div = document.createElement('div');
+          div.className = 'image-preview';
           div.innerHTML = `
-            <img src="${e.target.result}" alt="预览图片">
-            <span class="remove-image" onclick="removeImage(${index})">&times;</span>
+            <img src="${e.target.result}" alt="预览图">
+            <span class="remove-image" onclick="removeImage(this)">×</span>
           `;
           preview.appendChild(div);
-        }
-        
+        };
         reader.readAsDataURL(file);
-      });
-    }
-
-    // 移除图片
-    function removeImage(index) {
-      const input = document.querySelector('input[name="images"]');
-      const dt = new DataTransfer();
-      const files = input.files;
-      
-      for (let i = 0; i < files.length; i++) {
-        if (i !== index) {
-          dt.items.add(files[i]);
-        }
       }
-      
-      input.files = dt.files;
-      handleImageUpload(input);
     }
+    
+    // 移除图片
+    function removeImage(span) {
+      span.parentElement.remove();
+      const input = document.querySelector('input[name="images"]');
+      input.value = '';
+    }
+    
+    // 表单提交
+    document.getElementById('reportForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const loading = document.getElementById('loading');
+      loading.classList.remove('hidden');
+      
+      try {
+        const formData = new FormData(this);
+        const response = await fetch(`${API_BASE_URL}/reports`, {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          alert('提交成功！');
+          this.reset();
+          document.getElementById('imagePreview').innerHTML = '';
+        } else {
+          alert('提交失败：' + result.error);
+        }
+      } catch (error) {
+        alert('提交失败：' + error.message);
+      } finally {
+        loading.classList.add('hidden');
+      }
+    });
 
     // 获取地理位置并转换为地址
     function getLocation() {

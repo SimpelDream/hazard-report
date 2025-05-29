@@ -1,0 +1,7 @@
+2025/05/29 23:11:36 [emerg] 3352#23032: "server" directive is not allowed here in E:\project\hazard-report\nginx-1.24.0/conf/nginx.conf:1
+2025/05/29 23:12:50 [notice] 1932#21152: signal process started
+2025/05/29 23:12:50 [error] 1932#21152: CreateFile() "E:\project\hazard-report\nginx-1.24.0/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/05/29 23:17:33 [notice] 21536#14872: signal process started
+2025/05/29 23:18:15 [notice] 13668#21264: signal process started
+2025/05/29 23:18:39 [notice] 21812#5516: signal process started
+2025/05/29 23:45:17 [emerg] 21344#16320: "server" directive is not allowed here in E:\project\hazard-report\nginx-1.24.0/conf/nginx.conf:1

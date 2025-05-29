@@ -8,5 +8,8 @@ CREATE TABLE "Report" (
     "foundAt" DATETIME NOT NULL,
     "location" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "images" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'pending',
+    "statusUpdatedAt" DATETIME,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
