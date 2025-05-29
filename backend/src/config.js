@@ -24,6 +24,7 @@ const API = {
     VERSION: 'v1',
     ROUTES: {
         REPORTS: '/reports',
+        ORDERS: '/orders',
         UPLOADS: '/uploads'
     }
 };
