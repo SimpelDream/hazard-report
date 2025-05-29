@@ -131,12 +131,48 @@ if [ ! -d ".git" ]; then
 fi
 
 # 强制重置本地修改
-log "强制重置本地修改..."
+log "更新代码..."
 git fetch origin 2>/dev/null || error "Git fetch失败，检查网络连接" "exit"
+
+# 保存需要保留的文件
+log "备份运行时文件..."
+BACKUP_DIR="backup_$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$BACKUP_DIR"
+
+# 需要保留的文件和目录列表
+PRESERVE_FILES=(
+    "logs"
+    "backend/logs"
+    "backend/uploads"
+    "backend/prisma/dev.db"
+    "backend/.env"
+)
+
+# 备份需要保留的文件
+for item in "${PRESERVE_FILES[@]}"; do
+    if [ -e "$item" ]; then
+        mkdir -p "$BACKUP_DIR/$(dirname "$item")"
+        cp -r "$item" "$BACKUP_DIR/$item" 2>/dev/null || warn "无法备份 $item"
+    fi
+done
+
+# 重置代码
 git reset --hard origin/main 2>/dev/null || git reset --hard origin/master 2>/dev/null || error "重置失败，检查分支名称" "exit"
 git clean -fd 2>/dev/null || warn "清理工作目录失败"
 
-log "更新完成，现在本地代码与远程一致"
+# 恢复备份的文件
+log "恢复运行时文件..."
+for item in "${PRESERVE_FILES[@]}"; do
+    if [ -e "$BACKUP_DIR/$item" ]; then
+        mkdir -p "$(dirname "$item")"
+        cp -r "$BACKUP_DIR/$item" "$item" 2>/dev/null || warn "无法恢复 $item"
+    fi
+done
+
+# 清理备份目录
+rm -rf "$BACKUP_DIR" 2>/dev/null || warn "清理备份目录失败"
+
+log "更新完成，已保留运行时文件"
 
 # 更新后端依赖
 log "更新后端依赖..."
