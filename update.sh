@@ -45,18 +45,8 @@ for cmd in node npm git pm2; do
 done
 
 # 检查项目目录
-PROJECT_DIR="/var/www/hazard-report"
-if [ ! -d "$PROJECT_DIR" ]; then
-    error "项目目录不存在: $PROJECT_DIR"
-    exit 1
-fi
-
-# 进入项目目录
-cd $PROJECT_DIR
-
-# 检查 git 仓库状态
 if [ ! -d ".git" ]; then
-    error "不是有效的 git 仓库"
+    error "当前目录不是有效的 Git 仓库"
     exit 1
 fi
 
@@ -72,17 +62,20 @@ git pull
 log "恢复本地修改..."
 git stash pop
 
-# 进入后端目录
-cd backend
-
-# 安装依赖
+# 更新后端依赖
 log "更新后端依赖..."
+cd backend
 npm install
 
-# 重置数据库
-log "重置数据库..."
+# 清理并重置数据库
+log "清理并重置数据库..."
 rm -f prisma/dev.db
-npx prisma migrate reset --force
+rm -rf prisma/migrations/*
+mkdir -p prisma/migrations
+
+# 创建新的迁移
+log "创建新的迁移..."
+npx prisma migrate dev --name init
 
 # 编译 TypeScript
 log "编译 TypeScript..."
@@ -96,11 +89,12 @@ npx prisma generate
 log "执行数据库迁移..."
 npx prisma migrate deploy
 
-# 重启服务
+# 重启后端服务
 log "重启后端服务..."
 pm2 restart hazard-report-api
 
 # 检查服务状态
+log "检查服务状态..."
 if pm2 list | grep -q "hazard-report-api"; then
     log "后端服务已重启"
 else
