@@ -4,7 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import cors from 'cors';
-import { config } from '../config';
+const config = require('../config').config;
 
 const router = Router();
 const prisma = new PrismaClient();

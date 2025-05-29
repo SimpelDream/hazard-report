@@ -11,15 +11,16 @@ datasource db {
 }
 
 model Report {
-	id          Int      @id @default(autoincrement())
-	project     String
-	reporter    String
-	phone       String
-	category    String?
-	foundAt     DateTime
-	location    String
-	description String
-	images      String?
-	status      String   @default("pending")
-	createdAt   DateTime @default(now())
+	id              Int      @id @default(autoincrement())
+	project         String
+	reporter        String
+	phone           String
+	category        String?
+	foundAt         DateTime
+	location        String
+	description     String
+	images          String?
+	status          String   @default("pending")
+	statusUpdatedAt DateTime?
+	createdAt       DateTime @default(now())
 }
