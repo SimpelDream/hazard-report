@@ -161,4 +161,4 @@ router.get('/:id', getReport);
 // 使用错误处理中间件
 router.use(errorHandler);
 
-export default router; 
+module.exports = router; 
