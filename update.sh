@@ -44,11 +44,8 @@ for cmd in node npm git pm2; do
     fi
 done
 
-# 设置项目目录
+# 检查项目目录
 PROJECT_DIR="/var/www/hazard-report"
-REPO_URL="https://github.com/SimpelDream/hazard-report.git"
-
-# 检查项目目录是否存在
 if [ ! -d "$PROJECT_DIR" ]; then
     error "项目目录不存在: $PROJECT_DIR"
     exit 1
@@ -57,55 +54,35 @@ fi
 # 进入项目目录
 cd $PROJECT_DIR
 
-# 检查是否是 git 仓库
+# 检查 git 仓库状态
 if [ ! -d ".git" ]; then
-    error "当前目录不是 git 仓库"
+    error "不是有效的 git 仓库"
     exit 1
 fi
 
-# 检查远程仓库
-REMOTE_URL=$(git remote get-url origin 2>/dev/null)
-if [ "$REMOTE_URL" != "$REPO_URL" ]; then
-    warn "远程仓库地址不匹配，正在更新..."
-    git remote set-url origin $REPO_URL
-fi
+# 保存本地修改
+log "保存本地修改..."
+git stash
 
-# 保存当前分支
-CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
+# 拉取最新代码
+log "拉取最新代码..."
+git pull
 
-# 获取最新代码
-log "获取最新代码..."
-git fetch origin
+# 恢复本地修改
+log "恢复本地修改..."
+git stash pop
 
-# 检查是否有更新
-LOCAL=$(git rev-parse HEAD)
-REMOTE=$(git rev-parse @{u})
+# 进入后端目录
+cd backend
 
-if [ "$LOCAL" = "$REMOTE" ]; then
-    log "当前代码已是最新版本"
-else
-    log "发现新版本，正在更新..."
-    
-    # 保存当前修改
-    if ! git diff-index --quiet HEAD --; then
-        warn "发现本地修改，正在保存..."
-        git stash
-    fi
-    
-    # 拉取最新代码
-    git pull origin $CURRENT_BRANCH
-    
-    # 恢复本地修改
-    if git stash list | grep -q "stash@{0}"; then
-        log "恢复本地修改..."
-        git stash pop
-    fi
-fi
-
-# 安装后端依赖
+# 安装依赖
 log "更新后端依赖..."
-cd $PROJECT_DIR/backend
 npm install
+
+# 重置数据库
+log "重置数据库..."
+rm -f prisma/dev.db
+npx prisma migrate reset --force
 
 # 编译 TypeScript
 log "编译 TypeScript..."
@@ -119,13 +96,12 @@ npx prisma generate
 log "执行数据库迁移..."
 npx prisma migrate deploy
 
-# 重启后端服务
+# 重启服务
 log "重启后端服务..."
 pm2 restart hazard-report-api
 
 # 检查服务状态
-log "检查服务状态..."
-if pm2 list | grep -q "hazard-report-api.*online"; then
+if pm2 list | grep -q "hazard-report-api"; then
     log "后端服务已重启"
 else
     error "后端服务重启失败"
@@ -134,8 +110,6 @@ fi
 
 # 输出更新完成信息
 log "更新完成！"
-log "前端访问地址: http://8.148.69.112"
-log "API 地址: http://8.148.69.112/api"
 log "详细日志请查看: $LOGFILE"
 
 # 显示服务状态

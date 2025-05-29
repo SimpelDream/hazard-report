@@ -68,7 +68,7 @@ router.post('/', upload.array('images', 4), async (req, res) => {
         foundAt: new Date(foundAt),
         location,
         description,
-        images: images as string[],
+        images: images.join(','),
       },
     });
 
