@@ -157,23 +157,37 @@ check_and_fix_issues() {
     
     # 2. 检查数据库
     log "检查数据库..."
-    if [ ! -f "backend/prisma/dev.db" ]; then
-        warn "数据库文件不存在，尝试初始化..."
-        cd backend || { error "无法进入后端目录" "exit"; }
-        
-        # 确保在正确的目录下执行 Prisma 命令
-        if [ ! -f "prisma/schema.prisma" ]; then
-            error "找不到 Prisma schema 文件" "exit"
-        fi
-        
-        # 执行数据库迁移
+    cd backend || { error "无法进入后端目录" "exit"; }
+    
+    # 确保在正确的目录下执行 Prisma 命令
+    if [ ! -f "prisma/schema.prisma" ]; then
+        error "找不到 Prisma schema 文件" "exit"
+    fi
+    
+    # 生成 Prisma 客户端
+    log "生成 Prisma 客户端..."
+    npx prisma generate --schema=./prisma/schema.prisma
+    if [ $? -ne 0 ]; then
+        error "生成 Prisma 客户端失败" "exit"
+    fi
+    
+    # 执行数据库迁移
+    log "执行数据库迁移..."
+    if [ "$SKIP_DB" = false ]; then
+        # 重置数据库
         npx prisma migrate reset --force --schema=./prisma/schema.prisma
         if [ $? -ne 0 ]; then
-            error "数据库初始化失败" "exit"
+            error "数据库重置失败" "exit"
         fi
-        
-        cd ..
+    else
+        # 只应用迁移
+        npx prisma migrate deploy --schema=./prisma/schema.prisma
+        if [ $? -ne 0 ]; then
+            error "数据库迁移失败" "exit"
+        fi
     fi
+    
+    cd ..
     
     # 3. 检查环境变量
     log "检查环境变量..."
@@ -235,12 +249,6 @@ EOF
     npm install
     if [ $? -ne 0 ]; then
         error "安装依赖失败" "exit"
-    fi
-    
-    # 生成 Prisma 客户端
-    npx prisma generate --schema=./prisma/schema.prisma
-    if [ $? -ne 0 ]; then
-        error "生成 Prisma 客户端失败" "exit"
     fi
     
     cd ..
