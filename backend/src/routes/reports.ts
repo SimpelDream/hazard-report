@@ -70,15 +70,23 @@ const upload = multer({
 });
 
 // 创建报告
-router.post('/', upload.single('image'), async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', upload.array('images', 4), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { project, reporter, phone, category, foundAt, location, description } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
     
     // 验证必填字段
     if (!project || !reporter || !phone || !foundAt || !location || !description) {
       return res.status(400).json({ error: '请填写所有必填字段' });
     }
+
+    // 验证文件上传
+    if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+      return res.status(400).json({ error: '请至少上传一张图片' });
+    }
+
+    const files = req.files as Express.Multer.File[];
+    // 处理图片路径
+    const imagePaths = files.map(file => `/uploads/${file.filename}`).join(',');
 
     const report = await prisma.report.create({
       data: {
@@ -89,7 +97,7 @@ router.post('/', upload.single('image'), async (req: Request, res: Response, nex
         foundAt: new Date(foundAt),
         location,
         description,
-        image: imageUrl
+        images: imagePaths
       },
     });
 
