@@ -3,9 +3,13 @@ import { PrismaClient } from '@prisma/client';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import cors from 'cors';
 
 const router = Router();
 const prisma = new PrismaClient();
+
+// 启用CORS
+router.use(cors());
 
 interface ReportRequest extends Request {
   params: {
@@ -47,6 +51,12 @@ const upload = multer({
 router.post('/', upload.array('images', 4), async (req, res) => {
   try {
     const { project, reporter, phone, category, foundAt, location, description } = req.body;
+    
+    // 验证必填字段
+    if (!project || !reporter || !phone || !foundAt || !location || !description) {
+      return res.status(400).json({ error: '请填写所有必填字段' });
+    }
+
     const images = (req.files as Express.Multer.File[]).map(file => file.path);
 
     const report = await prisma.report.create({
@@ -65,7 +75,7 @@ router.post('/', upload.array('images', 4), async (req, res) => {
     res.json(report);
   } catch (error) {
     console.error('创建报告失败:', error);
-    res.status(500).json({ error: '创建报告失败' });
+    res.status(500).json({ error: '创建报告失败，请稍后重试' });
   }
 });
 

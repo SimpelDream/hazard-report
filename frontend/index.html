@@ -428,12 +428,10 @@
         const timeoutId = setTimeout(() => controller.abort(), 30000); // 30秒超时
         
         // 发送请求
-        const response = await fetch('http://8.148.69.112:3000/api/reports', {
+        const response = await fetch('/api/reports', {
           method: 'POST',
           body: formData,
           mode: 'cors',
-          credentials: 'include',
-          signal: controller.signal,
           headers: {
             'Accept': 'application/json'
           }
@@ -519,7 +517,7 @@
       
       try {
         // 发起请求获取orders目录下的文件列表
-        const response = await fetch('http://8.148.69.112:3000/api/orders');
+        const response = await fetch('/api/orders');
         
         if (!response.ok) {
           throw new Error('获取制度文件列表失败');
@@ -555,7 +553,7 @@
           }
           
           fileItem.innerHTML = `
-            <a href="http://8.148.69.112:3000/api/orders/${file.name}" 
+            <a href="/api/orders/${file.name}" 
                target="_blank" 
                class="flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 p-2 rounded transition duration-150">
               <span class="material-icons text-blue-500 mr-3">${fileIcon}</span>
