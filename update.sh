@@ -7,6 +7,13 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
+# 检查项目结构
+if [ ! -d "backend" ]; then
+    echo -e "${RED}[-] 找不到后端目录 'backend'${NC}"
+    echo -e "${RED}[-] 请确保在项目根目录下运行此脚本${NC}"
+    exit 1
+fi
+
 # 设置日志文件
 LOGDIR="logs"
 LOGFILE="$LOGDIR/update_$(date +%Y%m%d_%H%M%S).log"
@@ -298,11 +305,6 @@ fi
 # 检查项目结构
 check_project_structure() {
     log "检查项目结构..."
-    
-    # 检查项目根目录
-    if [ ! -d "backend" ]; then
-        error "找不到后端目录 'backend'" "exit"
-    fi
     
     # 创建必要的目录
     mkdir -p backend/logs 2>/dev/null || warn "创建日志目录失败"
