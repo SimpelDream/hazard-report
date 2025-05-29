@@ -1,0 +1,4 @@
+2025/05/30 00:20:44 [emerg] 7368#21412: CreateFile() "E:\project\hazard-report/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2025/05/30 00:20:47 [emerg] 2248#20868: CreateFile() "E:\project\hazard-report/.\mime.types" failed (2: The system cannot find the file specified) in E:\project\hazard-report/.\nginx.conf:8
+2025/05/30 00:20:50 [emerg] 18748#15772: CreateFile() "E:\project\hazard-report/conf/nginx.conf" failed (3: The system cannot find the path specified)
+2025/05/30 00:20:50 [emerg] 22900#16156: CreateFile() "E:\project\hazard-report/.\mime.types" failed (2: The system cannot find the file specified) in E:\project\hazard-report/.\nginx.conf:8
