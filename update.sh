@@ -79,9 +79,9 @@ cd backend
 # 修复属主，防止权限问题
 sudo chown -R $USER:$USER /var/www/hazard-report
 
-# 清理旧的依赖
-log "清理旧的依赖..."
-sudo rm -rf node_modules package-lock.json
+# # 清理旧的依赖
+# log "清理旧的依赖..."
+# sudo rm -rf node_modules package-lock.json
 
 # # 安装依赖
 # log "安装依赖..."
@@ -101,22 +101,22 @@ sudo rm -rf node_modules package-lock.json
 
 # 重新构建项目
 log "重新构建项目..."
-npm run build
+sudonpm run build
 
 # 生成 Prisma 客户端
 log "生成 Prisma 客户端..."
-npx prisma generate
+sudonpx prisma generate
 
 # 运行数据库迁移
 log "运行数据库迁移..."
-npx prisma migrate deploy
+sudo npx prisma migrate deploy
 
 # 重启服务
 log "重启服务..."
-pm2 restart hazard-report
+sudo pm2 restart hazard-report
 
 # 保存 PM2 配置
-pm2 save
+sudo pm2 save
 
 # 检查 Nginx 配置
 log "检查 Nginx 配置..."
