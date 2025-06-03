@@ -84,6 +84,10 @@ rm -rf node_modules package-lock.json
 log "安装依赖..."
 npm install
 
+# 修复安全漏洞
+log "修复安全漏洞..."
+npm audit fix --force || true
+
 # 重新构建项目
 log "重新构建项目..."
 npm run build
