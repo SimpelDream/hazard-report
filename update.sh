@@ -55,23 +55,11 @@ if [[ ${NODE_VERSION:1:2} -lt 16 ]]; then
     exit 1
 fi
 
-# 更新代码
-log "更新代码..."
+# 强制重置本地更改并更新代码
+log "重置本地更改并更新代码..."
+git reset --hard
+git clean -fd
 git pull
-
-# 备份运行时文件
-log "备份运行时文件..."
-BACKUP_DIR="backup_$(date +%Y%m%d_%H%M%S)"
-mkdir -p "$BACKUP_DIR"
-cp -r backend/logs backend/src/config backend/src/constants backend/src/errors backend/src/interfaces backend/src/models backend/src/routes/index.ts backend/src/services backend/src/types backend/src/validators "$BACKUP_DIR" 2>/dev/null || true
-
-# 恢复运行时文件
-log "恢复运行时文件..."
-cp -r "$BACKUP_DIR"/* . 2>/dev/null || true
-log "更新完成，已保留运行时文件"
-
-# 开始排查系统问题
-log "开始排查系统问题..."
 
 # 检查项目结构
 log "检查项目结构..."
@@ -103,8 +91,7 @@ sudo -u postgres psql -d hazard_report -c "ALTER DEFAULT PRIVILEGES IN SCHEMA pu
 
 # 配置数据库连接
 log "配置数据库连接..."
-if [ ! -f "backend/.env" ]; then
-    cat > backend/.env << EOL
+cat > backend/.env << EOL
 DATABASE_URL="postgresql://hazard_report:hazard_report@localhost:5432/hazard_report"
 NODE_ENV=production
 PORT=3000
@@ -116,7 +103,6 @@ MAX_FILE_SIZE=5242880
 MAX_FILES=4
 ALLOWED_TYPES=image/jpeg,image/png
 EOL
-fi
 
 # 检查端口占用
 log "检查端口占用..."
@@ -125,24 +111,19 @@ if lsof -i :3000 > /dev/null; then
     sudo fuser -k 3000/tcp
 fi
 
+# 进入后端目录
+cd backend
+
 # 检查数据库
 log "检查数据库..."
-cd backend
 npx prisma generate
 
 # 执行数据库迁移
 log "执行数据库迁移..."
 npx prisma migrate deploy
 
-# 检查环境变量
-log "检查环境变量..."
-if [ ! -f ".env" ]; then
-    error ".env 文件不存在"
-    exit 1
-fi
-
-# 检查Node.js版本和依赖
-log "检查Node.js版本和依赖..."
+# 安装依赖
+log "安装依赖..."
 npm install
 
 # 清理旧的构建文件
