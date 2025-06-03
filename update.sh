@@ -79,29 +79,29 @@ cd backend
 # 修复属主，防止权限问题
 sudo chown -R $USER:$USER /var/www/hazard-report
 
-# # 清理旧的依赖
-# log "清理旧的依赖..."
-# sudo rm -rf node_modules package-lock.json
+# 检查是否需要更新依赖
+if [ "$1" == "--update-deps" ]; then
+    log "清理旧的依赖..."
+    sudo rm -rf node_modules package-lock.json
+    
+    log "安装依赖..."
+    npm install
+    
+    log "修复安全漏洞..."
+    npm audit fix --force || true
+    
+    log "清理 npm 缓存..."
+    npm cache clean --force
+    
+    log "重新安装依赖..."
+    npm install
+fi
 
-# # 安装依赖
-# log "安装依赖..."
-# npm install
-
-# 修复安全漏洞
-# log "修复安全漏洞..."
-# npm audit fix --force || true
-
-# # 清理 npm 缓存
-# log "清理 npm 缓存..."
-# npm cache clean --force
-
-# # 重新安装依赖
-# log "重新安装依赖..."
-# npm install
-
-# 重新构建项目
-log "重新构建项目..."
-sudonpm run build
+# 检查是否需要重新构建
+if [ "$1" == "--rebuild" ] || [ "$1" == "--update-deps" ]; then
+    log "重新构建项目..."
+    npm run build
+fi
 
 # 生成 Prisma 客户端
 log "生成 Prisma 客户端..."
