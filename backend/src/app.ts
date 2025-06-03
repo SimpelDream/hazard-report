@@ -15,7 +15,7 @@ import cookieParser from 'cookie-parser';
 declare global {
   namespace Express {
     interface Request {
-      csrfToken?: () => string;
+      csrfToken: () => string;
     }
   }
 }
