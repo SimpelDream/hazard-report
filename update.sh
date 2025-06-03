@@ -69,6 +69,199 @@ check_command() {
     return 0
 }
 
+# 检查并配置 PostgreSQL
+check_and_configure_postgresql() {
+    log "检查 PostgreSQL 服务..."
+    
+    # 检查 PostgreSQL 是否安装
+    if ! check_command psql; then
+        warn "PostgreSQL 未安装，开始安装..."
+        
+        # 添加 PostgreSQL 官方源
+        log "添加 PostgreSQL 官方源..."
+        sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        
+        # 更新包列表
+        sudo apt update
+        
+        # 安装 PostgreSQL
+        log "安装 PostgreSQL..."
+        sudo apt install -y postgresql postgresql-contrib
+        
+        # 检查安装是否成功
+        if ! check_command psql; then
+            error "PostgreSQL 安装失败" "exit"
+        fi
+    fi
+    
+    # 检查服务状态
+    if ! sudo systemctl is-active --quiet postgresql; then
+        warn "PostgreSQL 服务未运行，尝试启动服务..."
+        
+        # 检查服务文件是否存在
+        if [ ! -f "/etc/systemd/system/postgresql.service" ] && [ ! -f "/lib/systemd/system/postgresql.service" ]; then
+            error "PostgreSQL 服务文件不存在，尝试重新安装..." "exit"
+            sudo apt remove -y postgresql postgresql-contrib
+            sudo apt autoremove -y
+            sudo apt install -y postgresql postgresql-contrib
+        fi
+        
+        # 重新加载 systemd
+        sudo systemctl daemon-reload
+        
+        # 启动服务
+        sudo systemctl start postgresql
+        
+        # 检查启动是否成功
+        if ! sudo systemctl is-active --quiet postgresql; then
+            error "PostgreSQL 服务启动失败，尝试修复..."
+            
+            # 检查错误日志
+            sudo journalctl -u postgresql --no-pager -n 50
+            
+            # 尝试修复权限
+            sudo chown -R postgres:postgres /var/lib/postgresql
+            sudo chmod 700 /var/lib/postgresql/*/main
+            
+            # 重新启动服务
+            sudo systemctl restart postgresql
+            
+            # 再次检查服务状态
+            if ! sudo systemctl is-active --quiet postgresql; then
+                error "PostgreSQL 服务启动失败，请检查系统日志" "exit"
+            fi
+        fi
+    fi
+    
+    # 配置 PostgreSQL
+    log "配置 PostgreSQL..."
+    
+    # 查找 PostgreSQL 配置文件
+    PG_CONF_DIR=$(sudo find /etc/postgresql -name "postgresql.conf" -type f 2>/dev/null | head -n 1 | xargs dirname)
+    if [ -z "$PG_CONF_DIR" ]; then
+        error "找不到 PostgreSQL 配置目录" "exit"
+    fi
+    
+    # 获取 PostgreSQL 版本
+    PG_VERSION=$(sudo -u postgres psql -t -c "SHOW server_version;" 2>/dev/null | cut -d. -f1)
+    if [ -z "$PG_VERSION" ]; then
+        error "无法获取 PostgreSQL 版本" "exit"
+    fi
+    
+    # 配置 postgresql.conf
+    if [ -f "$PG_CONF_DIR/postgresql.conf" ]; then
+        sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$PG_CONF_DIR/postgresql.conf"
+    else
+        error "找不到 PostgreSQL 配置文件: $PG_CONF_DIR/postgresql.conf" "exit"
+    fi
+    
+    # 配置 pg_hba.conf
+    if [ -f "$PG_CONF_DIR/pg_hba.conf" ]; then
+        if ! grep -q "host    all             all             0.0.0.0/0               md5" "$PG_CONF_DIR/pg_hba.conf"; then
+            echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a "$PG_CONF_DIR/pg_hba.conf"
+        fi
+    else
+        error "找不到 PostgreSQL 访问控制配置文件: $PG_CONF_DIR/pg_hba.conf" "exit"
+    fi
+    
+    # 重启 PostgreSQL
+    sudo systemctl restart postgresql
+    
+    # 等待服务完全启动
+    sleep 5
+    
+    # 检查服务是否正常运行
+    if ! sudo systemctl is-active --quiet postgresql; then
+        error "PostgreSQL 服务重启失败" "exit"
+    fi
+    
+    # 创建数据库和用户
+    log "配置数据库和用户..."
+    
+    # 检查数据库是否存在
+    if ! sudo -u postgres psql -lqt 2>/dev/null | cut -d \| -f 1 | grep -qw hazard_report; then
+        sudo -u postgres psql -c "CREATE DATABASE hazard_report;"
+        if [ $? -ne 0 ]; then
+            error "创建数据库失败" "exit"
+        fi
+    fi
+    
+    # 检查用户是否存在
+    if ! sudo -u postgres psql -t -c "SELECT 1 FROM pg_roles WHERE rolname='hazard_user'" 2>/dev/null | grep -q 1; then
+        sudo -u postgres psql -c "CREATE USER hazard_user WITH ENCRYPTED PASSWORD 'hazard_password';"
+        if [ $? -ne 0 ]; then
+            error "创建用户失败" "exit"
+        fi
+    fi
+    
+    # 授予权限
+    log "设置数据库权限..."
+    
+    # 授予数据库权限
+    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予数据库权限失败" "exit"
+    fi
+    
+    # 授予 schema 权限
+    sudo -u postgres psql -d hazard_report -c "GRANT ALL ON SCHEMA public TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予 schema 权限失败" "exit"
+    fi
+    
+    # 授予表权限
+    sudo -u postgres psql -d hazard_report -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予表权限失败" "exit"
+    fi
+    
+    # 授予序列权限
+    sudo -u postgres psql -d hazard_report -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予序列权限失败" "exit"
+    fi
+    
+    # 设置默认权限
+    sudo -u postgres psql -d hazard_report -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "设置默认表权限失败" "exit"
+    fi
+    
+    sudo -u postgres psql -d hazard_report -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "设置默认序列权限失败" "exit"
+    fi
+    
+    # 配置数据库连接
+    log "配置数据库连接..."
+    
+    # 测试数据库连接
+    if ! PGPASSWORD=hazard_password psql -h localhost -U hazard_user -d hazard_report -c "\l" > /dev/null 2>&1; then
+        error "数据库连接测试失败" "exit"
+    fi
+    
+    # 检查 .env 文件是否存在
+    if [ ! -f "backend/.env" ]; then
+        cat > backend/.env << EOF
+DATABASE_URL="postgresql://hazard_user:hazard_password@localhost:5432/hazard_report"
+PORT=3000
+NODE_ENV=production
+CORS_ORIGIN="*"
+JWT_SECRET="your-jwt-secret-key"
+UPLOAD_DIR="./uploads"
+MAX_FILE_SIZE=5242880
+MAX_FILES=4
+ALLOWED_TYPES="image/jpeg,image/png"
+EOF
+    else
+        # 更新数据库连接字符串
+        sed -i 's|^DATABASE_URL=.*|DATABASE_URL="postgresql://hazard_user:hazard_password@localhost:5432/hazard_report"|' backend/.env
+    fi
+    
+    log "PostgreSQL 配置完成"
+}
+
 # 检查Node.js版本
 check_node_version() {
     log "检查Node.js版本..."
@@ -78,16 +271,15 @@ check_node_version() {
     
     if [ "$NODE_MAJOR" -lt 18 ]; then
         warn "当前Node.js版本 $NODE_VERSION 低于推荐版本 18.x"
-        warn "可能会出现兼容性问题，建议升级Node.js"
+        warn "开始安装 Node.js 18.x..."
         
-        if [ "$AUTO_YES" = false ]; then
-            read -p "是否继续? (y/n) " REPLY
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                error "用户取消更新" "exit"
-            fi
-        else
-            warn "自动确认模式：继续执行"
-        fi
+        # 安装 Node.js 18.x
+        curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+        sudo apt install -y nodejs
+        
+        # 验证安装
+        NODE_VERSION=$(node -v)
+        log "Node.js 已更新到版本 $NODE_VERSION"
     fi
 }
 
@@ -112,11 +304,37 @@ check_project_structure() {
     mkdir -p backend/logs 2>/dev/null || warn "创建日志目录失败"
     mkdir -p backend/uploads 2>/dev/null || warn "创建上传目录失败"
     mkdir -p backend/prisma 2>/dev/null || warn "创建prisma目录失败"
+    mkdir -p backend/src/controllers 2>/dev/null || warn "创建controllers目录失败"
+    mkdir -p backend/src/middleware 2>/dev/null || warn "创建middleware目录失败"
+    mkdir -p backend/src/utils 2>/dev/null || warn "创建utils目录失败"
+    mkdir -p backend/src/routes 2>/dev/null || warn "创建routes目录失败"
+    mkdir -p backend/src/types 2>/dev/null || warn "创建types目录失败"
+    mkdir -p backend/src/config 2>/dev/null || warn "创建config目录失败"
+    mkdir -p backend/src/services 2>/dev/null || warn "创建services目录失败"
+    mkdir -p backend/src/models 2>/dev/null || warn "创建models目录失败"
+    mkdir -p backend/src/interfaces 2>/dev/null || warn "创建interfaces目录失败"
+    mkdir -p backend/src/constants 2>/dev/null || warn "创建constants目录失败"
+    mkdir -p backend/src/validators 2>/dev/null || warn "创建validators目录失败"
+    mkdir -p backend/src/errors 2>/dev/null || warn "创建errors目录失败"
     
     # 设置目录权限
     chmod -R 755 backend 2>/dev/null || warn "设置目录权限失败"
     chmod -R 777 backend/uploads 2>/dev/null || warn "设置上传目录权限失败"
     chmod -R 777 backend/logs 2>/dev/null || warn "设置日志目录权限失败"
+    
+    # 创建必要的空文件
+    touch backend/src/controllers/index.ts 2>/dev/null || warn "创建controllers索引文件失败"
+    touch backend/src/middleware/index.ts 2>/dev/null || warn "创建middleware索引文件失败"
+    touch backend/src/utils/index.ts 2>/dev/null || warn "创建utils索引文件失败"
+    touch backend/src/routes/index.ts 2>/dev/null || warn "创建routes索引文件失败"
+    touch backend/src/types/index.ts 2>/dev/null || warn "创建types索引文件失败"
+    touch backend/src/config/index.ts 2>/dev/null || warn "创建config索引文件失败"
+    touch backend/src/services/index.ts 2>/dev/null || warn "创建services索引文件失败"
+    touch backend/src/models/index.ts 2>/dev/null || warn "创建models索引文件失败"
+    touch backend/src/interfaces/index.ts 2>/dev/null || warn "创建interfaces索引文件失败"
+    touch backend/src/constants/index.ts 2>/dev/null || warn "创建constants索引文件失败"
+    touch backend/src/validators/index.ts 2>/dev/null || warn "创建validators索引文件失败"
+    touch backend/src/errors/index.ts 2>/dev/null || warn "创建errors索引文件失败"
 }
 
 # 检查并安装依赖
@@ -126,17 +344,26 @@ check_dependencies() {
     # 检查必要的命令
     for cmd in node npm git; do
         if ! check_command $cmd; then
-            error "请先安装 $cmd" "exit"
+            warn "$cmd 未安装，开始安装..."
+            case $cmd in
+                node|npm)
+                    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+                    sudo apt install -y nodejs
+                    ;;
+                git)
+                    sudo apt install -y git
+                    ;;
+            esac
         fi
     done
     
     # 检查 PM2
     if ! check_command pm2; then
         warn "PM2 未安装，将尝试全局安装..."
-        npm install -g pm2
+        sudo npm install -g pm2
         if [ $? -ne 0 ]; then
             error "安装 PM2 失败，请手动安装后再运行脚本"
-            error "使用命令: npm install -g pm2" "exit"
+            error "使用命令: sudo npm install -g pm2" "exit"
         fi
     fi
 }
@@ -147,6 +374,9 @@ check_and_fix_issues() {
     
     # 首先检查项目结构
     check_project_structure
+    
+    # 检查并配置 PostgreSQL
+    check_and_configure_postgresql
     
     # 1. 检查端口占用
     log "检查端口占用..."
@@ -194,7 +424,7 @@ check_and_fix_issues() {
     if [ ! -f "backend/.env" ]; then
         warn "环境配置文件不存在，创建默认配置..."
         cat > backend/.env << EOF
-DATABASE_URL="file:./prisma/dev.db"
+DATABASE_URL="postgresql://hazard_user:hazard_password@localhost:5432/hazard_report"
 PORT=3000
 NODE_ENV=production
 CORS_ORIGIN="*"
@@ -222,7 +452,7 @@ EOF
             if ! grep -q "^$var=" backend/.env; then
                 warn "环境变量 $var 缺失，添加默认值..."
                 case $var in
-                    "DATABASE_URL") echo "DATABASE_URL=\"file:./prisma/dev.db\"" >> backend/.env ;;
+                    "DATABASE_URL") echo "DATABASE_URL=\"postgresql://hazard_user:hazard_password@localhost:5432/hazard_report\"" >> backend/.env ;;
                     "PORT") echo "PORT=3000" >> backend/.env ;;
                     "NODE_ENV") echo "NODE_ENV=production" >> backend/.env ;;
                     "CORS_ORIGIN") echo "CORS_ORIGIN=\"*\"" >> backend/.env ;;
@@ -245,10 +475,51 @@ EOF
         error "找不到 package.json 文件" "exit"
     fi
     
+    # 检查 tsconfig.json 是否存在
+    if [ ! -f "tsconfig.json" ]; then
+        error "找不到 tsconfig.json 文件" "exit"
+    fi
+    
+    # 检查 src 目录是否存在
+    if [ ! -d "src" ]; then
+        error "找不到 src 目录" "exit"
+    fi
+    
+    # 清理旧的构建文件
+    log "清理旧的构建文件..."
+    npm run clean
+    if [ $? -ne 0 ]; then
+        error "清理旧的构建文件失败" "exit"
+    fi
+    
     # 安装依赖
     npm install
     if [ $? -ne 0 ]; then
         error "安装依赖失败" "exit"
+    fi
+    
+    # 构建代码
+    npm run build
+    if [ $? -ne 0 ]; then
+        error "构建后端代码失败" "exit"
+    fi
+    
+    # 检查构建输出
+    if [ ! -f "dist/app.js" ]; then
+        error "构建输出文件不存在: dist/app.js" "exit"
+    fi
+    
+    # 检查其他必要的文件
+    for file in "dist/app.js" "dist/routes" "dist/controllers" "dist/middleware" "dist/utils"; do
+        if [ ! -e "$file" ]; then
+            error "构建输出不完整: $file 不存在" "exit"
+        fi
+    done
+    
+    # 生成 Prisma 客户端
+    npx prisma generate
+    if [ $? -ne 0 ]; then
+        error "生成 Prisma 客户端失败" "exit"
     fi
     
     cd ..
@@ -353,42 +624,46 @@ log "更新完成，已保留运行时文件"
 # 在启动服务之前调用问题排查函数
 check_and_fix_issues
 
-# 检查 PM2 是否已经有服务在运行
+# 检查服务状态
 log "检查服务状态..."
-if pm2 list | grep -q "hazard-report-api" 2>/dev/null; then
-    log "停止后端服务..."
-    pm2 stop hazard-report-api
+
+# 检查 PM2 是否安装
+if ! command -v pm2 &> /dev/null; then
+    log "安装 PM2..."
+    npm install -g pm2
     if [ $? -ne 0 ]; then
-        warn "停止服务失败，尝试强制删除..."
-        pm2 delete hazard-report-api
+        error "安装 PM2 失败" "exit"
     fi
 fi
 
-# 启动服务
+# 检查 ecosystem.config.js 是否存在
+if [ ! -f "backend/ecosystem.config.js" ]; then
+    error "找不到 PM2 配置文件" "exit"
+fi
+
+# 确保日志目录存在
+mkdir -p backend/logs
+
+# 启动后端服务
 log "启动后端服务..."
 cd backend || { error "无法进入后端目录" "exit"; }
 
-# 使用更详细的启动配置
-pm2 start ecosystem.config.js --update-env
+# 停止现有服务
+pm2 stop hazard-report-backend 2>/dev/null || true
+pm2 delete hazard-report-backend 2>/dev/null || true
+
+# 启动服务
+pm2 start ecosystem.config.js
 if [ $? -ne 0 ]; then
-    error "启动服务失败，检查错误日志..."
-    pm2 logs hazard-report-api --lines 50
-    error "服务启动失败，请检查日志" "exit"
+    error "启动后端服务失败" "exit"
 fi
 
-# 等待服务启动
-log "等待服务启动..."
-sleep 5
+# 保存 PM2 配置
+pm2 save
 
-# 检查服务状态
-if ! pm2 list | grep -q "hazard-report-api.*online"; then
-    error "服务未正常启动，显示错误日志..."
-    pm2 logs hazard-report-api --lines 50
-    error "服务启动失败，请检查日志" "exit"
-fi
+cd ..
 
-# 返回到项目根目录
-cd .. || warn "无法返回项目根目录"
+log "服务启动完成"
 
 # 清理旧日志文件 (保留最近 7 天的日志)
 if [ -d "$LOGDIR" ]; then
@@ -417,3 +692,5 @@ fi
 echo -e "\n${GREEN}更新成功!${NC}"
 echo -e "${GREEN}前端访问地址: http://$SERVER_ADDRESS${NC}"
 echo -e "${GREEN}API 地址: http://$SERVER_ADDRESS/api${NC}"
+
+

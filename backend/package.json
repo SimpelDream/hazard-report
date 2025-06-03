@@ -5,18 +5,39 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "node dist/app.js",
+<<<<<<< HEAD
     "dev": "ts-node src/app.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "rimraf dist && tsc",
+    "build:watch": "tsc -w",
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext .ts",
+    "test": "jest",
+    "postinstall": "prisma generate"
+>>>>>>> 892af3a2b08db429a7356704688d9458d597b49b
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.8.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/csurf": "^1.11.5",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/uuid": "^10.0.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "exceljs": "^4.4.0",
     "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1"
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -25,7 +46,9 @@
     "@types/node": "^20.10.5",
     "nodemon": "^3.0.2",
     "prisma": "^6.8.2",
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.2"
   }
 }

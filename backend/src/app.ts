@@ -1,11 +1,30 @@
 import express from 'express';
 import cors from 'cors';
+<<<<<<< HEAD
 import multer from 'multer';
+=======
+>>>>>>> 892af3a2b08db429a7356704688d9458d597b49b
 import path from 'path';
 import fs from 'fs';
 import { config } from './config';
 import reportsRouter from './routes/reports';
 import ordersRouter from './routes/orders';
+<<<<<<< HEAD
+=======
+import authRouter from './routes/auth';
+import { authMiddleware } from './routes/auth';
+import csrf from 'csurf';
+import cookieParser from 'cookie-parser';
+
+// 扩展 Request 类型以包含 csrfToken
+declare global {
+  namespace Express {
+    interface Request {
+      csrfToken: () => string;
+    }
+  }
+}
+>>>>>>> 892af3a2b08db429a7356704688d9458d597b49b
 
 const app = express();
 
@@ -31,7 +50,11 @@ if (!fs.existsSync(logDir)) {
 app.use(cors({
     origin: config.SECURITY.CORS_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+<<<<<<< HEAD
     allowedHeaders: ['Content-Type', 'Authorization'],
+=======
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token'],
+>>>>>>> 892af3a2b08db429a7356704688d9458d597b49b
     credentials: true
 }));
 
@@ -41,6 +64,7 @@ app.use(express.json());
 // 解析 URL 编码的请求体
 app.use(express.urlencoded({ extended: true }));
 
+<<<<<<< HEAD
 // 配置 multer 存储
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -68,6 +92,26 @@ const upload = multer({
     limits: {
         fileSize: config.UPLOAD.MAX_SIZE,
         files: config.UPLOAD.MAX_FILES
+=======
+// 配置 cookie 解析
+app.use(cookieParser());
+
+// 配置 CSRF 保护
+const csrfProtection = csrf({ 
+    cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict'
+    }
+});
+
+// CSRF Token 路由
+app.get('/api/csrf-token', csrfProtection, (req, res) => {
+    if (req.csrfToken) {
+        res.json({ token: req.csrfToken() });
+    } else {
+        res.status(500).json({ error: 'CSRF Token 生成失败' });
+>>>>>>> 892af3a2b08db429a7356704688d9458d597b49b
     }
 });
 
@@ -76,6 +120,7 @@ app.use('/uploads', express.static(uploadDir));
 console.log(`配置静态文件服务: /uploads -> ${uploadDir}`);
 
 // 健康检查接口
+<<<<<<< HEAD
 app.get('/api/v1/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
@@ -89,6 +134,37 @@ app.use('/api/orders', ordersRouter);
 
 // 错误处理中间件
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+=======
+app.get('/api/v1/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
+
+app.get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
+
+// 认证路由（不需要 CSRF 保护）
+app.use('/api/auth', authRouter);
+
+// API 路由（需要认证和 CSRF 保护）
+app.use('/api/reports', authMiddleware, csrfProtection, reportsRouter);
+app.use('/api/orders', authMiddleware, csrfProtection, ordersRouter);
+
+// CSRF 错误处理中间件
+app.use((err: any, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (err.code === 'EBADCSRFTOKEN') {
+        res.status(403).json({
+            success: false,
+            error: '无效的 CSRF Token'
+        });
+    } else {
+        next(err);
+    }
+});
+
+// 错误处理中间件
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+>>>>>>> 892af3a2b08db429a7356704688d9458d597b49b
     console.error('服务器错误:', err);
     res.status(500).json({
         success: false,
