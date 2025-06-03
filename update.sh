@@ -53,68 +53,68 @@ sudo git reset --hard HEAD
 sudo git clean -fd
 sudo git pull origin main
 
-# 检查项目结构
-log "检查项目结构..."
-if [ ! -d "backend" ] || [ ! -d "frontend" ]; then
-    error "项目结构不完整"
-    exit 1
-fi
+# # 检查项目结构
+# log "检查项目结构..."
+# if [ ! -d "backend" ] || [ ! -d "frontend" ]; then
+#     error "项目结构不完整"
+#     exit 1
+# fi
 
-# 检查 PostgreSQL 服务
-log "检查 PostgreSQL 服务..."
-if ! systemctl is-active --quiet postgresql; then
-    warn "PostgreSQL 服务未运行，正在启动..."
-    sudo systemctl start postgresql
-fi
+# # 检查 PostgreSQL 服务
+# log "检查 PostgreSQL 服务..."
+# if ! systemctl is-active --quiet postgresql; then
+#     warn "PostgreSQL 服务未运行，正在启动..."
+#     sudo systemctl start postgresql
+# fi
 
-# 配置 PostgreSQL
-log "配置 PostgreSQL..."
-sudo -u postgres psql -c "ALTER USER hazard_report WITH PASSWORD 'hazard_report';" || true
-sudo -u postgres psql -c "CREATE DATABASE hazard_report;" 2>/dev/null || true
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO hazard_report;" || true
+# # 配置 PostgreSQL
+# log "配置 PostgreSQL..."
+# sudo -u postgres psql -c "ALTER USER hazard_report WITH PASSWORD 'hazard_report';" || true
+# sudo -u postgres psql -c "CREATE DATABASE hazard_report;" 2>/dev/null || true
+# sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO hazard_report;" || true
 
-# 进入后端目录
-cd backend
+# # 进入后端目录
+# cd backend
 
-# 修复属主，防止权限问题
-sudo chown -R $USER:$USER /var/www/hazard-report
+# # 修复属主，防止权限问题
+# sudo chown -R $USER:$USER /var/www/hazard-report
 
-# 检查是否需要更新依赖
-if [ "$1" == "--update-deps" ]; then
-    log "清理旧的依赖..."
-    sudo rm -rf node_modules package-lock.json
+# # 检查是否需要更新依赖
+# if [ "$1" == "--update-deps" ]; then
+#     log "清理旧的依赖..."
+#     sudo rm -rf node_modules package-lock.json
     
-    log "安装依赖..."
-    npm install
+#     log "安装依赖..."
+#     npm install
     
-    log "修复安全漏洞..."
-    npm audit fix --force || true
+#     log "修复安全漏洞..."
+#     npm audit fix --force || true
     
-    log "清理 npm 缓存..."
-    npm cache clean --force
+#     log "清理 npm 缓存..."
+#     npm cache clean --force
     
-    log "重新安装依赖..."
-    npm install
-fi
+#     log "重新安装依赖..."
+#     npm install
+# fi
 
-# 检查是否需要重新构建
-if [ "$1" == "--rebuild" ] || [ "$1" == "--update-deps" ]; then
-    log "重新构建项目..."
-    sudo npm run build
-fi
+# # 检查是否需要重新构建
+# if [ "$1" == "--rebuild" ] || [ "$1" == "--update-deps" ]; then
+#     log "重新构建项目..."
+#     sudo npm run build
+# fi
 
-# 生成 Prisma 客户端
-log "生成 Prisma 客户端..."
-sudo npm install typescript@latest -D --legacy-peer-deps
-sudo npm install prisma@6.8.2 -D --legacy-peer-deps
-sudo npx prisma generate
-cd ..
+# # 生成 Prisma 客户端
+# log "生成 Prisma 客户端..."
+# sudo npm install typescript@latest -D --legacy-peer-deps
+# sudo npm install prisma@6.8.2 -D --legacy-peer-deps
+# sudo npx prisma generate
+# cd ..
 
-# 运行数据库迁移
-log "运行数据库迁移..."
-cd backend
-sudo npx prisma migrate deploy
-cd ..
+# # 运行数据库迁移
+# log "运行数据库迁移..."
+# cd backend
+# sudo npx prisma migrate deploy
+# cd ..
 
 # 重启服务
 log "重启服务..."
