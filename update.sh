@@ -105,7 +105,7 @@ fi
 
 # 生成 Prisma 客户端
 log "生成 Prisma 客户端..."
-sudonpx prisma generate
+sudo npx prisma generate
 
 # 运行数据库迁移
 log "运行数据库迁移..."
