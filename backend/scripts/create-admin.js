@@ -1,38 +1,33 @@
 const { PrismaClient } = require('@prisma/client');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
 
-async function createAdmin() {
-  try {
-    const username = 'admin';
-    const password = 'admin123';
+async function main() {
+    try {
+        // 检查是否已存在管理员账号
+        const existingAdmin = await prisma.admin.findFirst();
+        if (existingAdmin) {
+            console.log('管理员账号已存在，跳过创建');
+            return;
+        }
 
-    // 检查是否已存在管理员账户
-    const existingAdmin = await prisma.admin.findUnique({
-      where: { username }
-    });
+        // 创建默认管理员账号
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        const admin = await prisma.admin.create({
+            data: {
+                username: 'admin',
+                password: hashedPassword,
+            },
+        });
 
-    if (existingAdmin) {
-      console.log('管理员账户已存在');
-      return;
+        console.log('管理员账号创建成功:', admin.username);
+    } catch (error) {
+        console.error('创建管理员账号失败:', error);
+        process.exit(1);
+    } finally {
+        await prisma.$disconnect();
     }
-
-    // 创建新管理员账户
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const admin = await prisma.admin.create({
-      data: {
-        username,
-        password: hashedPassword
-      }
-    });
-
-    console.log('管理员账户创建成功:', admin.username);
-  } catch (error) {
-    console.error('创建管理员账户失败:', error);
-  } finally {
-    await prisma.$disconnect();
-  }
 }
 
-createAdmin(); 
+main(); 
