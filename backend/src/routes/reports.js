@@ -3,10 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs').promises;
-const { PrismaClient } = require('@prisma/client');
 const config = require('../config');
-
-const prisma = new PrismaClient();
 
 // 配置 multer 存储
 const storage = multer.diskStorage({
@@ -71,8 +68,8 @@ router.get('/', async (req, res) => {
         }
 
         const [total, reports] = await Promise.all([
-            prisma.report.count({ where }),
-            prisma.report.findMany({
+            req.app.locals.prisma.report.count({ where }),
+            req.app.locals.prisma.report.findMany({
                 where,
                 skip: (page - 1) * limit,
                 take: parseInt(limit),
@@ -98,7 +95,7 @@ router.get('/', async (req, res) => {
 });
 
 // 创建新报告
-router.post('/', upload.array('images', config.UPLOAD.MAX_FILES), async (req, res) => {
+router.post('/', upload.array('images', 4), async (req, res) => {
     try {
         const { project, reporter, phone, category, foundAt, location, description } = req.body;
         
@@ -119,7 +116,7 @@ router.post('/', upload.array('images', config.UPLOAD.MAX_FILES), async (req, re
         }
 
         // 创建报告记录
-        const report = await prisma.report.create({
+        const report = await req.app.locals.prisma.report.create({
             data: {
                 project,
                 reporter,
@@ -152,7 +149,7 @@ router.delete('/:id', async (req, res) => {
         const { id } = req.params;
         
         // 获取报告信息
-        const report = await prisma.report.findUnique({
+        const report = await req.app.locals.prisma.report.findUnique({
             where: { id: parseInt(id) }
         });
 
@@ -168,7 +165,7 @@ router.delete('/:id', async (req, res) => {
             const imageFiles = report.images.split(',');
             for (const filename of imageFiles) {
                 try {
-                    await fs.unlink(path.join(config.UPLOAD.DIR, filename));
+                    await fs.unlink(path.join(config.UPLOAD_DIR, filename));
                 } catch (unlinkError) {
                     console.error('删除图片文件失败:', unlinkError);
                 }
@@ -176,7 +173,7 @@ router.delete('/:id', async (req, res) => {
         }
 
         // 删除报告记录
-        await prisma.report.delete({
+        await req.app.locals.prisma.report.delete({
             where: { id: parseInt(id) }
         });
 

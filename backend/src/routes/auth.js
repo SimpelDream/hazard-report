@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { PrismaClient } = require('@prisma/client');
 const config = require('../config');
-
-const prisma = new PrismaClient();
 
 // 管理员登录
 router.post('/login', async (req, res) => {
@@ -21,7 +18,7 @@ router.post('/login', async (req, res) => {
         }
 
         // 查找管理员
-        const admin = await prisma.admin.findUnique({
+        const admin = await req.app.locals.prisma.admin.findUnique({
             where: { username }
         });
 

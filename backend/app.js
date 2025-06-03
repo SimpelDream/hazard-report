@@ -2,9 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const { PrismaClient } = require('@prisma/client');
 const config = require('./src/config');
 
 const app = express();
+const prisma = new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+});
 
 // 中间件
 app.use(cors());
@@ -48,4 +52,10 @@ app.use((err, req, res, next) => {
 const PORT = config.PORT;
 app.listen(PORT, () => {
     console.log(`服务器运行在端口 ${PORT}`);
+});
+
+// 优雅关闭
+process.on('SIGINT', async () => {
+    await prisma.$disconnect();
+    process.exit(0);
 });
