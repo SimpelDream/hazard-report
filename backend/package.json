@@ -2,10 +2,10 @@
   "name": "hazard-report-backend",
   "version": "1.0.0",
   "description": "隐患上报系统后端",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node dist/app.js",
+    "dev": "ts-node src/app.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
