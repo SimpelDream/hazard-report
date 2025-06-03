@@ -36,10 +36,9 @@ log "===== 开始更新 $(date) ====="
 # 检查 Node.js 版本
 log "检查 Node.js 版本..."
 NODE_VERSION=$(node -v | cut -d'v' -f2)
-if [[ $(echo "$NODE_VERSION 18.0.0" | awk '{print ($1 < $2)}') -eq 1 ]]; then
-    warn "Node.js 版本过低，正在更新到 18.x..."
-    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    sudo apt-get install -y nodejs
+if [[ $(echo "$NODE_VERSION 18.20.8" | awk '{print ($1 != $2)}') -eq 1 ]]; then
+    warn "Node.js 版本不匹配，请先运行 update-node.sh 安装 Node.js 18.20.8"
+    exit 1
 fi
 
 # 检查并安装 PM2
@@ -77,20 +76,13 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO haza
 # 进入后端目录
 cd backend
 
+# 清理旧的依赖
+log "清理旧的依赖..."
+rm -rf node_modules package-lock.json
+
 # 安装依赖
 log "安装依赖..."
-npm install --legacy-peer-deps
-
-# 检查并修复 TypeScript 错误
-log "检查 TypeScript 错误..."
-if ! npm run build; then
-    warn "发现 TypeScript 错误，尝试修复..."
-    # 修复常见的 TypeScript 错误
-    sed -i 's/fileFilter: fileFilter,/fileFilter: fileFilter;/g' src/app.ts
-    sed -i 's/limits: {/limits: {/g' src/app.ts
-    sed -i 's/files: config.UPLOAD.MAX_FILES/files: config.UPLOAD.MAX_FILES;/g' src/app.ts
-    sed -i 's/});/});/g' src/app.ts
-fi
+npm install
 
 # 重新构建项目
 log "重新构建项目..."
