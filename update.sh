@@ -76,9 +76,12 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO haza
 # 进入后端目录
 cd backend
 
+# 修复属主，防止权限问题
+sudo chown -R $USER:$USER /var/www/hazard-report
+
 # 清理旧的依赖
 log "清理旧的依赖..."
-rm -rf node_modules package-lock.json
+sudo rm -rf node_modules package-lock.json
 
 # 安装依赖
 log "安装依赖..."
