@@ -449,11 +449,45 @@ EOF
         error "找不到 package.json 文件" "exit"
     fi
     
+    # 检查 tsconfig.json 是否存在
+    if [ ! -f "tsconfig.json" ]; then
+        error "找不到 tsconfig.json 文件" "exit"
+    }
+    
+    # 检查 src 目录是否存在
+    if [ ! -d "src" ]; then
+        error "找不到 src 目录" "exit"
+    }
+    
+    # 清理旧的构建文件
+    log "清理旧的构建文件..."
+    rm -rf dist 2>/dev/null || true
+    
     # 安装依赖
+    log "安装依赖..."
     npm install
     if [ $? -ne 0 ]; then
         error "安装依赖失败" "exit"
     fi
+    
+    # 构建后端代码
+    log "构建后端代码..."
+    npm run build
+    if [ $? -ne 0 ]; then
+        error "构建后端代码失败" "exit"
+    fi
+    
+    # 检查构建输出
+    if [ ! -f "dist/app.js" ]; then
+        error "构建输出文件不存在: dist/app.js" "exit"
+    fi
+    
+    # 检查其他必要的文件
+    for file in "dist/app.js" "dist/routes" "dist/controllers" "dist/middleware" "dist/utils"; do
+        if [ ! -e "$file" ]; then
+            error "构建输出不完整: $file 不存在" "exit"
+        fi
+    done
     
     cd ..
     
@@ -557,42 +591,46 @@ log "更新完成，已保留运行时文件"
 # 在启动服务之前调用问题排查函数
 check_and_fix_issues
 
-# 检查 PM2 是否已经有服务在运行
+# 检查服务状态
 log "检查服务状态..."
-if pm2 list | grep -q "hazard-report-api" 2>/dev/null; then
-    log "停止后端服务..."
-    pm2 stop hazard-report-api
+
+# 检查 PM2 是否安装
+if ! command -v pm2 &> /dev/null; then
+    log "安装 PM2..."
+    npm install -g pm2
     if [ $? -ne 0 ]; then
-        warn "停止服务失败，尝试强制删除..."
-        pm2 delete hazard-report-api
+        error "安装 PM2 失败" "exit"
     fi
 fi
 
-# 启动服务
+# 检查 ecosystem.config.js 是否存在
+if [ ! -f "backend/ecosystem.config.js" ]; then
+    error "找不到 PM2 配置文件" "exit"
+fi
+
+# 确保日志目录存在
+mkdir -p backend/logs
+
+# 启动后端服务
 log "启动后端服务..."
 cd backend || { error "无法进入后端目录" "exit"; }
 
-# 使用更详细的启动配置
-pm2 start ecosystem.config.js --update-env
+# 停止现有服务
+pm2 stop hazard-report-backend 2>/dev/null || true
+pm2 delete hazard-report-backend 2>/dev/null || true
+
+# 启动服务
+pm2 start ecosystem.config.js
 if [ $? -ne 0 ]; then
-    error "启动服务失败，检查错误日志..."
-    pm2 logs hazard-report-api --lines 50
-    error "服务启动失败，请检查日志" "exit"
+    error "启动后端服务失败" "exit"
 fi
 
-# 等待服务启动
-log "等待服务启动..."
-sleep 5
+# 保存 PM2 配置
+pm2 save
 
-# 检查服务状态
-if ! pm2 list | grep -q "hazard-report-api.*online"; then
-    error "服务未正常启动，显示错误日志..."
-    pm2 logs hazard-report-api --lines 50
-    error "服务启动失败，请检查日志" "exit"
-fi
+cd ..
 
-# 返回到项目根目录
-cd .. || warn "无法返回项目根目录"
+log "服务启动完成"
 
 # 清理旧日志文件 (保留最近 7 天的日志)
 if [ -d "$LOGDIR" ]; then
@@ -621,3 +659,5 @@ fi
 echo -e "\n${GREEN}更新成功!${NC}"
 echo -e "${GREEN}前端访问地址: http://$SERVER_ADDRESS${NC}"
 echo -e "${GREEN}API 地址: http://$SERVER_ADDRESS/api${NC}"
+
+
