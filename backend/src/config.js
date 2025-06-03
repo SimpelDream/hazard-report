@@ -14,7 +14,7 @@ const DATABASE = {
 const UPLOAD = {
     DIR: 'uploads',
     MAX_SIZE: 5 * 1024 * 1024, // 5MB
-    MAX_FILES: 5,
+    MAX_FILES: 4,
     ALLOWED_TYPES: [
         'image/jpeg',
         'image/png',
