@@ -5,3 +5,8 @@
 2025/05/29 23:18:15 [notice] 13668#21264: signal process started
 2025/05/29 23:18:39 [notice] 21812#5516: signal process started
 2025/05/29 23:45:17 [emerg] 21344#16320: "server" directive is not allowed here in E:\project\hazard-report\nginx-1.24.0/conf/nginx.conf:1
+2025/06/03 16:00:23 [emerg] 7032#17980: "server" directive is not allowed here in E:\project\hazard-report\nginx-1.24.0/conf/nginx.conf:1
+2025/06/03 16:00:46 [notice] 19260#19048: signal process started
+2025/06/03 16:00:46 [error] 19260#19048: OpenEvent("Global\ngx_reload_14744") failed (2: The system cannot find the file specified)
+2025/06/03 16:00:50 [notice] 15572#19508: signal process started
+2025/06/03 16:00:50 [error] 15572#19508: OpenEvent("Global\ngx_stop_14744") failed (2: The system cannot find the file specified)

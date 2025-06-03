@@ -12,7 +12,7 @@ module.exports = {
       PORT: 3000,
       HOST: '0.0.0.0',
       DATABASE_URL: 'postgresql://hazard_report:hazard_report@localhost:5432/hazard_report',
-      CORS_ORIGIN: 'http://localhost'
+      CORS_ORIGIN: '*'
     },
     error_file: 'logs/error.log',
     out_file: 'logs/out.log',
