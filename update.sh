@@ -304,11 +304,37 @@ check_project_structure() {
     mkdir -p backend/logs 2>/dev/null || warn "创建日志目录失败"
     mkdir -p backend/uploads 2>/dev/null || warn "创建上传目录失败"
     mkdir -p backend/prisma 2>/dev/null || warn "创建prisma目录失败"
+    mkdir -p backend/src/controllers 2>/dev/null || warn "创建controllers目录失败"
+    mkdir -p backend/src/middleware 2>/dev/null || warn "创建middleware目录失败"
+    mkdir -p backend/src/utils 2>/dev/null || warn "创建utils目录失败"
+    mkdir -p backend/src/routes 2>/dev/null || warn "创建routes目录失败"
+    mkdir -p backend/src/types 2>/dev/null || warn "创建types目录失败"
+    mkdir -p backend/src/config 2>/dev/null || warn "创建config目录失败"
+    mkdir -p backend/src/services 2>/dev/null || warn "创建services目录失败"
+    mkdir -p backend/src/models 2>/dev/null || warn "创建models目录失败"
+    mkdir -p backend/src/interfaces 2>/dev/null || warn "创建interfaces目录失败"
+    mkdir -p backend/src/constants 2>/dev/null || warn "创建constants目录失败"
+    mkdir -p backend/src/validators 2>/dev/null || warn "创建validators目录失败"
+    mkdir -p backend/src/errors 2>/dev/null || warn "创建errors目录失败"
     
     # 设置目录权限
     chmod -R 755 backend 2>/dev/null || warn "设置目录权限失败"
     chmod -R 777 backend/uploads 2>/dev/null || warn "设置上传目录权限失败"
     chmod -R 777 backend/logs 2>/dev/null || warn "设置日志目录权限失败"
+    
+    # 创建必要的空文件
+    touch backend/src/controllers/index.ts 2>/dev/null || warn "创建controllers索引文件失败"
+    touch backend/src/middleware/index.ts 2>/dev/null || warn "创建middleware索引文件失败"
+    touch backend/src/utils/index.ts 2>/dev/null || warn "创建utils索引文件失败"
+    touch backend/src/routes/index.ts 2>/dev/null || warn "创建routes索引文件失败"
+    touch backend/src/types/index.ts 2>/dev/null || warn "创建types索引文件失败"
+    touch backend/src/config/index.ts 2>/dev/null || warn "创建config索引文件失败"
+    touch backend/src/services/index.ts 2>/dev/null || warn "创建services索引文件失败"
+    touch backend/src/models/index.ts 2>/dev/null || warn "创建models索引文件失败"
+    touch backend/src/interfaces/index.ts 2>/dev/null || warn "创建interfaces索引文件失败"
+    touch backend/src/constants/index.ts 2>/dev/null || warn "创建constants索引文件失败"
+    touch backend/src/validators/index.ts 2>/dev/null || warn "创建validators索引文件失败"
+    touch backend/src/errors/index.ts 2>/dev/null || warn "创建errors索引文件失败"
 }
 
 # 检查并安装依赖
@@ -461,17 +487,18 @@ EOF
     
     # 清理旧的构建文件
     log "清理旧的构建文件..."
-    rm -rf dist 2>/dev/null || true
+    npm run clean
+    if [ $? -ne 0 ]; then
+        error "清理旧的构建文件失败" "exit"
+    fi
     
     # 安装依赖
-    log "安装依赖..."
     npm install
     if [ $? -ne 0 ]; then
         error "安装依赖失败" "exit"
     fi
     
-    # 构建后端代码
-    log "构建后端代码..."
+    # 构建代码
     npm run build
     if [ $? -ne 0 ]; then
         error "构建后端代码失败" "exit"
@@ -488,6 +515,12 @@ EOF
             error "构建输出不完整: $file 不存在" "exit"
         fi
     done
+    
+    # 生成 Prisma 客户端
+    npx prisma generate
+    if [ $? -ne 0 ]; then
+        error "生成 Prisma 客户端失败" "exit"
+    fi
     
     cd ..
     

@@ -5,9 +5,13 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "node dist/app.js",
-    "dev": "ts-node src/app.ts",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "rimraf dist && tsc",
+    "build:watch": "tsc -w",
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext .ts",
+    "test": "jest",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -36,7 +40,9 @@
     "@types/node": "^20.10.5",
     "nodemon": "^3.0.2",
     "prisma": "^6.8.2",
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.2"
   }
 }
