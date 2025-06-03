@@ -69,6 +69,81 @@ check_command() {
     return 0
 }
 
+# 检查并配置 PostgreSQL
+check_and_configure_postgresql() {
+    log "检查 PostgreSQL 服务..."
+    
+    # 检查 PostgreSQL 是否安装
+    if ! check_command psql; then
+        warn "PostgreSQL 未安装，开始安装..."
+        sudo apt update
+        sudo apt install -y postgresql postgresql-contrib
+    fi
+    
+    # 检查服务状态
+    if ! sudo systemctl is-active --quiet postgresql; then
+        warn "PostgreSQL 服务未运行，启动服务..."
+        sudo systemctl start postgresql
+        sudo systemctl enable postgresql
+    fi
+    
+    # 配置 PostgreSQL
+    log "配置 PostgreSQL..."
+    
+    # 获取 PostgreSQL 版本
+    PG_VERSION=$(sudo -u postgres psql -t -c "SHOW server_version;" | cut -d. -f1)
+    
+    # 配置 postgresql.conf
+    sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/$PG_VERSION/main/postgresql.conf
+    
+    # 配置 pg_hba.conf
+    if ! grep -q "host    all             all             0.0.0.0/0               md5" /etc/postgresql/$PG_VERSION/main/pg_hba.conf; then
+        echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /etc/postgresql/$PG_VERSION/main/pg_hba.conf
+    fi
+    
+    # 重启 PostgreSQL
+    sudo systemctl restart postgresql
+    
+    # 创建数据库和用户
+    log "配置数据库和用户..."
+    
+    # 检查数据库是否存在
+    if ! sudo -u postgres psql -lqt | cut -d \| -f 1 | grep -qw hazard_report; then
+        sudo -u postgres psql -c "CREATE DATABASE hazard_report;"
+    fi
+    
+    # 检查用户是否存在
+    if ! sudo -u postgres psql -t -c "SELECT 1 FROM pg_roles WHERE rolname='hazard_user'" | grep -q 1; then
+        sudo -u postgres psql -c "CREATE USER hazard_user WITH ENCRYPTED PASSWORD 'hazard_password';"
+    fi
+    
+    # 授予权限
+    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO hazard_user;"
+    
+    # 配置数据库连接
+    log "配置数据库连接..."
+    
+    # 检查 .env 文件是否存在
+    if [ ! -f "backend/.env" ]; then
+        cat > backend/.env << EOF
+DATABASE_URL="postgresql://hazard_user:hazard_password@localhost:5432/hazard_report"
+PORT=3000
+NODE_ENV=production
+CORS_ORIGIN="*"
+JWT_SECRET="your-jwt-secret-key"
+UPLOAD_DIR="./uploads"
+MAX_FILE_SIZE=5242880
+MAX_FILES=4
+ALLOWED_TYPES="image/jpeg,image/png"
+EOF
+    else
+        # 更新数据库连接字符串
+        sed -i 's|^DATABASE_URL=.*|DATABASE_URL="postgresql://hazard_user:hazard_password@localhost:5432/hazard_report"|' backend/.env
+    fi
+    
+    log "PostgreSQL 配置完成"
+}
+
 # 检查Node.js版本
 check_node_version() {
     log "检查Node.js版本..."
@@ -78,16 +153,15 @@ check_node_version() {
     
     if [ "$NODE_MAJOR" -lt 18 ]; then
         warn "当前Node.js版本 $NODE_VERSION 低于推荐版本 18.x"
-        warn "可能会出现兼容性问题，建议升级Node.js"
+        warn "开始安装 Node.js 18.x..."
         
-        if [ "$AUTO_YES" = false ]; then
-            read -p "是否继续? (y/n) " REPLY
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                error "用户取消更新" "exit"
-            fi
-        else
-            warn "自动确认模式：继续执行"
-        fi
+        # 安装 Node.js 18.x
+        curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+        sudo apt install -y nodejs
+        
+        # 验证安装
+        NODE_VERSION=$(node -v)
+        log "Node.js 已更新到版本 $NODE_VERSION"
     fi
 }
 
@@ -126,17 +200,26 @@ check_dependencies() {
     # 检查必要的命令
     for cmd in node npm git; do
         if ! check_command $cmd; then
-            error "请先安装 $cmd" "exit"
+            warn "$cmd 未安装，开始安装..."
+            case $cmd in
+                node|npm)
+                    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+                    sudo apt install -y nodejs
+                    ;;
+                git)
+                    sudo apt install -y git
+                    ;;
+            esac
         fi
     done
     
     # 检查 PM2
     if ! check_command pm2; then
         warn "PM2 未安装，将尝试全局安装..."
-        npm install -g pm2
+        sudo npm install -g pm2
         if [ $? -ne 0 ]; then
             error "安装 PM2 失败，请手动安装后再运行脚本"
-            error "使用命令: npm install -g pm2" "exit"
+            error "使用命令: sudo npm install -g pm2" "exit"
         fi
     fi
 }
@@ -147,6 +230,9 @@ check_and_fix_issues() {
     
     # 首先检查项目结构
     check_project_structure
+    
+    # 检查并配置 PostgreSQL
+    check_and_configure_postgresql
     
     # 1. 检查端口占用
     log "检查端口占用..."
@@ -194,7 +280,7 @@ check_and_fix_issues() {
     if [ ! -f "backend/.env" ]; then
         warn "环境配置文件不存在，创建默认配置..."
         cat > backend/.env << EOF
-DATABASE_URL="postgresql://hazard_user:your_password@localhost:5432/hazard_report"
+DATABASE_URL="postgresql://hazard_user:hazard_password@localhost:5432/hazard_report"
 PORT=3000
 NODE_ENV=production
 CORS_ORIGIN="*"
@@ -222,7 +308,7 @@ EOF
             if ! grep -q "^$var=" backend/.env; then
                 warn "环境变量 $var 缺失，添加默认值..."
                 case $var in
-                    "DATABASE_URL") echo "DATABASE_URL=\"postgresql://hazard_user:your_password@localhost:5432/hazard_report\"" >> backend/.env ;;
+                    "DATABASE_URL") echo "DATABASE_URL=\"postgresql://hazard_user:hazard_password@localhost:5432/hazard_report\"" >> backend/.env ;;
                     "PORT") echo "PORT=3000" >> backend/.env ;;
                     "NODE_ENV") echo "NODE_ENV=production" >> backend/.env ;;
                     "CORS_ORIGIN") echo "CORS_ORIGIN=\"*\"" >> backend/.env ;;
