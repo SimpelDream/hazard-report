@@ -49,9 +49,9 @@ fi
 
 # 重置本地更改并更新代码
 log "重置本地更改并更新代码..."
-git reset --hard HEAD
-git clean -fd
-git pull origin main
+sudo git reset --hard HEAD
+sudo git clean -fd
+sudo git pull origin main
 
 # 检查项目结构
 log "检查项目结构..."
