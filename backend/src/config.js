@@ -1,19 +1,19 @@
 // 服务器配置
 const SERVER = {
     PORT: process.env.PORT || 3000,
-    HOST: process.env.HOST || 'localhost',
+    HOST: process.env.HOST || '0.0.0.0',
     NODE_ENV: process.env.NODE_ENV || 'development'
 };
 
 // 数据库配置
 const DATABASE = {
-    PROVIDER: process.env.DB_PROVIDER || 'sqlite',
-    URL: process.env.DATABASE_URL || 'file:./prisma/dev.db'
+    PROVIDER: process.env.DB_PROVIDER || 'postgresql',
+    URL: process.env.DATABASE_URL || 'postgresql://hazard_user:hazard_password@db:5432/hazard_report'
 };
 
 // 文件上传配置
 const UPLOAD = {
-    DIR: './uploads',
+    DIR: '/app/uploads',
     MAX_SIZE: 10 * 1024 * 1024, // 10MB
     MAX_FILES: 5,
     ALLOWED_TYPES: ['image/jpeg', 'image/png', 'image/gif']
@@ -41,7 +41,7 @@ const SECURITY = {
 
 // 日志配置
 const LOG = {
-    DIR: './logs',
+    DIR: '/app/logs',
     LEVEL: process.env.LOG_LEVEL || 'info'
 };
 

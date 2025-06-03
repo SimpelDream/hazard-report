@@ -1,9 +1,9 @@
 module.exports = {
   apps: [{
-    name: 'hazard-report-api',
-    script: 'app.js',
-    instances: 1,
-    autorestart: true,
+    name: 'hazard-report-backend',
+    script: 'dist/app.js',
+    instances: 'max',
+    exec_mode: 'cluster',
     watch: false,
     max_memory_restart: '1G',
     env: {

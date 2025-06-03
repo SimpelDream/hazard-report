@@ -2,10 +2,10 @@
   "name": "hazard-report-backend",
   "version": "1.0.0",
   "description": "隐患上报系统后端",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node dist/app.js",
+    "dev": "ts-node src/app.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,9 +14,20 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.8.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/csurf": "^1.11.5",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/uuid": "^10.0.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "exceljs": "^4.4.0",
     "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1"
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
