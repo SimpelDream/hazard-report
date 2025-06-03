@@ -1,8 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { PrismaClient } from '@prisma/client';
 
 const router = Router();
+const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-jwt-secret-key';
 
 // 扩展 Request 类型以包含 user 属性
@@ -12,6 +14,7 @@ declare global {
       user?: {
         id: number;
         username: string;
+        role: string;
       };
     }
   }
@@ -35,41 +38,49 @@ const users = [
 
 // 登录接口
 router.post('/login', async (req: Request, res: Response) => {
-  const { username, password } = req.body;
-
   try {
-    const user = users.find(u => u.username === username);
+    const { username, password } = req.body;
+    
+    // 验证用户
+    const user = await prisma.user.findUnique({
+      where: { username }
+    });
+    
     if (!user) {
       return res.status(401).json({
         success: false,
         error: '用户名或密码错误'
       });
     }
-
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
+    
+    // 验证密码
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
       return res.status(401).json({
         success: false,
         error: '用户名或密码错误'
       });
     }
-
+    
+    // 生成 JWT
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, username: user.username, role: user.role },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
-
-    res.json({
+    
+    return res.json({
       success: true,
-      data: {
-        token,
-        username: user.username
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role
       }
     });
   } catch (error) {
-    console.error('登录失败:', error);
-    res.status(500).json({
+    console.error('登录错误:', error);
+    return res.status(500).json({
       success: false,
       error: '服务器内部错误'
     });
@@ -78,19 +89,20 @@ router.post('/login', async (req: Request, res: Response) => {
 
 // 验证 token 的中间件
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).json({
-      success: false,
-      error: '未提供认证令牌'
-    });
-  }
-
-  const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { id: number; username: string };
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        error: '未提供认证令牌'
+      });
+    }
+    
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
     req.user = decoded;
-    next();
+    
+    return next();
   } catch (error) {
     return res.status(401).json({
       success: false,
