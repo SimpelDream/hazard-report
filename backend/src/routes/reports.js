@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 // 配置 multer 存储
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, config.UPLOAD.DIR);
+        cb(null, config.UPLOAD_DIR);
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -34,7 +34,7 @@ const upload = multer({
     fileFilter: fileFilter,
     limits: {
         fileSize: config.UPLOAD.MAX_SIZE,
-        files: config.UPLOAD.MAX_FILES
+        files: 4
     }
 });
 
