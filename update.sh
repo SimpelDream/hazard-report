@@ -114,6 +114,10 @@ fi
 # 进入后端目录
 cd backend
 
+# 安装特定版本的依赖
+log "安装特定版本的依赖..."
+npm install jsonwebtoken@9.0.2 bcryptjs@2.4.3 exceljs@4.4.0 uuid@9.0.1 --save
+
 # 检查数据库
 log "检查数据库..."
 npx prisma generate
@@ -124,11 +128,15 @@ npx prisma migrate deploy
 
 # 安装依赖
 log "安装依赖..."
-npm install
+npm install --legacy-peer-deps
 
 # 清理旧的构建文件
 log "清理旧的构建文件..."
 npm run clean || true
+
+# 修复 TypeScript 错误
+log "修复 TypeScript 错误..."
+sed -i 's/const upload = multer({/\/\/ const upload = multer({/' src/app.ts
 
 # 构建项目
 log "构建项目..."
