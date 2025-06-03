@@ -105,11 +105,15 @@ fi
 
 # 生成 Prisma 客户端
 log "生成 Prisma 客户端..."
+sudo npm install prisma@6.8.2 -D
 sudo npx prisma generate
+cd ..
 
 # 运行数据库迁移
 log "运行数据库迁移..."
+cd backend
 sudo npx prisma migrate deploy
+cd ..
 
 # 重启服务
 log "重启服务..."
