@@ -20,7 +20,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // 确保日志目录存在
-const logDir = config.LOG.DIR;
+const logDir = config.LOGGING.DIR;
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });
     console.log(`创建日志目录: ${logDir}`);
@@ -103,5 +103,5 @@ app.listen(PORT, HOST, () => {
     console.log(`环境: ${config.SERVER.NODE_ENV}`);
     console.log(`CORS 来源: ${config.SECURITY.CORS_ORIGIN}`);
     console.log(`上传目录: ${config.UPLOAD.DIR}`);
-    console.log(`日志目录: ${config.LOG.DIR}`);
+    console.log(`日志目录: ${config.LOGGING.DIR}`);
 });
