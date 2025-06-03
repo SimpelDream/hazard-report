@@ -82,46 +82,98 @@ check_and_configure_postgresql() {
     
     # 检查服务状态
     if ! sudo systemctl is-active --quiet postgresql; then
-        warn "PostgreSQL 服务未运行，启动服务..."
+        warn "PostgreSQL 服务未运行，尝试启动服务..."
         sudo systemctl start postgresql
-        sudo systemctl enable postgresql
+        
+        # 检查启动是否成功
+        if ! sudo systemctl is-active --quiet postgresql; then
+            error "PostgreSQL 服务启动失败，尝试修复..."
+            
+            # 检查错误日志
+            sudo journalctl -u postgresql --no-pager -n 50
+            
+            # 尝试修复权限
+            sudo chown -R postgres:postgres /var/lib/postgresql
+            sudo chmod 700 /var/lib/postgresql/*/main
+            
+            # 重新启动服务
+            sudo systemctl restart postgresql
+            
+            # 再次检查服务状态
+            if ! sudo systemctl is-active --quiet postgresql; then
+                error "PostgreSQL 服务启动失败，请检查系统日志" "exit"
+            fi
+        fi
     fi
     
     # 配置 PostgreSQL
     log "配置 PostgreSQL..."
     
     # 获取 PostgreSQL 版本
-    PG_VERSION=$(sudo -u postgres psql -t -c "SHOW server_version;" | cut -d. -f1)
+    PG_VERSION=$(sudo -u postgres psql -t -c "SHOW server_version;" 2>/dev/null | cut -d. -f1)
+    if [ -z "$PG_VERSION" ]; then
+        error "无法获取 PostgreSQL 版本" "exit"
+    fi
     
     # 配置 postgresql.conf
-    sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/$PG_VERSION/main/postgresql.conf
+    if [ -f "/etc/postgresql/$PG_VERSION/main/postgresql.conf" ]; then
+        sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/$PG_VERSION/main/postgresql.conf
+    else
+        error "找不到 PostgreSQL 配置文件" "exit"
+    fi
     
     # 配置 pg_hba.conf
-    if ! grep -q "host    all             all             0.0.0.0/0               md5" /etc/postgresql/$PG_VERSION/main/pg_hba.conf; then
-        echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /etc/postgresql/$PG_VERSION/main/pg_hba.conf
+    if [ -f "/etc/postgresql/$PG_VERSION/main/pg_hba.conf" ]; then
+        if ! grep -q "host    all             all             0.0.0.0/0               md5" /etc/postgresql/$PG_VERSION/main/pg_hba.conf; then
+            echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /etc/postgresql/$PG_VERSION/main/pg_hba.conf
+        fi
+    else
+        error "找不到 PostgreSQL 访问控制配置文件" "exit"
     fi
     
     # 重启 PostgreSQL
     sudo systemctl restart postgresql
     
+    # 等待服务完全启动
+    sleep 5
+    
+    # 检查服务是否正常运行
+    if ! sudo systemctl is-active --quiet postgresql; then
+        error "PostgreSQL 服务重启失败" "exit"
+    fi
+    
     # 创建数据库和用户
     log "配置数据库和用户..."
     
     # 检查数据库是否存在
-    if ! sudo -u postgres psql -lqt | cut -d \| -f 1 | grep -qw hazard_report; then
+    if ! sudo -u postgres psql -lqt 2>/dev/null | cut -d \| -f 1 | grep -qw hazard_report; then
         sudo -u postgres psql -c "CREATE DATABASE hazard_report;"
+        if [ $? -ne 0 ]; then
+            error "创建数据库失败" "exit"
+        fi
     fi
     
     # 检查用户是否存在
-    if ! sudo -u postgres psql -t -c "SELECT 1 FROM pg_roles WHERE rolname='hazard_user'" | grep -q 1; then
+    if ! sudo -u postgres psql -t -c "SELECT 1 FROM pg_roles WHERE rolname='hazard_user'" 2>/dev/null | grep -q 1; then
         sudo -u postgres psql -c "CREATE USER hazard_user WITH ENCRYPTED PASSWORD 'hazard_password';"
+        if [ $? -ne 0 ]; then
+            error "创建用户失败" "exit"
+        fi
     fi
     
     # 授予权限
     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予权限失败" "exit"
+    fi
     
     # 配置数据库连接
     log "配置数据库连接..."
+    
+    # 测试数据库连接
+    if ! PGPASSWORD=hazard_password psql -h localhost -U hazard_user -d hazard_report -c "\l" > /dev/null 2>&1; then
+        error "数据库连接测试失败" "exit"
+    fi
     
     # 检查 .env 文件是否存在
     if [ ! -f "backend/.env" ]; then
