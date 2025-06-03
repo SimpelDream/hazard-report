@@ -194,7 +194,7 @@ check_and_fix_issues() {
     if [ ! -f "backend/.env" ]; then
         warn "环境配置文件不存在，创建默认配置..."
         cat > backend/.env << EOF
-DATABASE_URL="file:./prisma/dev.db"
+DATABASE_URL="postgresql://hazard_user:your_password@localhost:5432/hazard_report"
 PORT=3000
 NODE_ENV=production
 CORS_ORIGIN="*"
@@ -222,7 +222,7 @@ EOF
             if ! grep -q "^$var=" backend/.env; then
                 warn "环境变量 $var 缺失，添加默认值..."
                 case $var in
-                    "DATABASE_URL") echo "DATABASE_URL=\"file:./prisma/dev.db\"" >> backend/.env ;;
+                    "DATABASE_URL") echo "DATABASE_URL=\"postgresql://hazard_user:your_password@localhost:5432/hazard_report\"" >> backend/.env ;;
                     "PORT") echo "PORT=3000" >> backend/.env ;;
                     "NODE_ENV") echo "NODE_ENV=production" >> backend/.env ;;
                     "CORS_ORIGIN") echo "CORS_ORIGIN=\"*\"" >> backend/.env ;;
