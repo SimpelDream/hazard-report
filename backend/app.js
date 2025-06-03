@@ -7,8 +7,15 @@ const config = require('./src/config');
 
 const app = express();
 const prisma = new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+    datasources: {
+        db: {
+            url: config.DATABASE_URL
+        }
+    }
 });
+
+// 将 prisma 实例添加到 app.locals
+app.locals.prisma = prisma;
 
 // 中间件
 app.use(cors());
