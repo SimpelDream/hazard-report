@@ -83,21 +83,21 @@ sudo chown -R $USER:$USER /var/www/hazard-report
 log "清理旧的依赖..."
 sudo rm -rf node_modules package-lock.json
 
-# 安装依赖
-log "安装依赖..."
-npm install
+# # 安装依赖
+# log "安装依赖..."
+# npm install
 
 # 修复安全漏洞
-log "修复安全漏洞..."
-npm audit fix --force || true
+# log "修复安全漏洞..."
+# npm audit fix --force || true
 
-# 清理 npm 缓存
-log "清理 npm 缓存..."
-npm cache clean --force
+# # 清理 npm 缓存
+# log "清理 npm 缓存..."
+# npm cache clean --force
 
-# 重新安装依赖
-log "重新安装依赖..."
-npm install
+# # 重新安装依赖
+# log "重新安装依赖..."
+# npm install
 
 # 重新构建项目
 log "重新构建项目..."

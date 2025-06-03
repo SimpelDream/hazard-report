@@ -25,9 +25,27 @@ mkdir -p backend/uploads backend/logs backend/exports
 # 进入后端目录
 cd backend
 
+# 检查 .env 文件
+if [ ! -f ".env" ]; then
+    echo "创建 .env 文件..."
+    cat > .env << EOL
+DATABASE_URL="postgresql://hazard_report:hazard_report@localhost:5432/hazard_report"
+JWT_SECRET="your-secret-key"
+UPLOAD_DIR="./uploads"
+LOG_DIR="./logs"
+EXPORT_DIR="./exports"
+EOL
+fi
+
 # 安装依赖
-echo "安装依赖..."
-npm install
+# echo "安装依赖..."
+# npm install
+
+# 检查 Prisma schema
+if [ ! -f "prisma/schema.prisma" ]; then
+    echo "错误: 找不到 Prisma schema 文件"
+    exit 1
+fi
 
 # 生成 Prisma 客户端
 echo "生成 Prisma 客户端..."
