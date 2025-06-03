@@ -1,9 +1,15 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 
-const prisma = new PrismaClient();
-
 async function main() {
+    const prisma = new PrismaClient({
+        datasources: {
+            db: {
+                url: process.env.DATABASE_URL
+            }
+        }
+    });
+
     try {
         // 检查是否已存在管理员账号
         const existingAdmin = await prisma.admin.findFirst();
