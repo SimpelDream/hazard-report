@@ -76,13 +76,41 @@ check_and_configure_postgresql() {
     # 检查 PostgreSQL 是否安装
     if ! check_command psql; then
         warn "PostgreSQL 未安装，开始安装..."
+        
+        # 添加 PostgreSQL 官方源
+        log "添加 PostgreSQL 官方源..."
+        sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        
+        # 更新包列表
         sudo apt update
+        
+        # 安装 PostgreSQL
+        log "安装 PostgreSQL..."
         sudo apt install -y postgresql postgresql-contrib
+        
+        # 检查安装是否成功
+        if ! check_command psql; then
+            error "PostgreSQL 安装失败" "exit"
+        fi
     fi
     
     # 检查服务状态
     if ! sudo systemctl is-active --quiet postgresql; then
         warn "PostgreSQL 服务未运行，尝试启动服务..."
+        
+        # 检查服务文件是否存在
+        if [ ! -f "/etc/systemd/system/postgresql.service" ] && [ ! -f "/lib/systemd/system/postgresql.service" ]; then
+            error "PostgreSQL 服务文件不存在，尝试重新安装..." "exit"
+            sudo apt remove -y postgresql postgresql-contrib
+            sudo apt autoremove -y
+            sudo apt install -y postgresql postgresql-contrib
+        fi
+        
+        # 重新加载 systemd
+        sudo systemctl daemon-reload
+        
+        # 启动服务
         sudo systemctl start postgresql
         
         # 检查启动是否成功
