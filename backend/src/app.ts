@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { config } from './config';
@@ -72,36 +71,6 @@ app.get('/api/csrf-token', csrfProtection, (req, res) => {
         res.json({ token: req.csrfToken() });
     } else {
         res.status(500).json({ error: 'CSRF Token 生成失败' });
-    }
-});
-
-// 配置 multer 存储
-const storage = multer.diskStorage({
-    destination: function (_req, _file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (_req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
-// 文件过滤器
-const fileFilter = (_req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    if (config.UPLOAD.ALLOWED_TYPES.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('不支持的文件类型'));
-    }
-};
-
-// 创建 multer 实例
-const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: {
-        fileSize: config.UPLOAD.MAX_SIZE,
-        files: config.UPLOAD.MAX_FILES
     }
 });
 

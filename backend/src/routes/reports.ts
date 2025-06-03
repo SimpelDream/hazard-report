@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
-import multer, { MulterError } from 'multer';
+import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { config } from '../config';
