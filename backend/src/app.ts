@@ -1,9 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const config = require('./src/config');
+import express from 'express';
+import cors from 'cors';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { config } from './config';
+import reportsRouter from './routes/reports';
+import ordersRouter from './routes/orders';
 
 const app = express();
 
@@ -51,11 +53,11 @@ const storage = multer.diskStorage({
 });
 
 // 文件过滤器
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     if (config.UPLOAD.ALLOWED_TYPES.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error('不支持的文件类型'), false);
+        cb(new Error('不支持的文件类型'));
     }
 };
 
@@ -75,15 +77,18 @@ console.log(`配置静态文件服务: /uploads -> ${uploadDir}`);
 
 // 健康检查接口
 app.get('/api/v1/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
+    res.status(200).json({ status: 'ok' });
+});
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
 });
 
 // API 路由
-app.use('/api/reports', require('./src/routes/reports'));
-app.use('/api/orders', require('./src/routes/orders'));
+app.use('/api/reports', reportsRouter);
+app.use('/api/orders', ordersRouter);
 
 // 错误处理中间件
-app.use((err, req, res, next) => {
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error('服务器错误:', err);
     res.status(500).json({
         success: false,
@@ -101,4 +106,4 @@ app.listen(PORT, HOST, () => {
     console.log(`CORS 来源: ${config.SECURITY.CORS_ORIGIN}`);
     console.log(`上传目录: ${config.UPLOAD.DIR}`);
     console.log(`日志目录: ${config.LOG.DIR}`);
-});
+}); 
