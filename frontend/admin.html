@@ -475,7 +475,9 @@
                 <p><strong>图片：</strong></p>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                   ${report.images.split(',').map(url => `
-                    <img src="/uploads/${url}" alt="隐患图片" class="w-full h-48 object-cover rounded">
+                    <a href="/uploads/${url}" target="_blank">
+                      <img src="/uploads/${url}" alt="隐患图片" class="w-32 h-32 object-cover rounded cursor-pointer">
+                    </a>
                   `).join('')}
                 </div>
               </div>
