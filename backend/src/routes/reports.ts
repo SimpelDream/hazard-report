@@ -118,19 +118,6 @@ interface StatusUpdateLog {
   error?: string;
 }
 
-// 记录状态更新日志
-async function logStatusUpdate(log: StatusUpdateLog) {
-  const logDir = path.join(config.LOG.DIR, 'status-updates');
-  if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-  }
-
-  const logFile = path.join(logDir, `${log.reportId}.log`);
-  const logEntry = JSON.stringify(log) + '\n';
-
-  fs.appendFileSync(logFile, logEntry);
-}
-
 // 获取状态更新日志
 async function getStatusUpdateLogs(reportId: number): Promise<StatusUpdateLog[]> {
   const logFile = path.join(config.LOG.DIR, 'status-updates', `${reportId}.log`);

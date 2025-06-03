@@ -112,6 +112,9 @@ HOST=0.0.0.0
 CORS_ORIGIN=http://localhost:8080
 UPLOAD_DIR=uploads
 LOG_DIR=logs
+MAX_FILE_SIZE=5242880
+MAX_FILES=4
+ALLOWED_TYPES=image/jpeg,image/png
 EOL
 fi
 

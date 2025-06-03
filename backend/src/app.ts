@@ -43,17 +43,17 @@ app.use(express.urlencoded({ extended: true }));
 
 // 配置 multer 存储
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function (_req, _file, cb) {
         cb(null, uploadDir);
     },
-    filename: function (req, file, cb) {
+    filename: function (_req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 
 // 文件过滤器
-const fileFilter = (req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+const fileFilter = (_req: Express.Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     if (config.UPLOAD.ALLOWED_TYPES.includes(file.mimetype)) {
         cb(null, true);
     } else {
@@ -76,10 +76,10 @@ app.use('/uploads', express.static(uploadDir));
 console.log(`配置静态文件服务: /uploads -> ${uploadDir}`);
 
 // 健康检查接口
-app.get('/api/v1/health', (req, res) => {
+app.get('/api/v1/health', (_req, res) => {
     res.status(200).json({ status: 'ok' });
 });
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
     res.status(200).json({ status: 'ok' });
 });
 
@@ -88,7 +88,7 @@ app.use('/api/reports', reportsRouter);
 app.use('/api/orders', ordersRouter);
 
 // 错误处理中间件
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error('服务器错误:', err);
     res.status(500).json({
         success: false,

@@ -1,37 +1,42 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:14-alpine
+  postgres:
+    image: postgres:15-alpine
     container_name: hazard-report-db
     environment:
-      - POSTGRES_USER=hazard_user
-      - POSTGRES_PASSWORD=hazard_password
-      - POSTGRES_DB=hazard_report
+      POSTGRES_USER: hazard_report
+      POSTGRES_PASSWORD: hazard_report
+      POSTGRES_DB: hazard_report
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hazard_report"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - app-network
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend
     container_name: hazard-report-backend
     ports:
       - "3000:3000"
     volumes:
-      - ./backend/prisma:/app/prisma
       - ./backend/uploads:/app/uploads
+      - ./backend/logs:/app/logs
     environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://hazard_user:hazard_password@db:5432/hazard_report
-      - PORT=3000
-      - HOST=0.0.0.0
+      DATABASE_URL: postgresql://hazard_report:hazard_report@postgres:5432/hazard_report
+      NODE_ENV: production
+      PORT: 3000
+      HOST: 0.0.0.0
+      CORS_ORIGIN: http://localhost:8080
     depends_on:
-      - db
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - app-network
@@ -41,9 +46,11 @@ services:
     container_name: hazard-report-nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./frontend:/usr/share/nginx/html:ro
+      - ./backend/uploads:/usr/share/nginx/html/uploads:ro
+      - ./frontend/dist:/usr/share/nginx/html:ro
     depends_on:
       - backend
     restart: unless-stopped
