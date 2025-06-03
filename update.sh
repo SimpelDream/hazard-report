@@ -105,7 +105,8 @@ fi
 
 # 生成 Prisma 客户端
 log "生成 Prisma 客户端..."
-sudo npm install prisma@6.8.2 -D
+sudo npm install typescript@latest -D --legacy-peer-deps
+sudo npm install prisma@6.8.2 -D --legacy-peer-deps
 sudo npx prisma generate
 cd ..
 
