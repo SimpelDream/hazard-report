@@ -4,6 +4,9 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const config = require('./src/config');
+const reportsRouter = require('./src/routes/reports');
+const ordersRouter = require('./src/routes/orders');
+const adminRouter = require('./src/routes/admin');
 
 const app = express();
 
@@ -28,7 +31,7 @@ if (!fs.existsSync(logDir)) {
 // 配置 CORS
 app.use(cors({
     origin: config.SECURITY.CORS_ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -73,22 +76,22 @@ const upload = multer({
 app.use('/uploads', express.static(uploadDir));
 console.log(`配置静态文件服务: /uploads -> ${uploadDir}`);
 
-// 健康检查接口
-app.get('/api/v1/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
-});
-
 // API 路由
-app.use('/api/reports', require('./src/routes/reports'));
-app.use('/api/orders', require('./src/routes/orders'));
+app.use('/api/reports', reportsRouter);
+app.use('/api/orders', ordersRouter);
+app.use('/api/admin', adminRouter);
+
+// 健康检查接口
+app.get('/api/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
 
 // 错误处理中间件
 app.use((err, req, res, next) => {
     console.error('服务器错误:', err);
     res.status(500).json({
         success: false,
-        error: '服务器内部错误',
-        details: process.env.NODE_ENV === 'development' ? err.message : undefined
+        error: '服务器内部错误'
     });
 });
 

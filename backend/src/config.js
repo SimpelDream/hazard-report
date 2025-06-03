@@ -1,48 +1,52 @@
 // 服务器配置
 const SERVER = {
     PORT: process.env.PORT || 3000,
-    HOST: process.env.HOST || '0.0.0.0',
+    HOST: process.env.HOST || 'localhost',
     NODE_ENV: process.env.NODE_ENV || 'development'
 };
 
 // 数据库配置
 const DATABASE = {
-    PROVIDER: process.env.DB_PROVIDER || 'postgresql',
-    URL: process.env.DATABASE_URL || 'postgresql://hazard_user:hazard_password@db:5432/hazard_report'
+    URL: process.env.DATABASE_URL || 'file:./dev.db'
 };
 
 // 文件上传配置
 const UPLOAD = {
-    DIR: '/app/uploads',
-    MAX_SIZE: 10 * 1024 * 1024, // 10MB
+    DIR: 'uploads',
+    MAX_SIZE: 5 * 1024 * 1024, // 5MB
     MAX_FILES: 5,
-    ALLOWED_TYPES: ['image/jpeg', 'image/png', 'image/gif']
+    ALLOWED_TYPES: [
+        'image/jpeg',
+        'image/png',
+        'image/gif'
+    ]
 };
 
 // API 路由配置
 const API = {
     PREFIX: '/api',
     VERSION: 'v1',
-    ROUTES: {
-        REPORTS: '/reports',
-        ORDERS: '/orders',
-        UPLOADS: '/uploads'
+    RATE_LIMIT: {
+        WINDOW_MS: 15 * 60 * 1000, // 15 minutes
+        MAX: 100 // limit each IP to 100 requests per windowMs
     }
 };
 
 // 安全配置
 const SECURITY = {
-    CORS_ORIGIN: '*',
-    RATE_LIMIT: {
-        WINDOW_MS: 15 * 60 * 1000, // 15分钟
-        MAX: 100 // 限制每个IP 15分钟内最多100个请求
-    }
+    JWT_SECRET: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
+    JWT_EXPIRES_IN: '24h',
+    CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
+    CORS_METHODS: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    CORS_HEADERS: ['Content-Type', 'Authorization']
 };
 
 // 日志配置
-const LOG = {
-    DIR: '/app/logs',
-    LEVEL: process.env.LOG_LEVEL || 'info'
+const LOGGING = {
+    LEVEL: process.env.LOG_LEVEL || 'info',
+    DIR: 'logs',
+    MAX_SIZE: '10m',
+    MAX_FILES: '7d'
 };
 
 // 导出配置
@@ -52,5 +56,5 @@ module.exports = {
     UPLOAD,
     API,
     SECURITY,
-    LOG
+    LOGGING
 }; 

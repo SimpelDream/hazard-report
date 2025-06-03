@@ -51,7 +51,7 @@ fi
 log "重置本地更改并更新代码..."
 git reset --hard HEAD
 git clean -fd
-git pull
+git pull origin main
 
 # 检查项目结构
 log "检查项目结构..."
@@ -85,7 +85,7 @@ sudo rm -rf node_modules package-lock.json
 
 # 安装依赖
 log "安装依赖..."
-npm install --no-fund --no-audit
+npm install
 
 # 修复安全漏洞
 log "修复安全漏洞..."
@@ -97,20 +97,26 @@ npm cache clean --force
 
 # 重新安装依赖
 log "重新安装依赖..."
-npm install --no-fund --no-audit
+npm install
 
 # 重新构建项目
 log "重新构建项目..."
 npm run build
 
-# 执行数据库迁移
-log "执行数据库迁移..."
+# 生成 Prisma 客户端
+log "生成 Prisma 客户端..."
 npx prisma generate
+
+# 运行数据库迁移
+log "运行数据库迁移..."
 npx prisma migrate deploy
 
 # 重启服务
 log "重启服务..."
-pm2 restart ecosystem.config.js || pm2 start ecosystem.config.js
+pm2 restart hazard-report
+
+# 保存 PM2 配置
+pm2 save
 
 # 检查 Nginx 配置
 log "检查 Nginx 配置..."
