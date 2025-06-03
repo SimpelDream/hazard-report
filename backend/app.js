@@ -83,7 +83,7 @@ app.use('/api/admin', adminRouter);
 
 // 健康检查接口
 app.get('/api/health', (_req, res) => {
-    res.status(200).json({ status: 'ok' });
+  res.status(200).json({ status: 'ok' });
 });
 
 // 错误处理中间件
