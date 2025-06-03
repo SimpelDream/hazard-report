@@ -20,41 +20,27 @@ declare global {
   }
 }
 
-// 用户数据（实际项目中应该存储在数据库中）
-const users = [
-  {
-    id: 1,
-    username: 'admin',
-    // 密码: hazard123456
-    password: '$2a$10$X7UrH5YxX5YxX5YxX5YxX.5YxX5YxX5YxX5YxX5YxX5YxX5YxX'
-  },
-  {
-    id: 2,
-    username: 'manager',
-    // 密码: manager123456
-    password: '$2a$10$X7UrH5YxX5YxX5YxX5YxX.5YxX5YxX5YxX5YxX5YxX5YxX5YxX'
-  }
-];
-
 // 登录接口
 router.post('/login', async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
     
     // 验证用户
-    const user = await prisma.user.findUnique({
-      where: { username }
-    });
+    const user = await prisma.$queryRaw`
+      SELECT * FROM "User" WHERE username = ${username}
+    `;
     
-    if (!user) {
+    if (!user || !Array.isArray(user) || user.length === 0) {
       return res.status(401).json({
         success: false,
         error: '用户名或密码错误'
       });
     }
     
+    const userData = user[0];
+    
     // 验证密码
-    const isValid = await bcrypt.compare(password, user.password);
+    const isValid = await bcrypt.compare(password, userData.password);
     if (!isValid) {
       return res.status(401).json({
         success: false,
@@ -64,7 +50,7 @@ router.post('/login', async (req: Request, res: Response) => {
     
     // 生成 JWT
     const token = jwt.sign(
-      { id: user.id, username: user.username, role: user.role },
+      { id: userData.id, username: userData.username, role: userData.role },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -73,9 +59,9 @@ router.post('/login', async (req: Request, res: Response) => {
       success: true,
       token,
       user: {
-        id: user.id,
-        username: user.username,
-        role: user.role
+        id: userData.id,
+        username: userData.username,
+        role: userData.role
       }
     });
   } catch (error) {

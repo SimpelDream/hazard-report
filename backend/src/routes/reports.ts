@@ -454,54 +454,70 @@ router.get('/export', async (req: Request, res: Response, next: NextFunction) =>
 
 // 获取导出任务状态
 router.get('/export/:taskId', (req: Request, res: Response) => {
-  const { taskId } = req.params;
-  const task = exportTasks.get(taskId);
+  try {
+    const { taskId } = req.params;
+    const task = exportTasks.get(taskId);
 
-  if (!task) {
-    return res.status(404).json({
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        error: '导出任务不存在'
+      });
+    }
+
+    return res.json({
+      success: true,
+      data: task
+    });
+  } catch (error) {
+    console.error('获取导出任务状态失败:', error);
+    return res.status(500).json({
       success: false,
-      error: '导出任务不存在'
+      error: '服务器内部错误'
     });
   }
-
-  res.json({
-    success: true,
-    data: task
-  });
 });
 
 // 下载导出文件
 router.get('/export/:taskId/download', (req: Request, res: Response) => {
-  const { taskId } = req.params;
-  const task = exportTasks.get(taskId);
+  try {
+    const { taskId } = req.params;
+    const task = exportTasks.get(taskId);
 
-  if (!task) {
-    return res.status(404).json({
-      success: false,
-      error: '导出任务不存在'
-    });
-  }
-
-  if (task.status !== 'completed') {
-    return res.status(400).json({
-      success: false,
-      error: '导出任务尚未完成'
-    });
-  }
-
-  const filePath = path.join(config.UPLOAD.DIR, 'exports', task.filename);
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({
-      success: false,
-      error: '导出文件不存在'
-    });
-  }
-
-  res.download(filePath, task.filename, (err) => {
-    if (err) {
-      console.error('下载文件失败:', err);
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        error: '导出任务不存在'
+      });
     }
-  });
+
+    if (task.status !== 'completed') {
+      return res.status(400).json({
+        success: false,
+        error: '导出任务尚未完成'
+      });
+    }
+
+    const filePath = path.join(config.UPLOAD.DIR, 'exports', task.filename);
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        success: false,
+        error: '导出文件不存在'
+      });
+    }
+
+    return res.download(filePath, task.filename, (err) => {
+      if (err) {
+        console.error('下载文件失败:', err);
+      }
+    });
+  } catch (error) {
+    console.error('下载导出文件失败:', error);
+    return res.status(500).json({
+      success: false,
+      error: '服务器内部错误'
+    });
+  }
 });
 
 // 注册错误处理中间件
