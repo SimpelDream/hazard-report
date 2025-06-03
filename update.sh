@@ -452,12 +452,12 @@ EOF
     # 检查 tsconfig.json 是否存在
     if [ ! -f "tsconfig.json" ]; then
         error "找不到 tsconfig.json 文件" "exit"
-    }
+    fi
     
     # 检查 src 目录是否存在
     if [ ! -d "src" ]; then
         error "找不到 src 目录" "exit"
-    }
+    fi
     
     # 清理旧的构建文件
     log "清理旧的构建文件..."
