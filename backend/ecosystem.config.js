@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'hazard-report',
-    script: 'dist/app.js',
+    script: 'app.js',
     instances: 'max',
     exec_mode: 'cluster',
     autorestart: true,
