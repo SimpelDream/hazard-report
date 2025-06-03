@@ -70,7 +70,7 @@ fi
 # 配置 PostgreSQL
 log "配置 PostgreSQL..."
 sudo -u postgres psql -c "ALTER USER hazard_report WITH PASSWORD 'hazard_report';" || true
-sudo -u postgres psql -c "CREATE DATABASE hazard_report;" || true
+sudo -u postgres psql -c "CREATE DATABASE hazard_report;" 2>/dev/null || true
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO hazard_report;" || true
 
 # 进入后端目录
@@ -100,7 +100,7 @@ fi
 # 检查是否需要重新构建
 if [ "$1" == "--rebuild" ] || [ "$1" == "--update-deps" ]; then
     log "重新构建项目..."
-    npm run build
+    sudo npm run build
 fi
 
 # 生成 Prisma 客户端
