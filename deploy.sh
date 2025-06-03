@@ -5,6 +5,12 @@ set -e
 
 echo "开始部署隐患上报系统..."
 
+# 检查当前目录
+if [ ! -d "backend" ] || [ ! -d "frontend" ]; then
+    echo "错误: 请在项目根目录下运行此脚本"
+    exit 1
+fi
+
 # 检查 Node.js 版本
 NODE_VERSION=$(node -v)
 if [[ ${NODE_VERSION:1:2} -lt 18 ]]; then
@@ -14,7 +20,10 @@ fi
 
 # 检查必要的目录
 echo "检查目录..."
-mkdir -p uploads logs exports
+mkdir -p backend/uploads backend/logs backend/exports
+
+# 进入后端目录
+cd backend
 
 # 安装依赖
 echo "安装依赖..."
@@ -46,5 +55,8 @@ fi
 
 # 保存 PM2 配置
 pm2 save
+
+# 返回项目根目录
+cd ..
 
 echo "部署完成！" 
