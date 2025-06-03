@@ -137,6 +137,12 @@ check_and_configure_postgresql() {
     # 配置 PostgreSQL
     log "配置 PostgreSQL..."
     
+    # 查找 PostgreSQL 配置文件
+    PG_CONF_DIR=$(sudo find /etc/postgresql -name "postgresql.conf" -type f 2>/dev/null | head -n 1 | xargs dirname)
+    if [ -z "$PG_CONF_DIR" ]; then
+        error "找不到 PostgreSQL 配置目录" "exit"
+    fi
+    
     # 获取 PostgreSQL 版本
     PG_VERSION=$(sudo -u postgres psql -t -c "SHOW server_version;" 2>/dev/null | cut -d. -f1)
     if [ -z "$PG_VERSION" ]; then
@@ -144,19 +150,19 @@ check_and_configure_postgresql() {
     fi
     
     # 配置 postgresql.conf
-    if [ -f "/etc/postgresql/$PG_VERSION/main/postgresql.conf" ]; then
-        sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/$PG_VERSION/main/postgresql.conf
+    if [ -f "$PG_CONF_DIR/postgresql.conf" ]; then
+        sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$PG_CONF_DIR/postgresql.conf"
     else
-        error "找不到 PostgreSQL 配置文件" "exit"
+        error "找不到 PostgreSQL 配置文件: $PG_CONF_DIR/postgresql.conf" "exit"
     fi
     
     # 配置 pg_hba.conf
-    if [ -f "/etc/postgresql/$PG_VERSION/main/pg_hba.conf" ]; then
-        if ! grep -q "host    all             all             0.0.0.0/0               md5" /etc/postgresql/$PG_VERSION/main/pg_hba.conf; then
-            echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a /etc/postgresql/$PG_VERSION/main/pg_hba.conf
+    if [ -f "$PG_CONF_DIR/pg_hba.conf" ]; then
+        if ! grep -q "host    all             all             0.0.0.0/0               md5" "$PG_CONF_DIR/pg_hba.conf"; then
+            echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a "$PG_CONF_DIR/pg_hba.conf"
         fi
     else
-        error "找不到 PostgreSQL 访问控制配置文件" "exit"
+        error "找不到 PostgreSQL 访问控制配置文件: $PG_CONF_DIR/pg_hba.conf" "exit"
     fi
     
     # 重启 PostgreSQL
