@@ -98,6 +98,21 @@ router.get('/reports', async (req, res) => {
   }
 });
 
+// 获取单个报告详情
+router.get('/reports/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const report = await prisma.report.findUnique({ where: { id: parseInt(id) } });
+    if (!report) {
+      return res.status(404).json({ success: false, error: '报告不存在' });
+    }
+    res.json({ success: true, data: report });
+  } catch (error) {
+    console.error('加载详情失败:', error);
+    res.status(500).json({ success: false, error: '加载详情失败' });
+  }
+});
+
 // 更新报告状态
 router.patch('/reports/:id/status', async (req, res) => {
   try {
