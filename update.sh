@@ -196,9 +196,41 @@ check_and_configure_postgresql() {
     fi
     
     # 授予权限
+    log "设置数据库权限..."
+    
+    # 授予数据库权限
     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE hazard_report TO hazard_user;"
     if [ $? -ne 0 ]; then
-        error "授予权限失败" "exit"
+        error "授予数据库权限失败" "exit"
+    fi
+    
+    # 授予 schema 权限
+    sudo -u postgres psql -d hazard_report -c "GRANT ALL ON SCHEMA public TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予 schema 权限失败" "exit"
+    fi
+    
+    # 授予表权限
+    sudo -u postgres psql -d hazard_report -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予表权限失败" "exit"
+    fi
+    
+    # 授予序列权限
+    sudo -u postgres psql -d hazard_report -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "授予序列权限失败" "exit"
+    fi
+    
+    # 设置默认权限
+    sudo -u postgres psql -d hazard_report -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "设置默认表权限失败" "exit"
+    fi
+    
+    sudo -u postgres psql -d hazard_report -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO hazard_user;"
+    if [ $? -ne 0 ]; then
+        error "设置默认序列权限失败" "exit"
     fi
     
     # 配置数据库连接
