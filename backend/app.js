@@ -4,6 +4,9 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const config = require('./src/config');
+const reportsRouter = require('./src/routes/reports');
+const ordersRouter = require('./src/routes/orders');
+const adminRouter = require('./src/routes/admin');
 
 const app = express();
 
@@ -17,7 +20,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // 确保日志目录存在
-const logDir = config.LOG.DIR;
+const logDir = config.LOGGING.DIR;
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });
     console.log(`创建日志目录: ${logDir}`);
@@ -28,7 +31,7 @@ if (!fs.existsSync(logDir)) {
 // 配置 CORS
 app.use(cors({
     origin: config.SECURITY.CORS_ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
@@ -74,16 +77,21 @@ app.use('/uploads', express.static(uploadDir));
 console.log(`配置静态文件服务: /uploads -> ${uploadDir}`);
 
 // API 路由
-app.use('/api/reports', require('./src/routes/reports'));
-app.use('/api/orders', require('./src/routes/orders'));
+app.use('/api/reports', reportsRouter);
+app.use('/api/orders', ordersRouter);
+app.use('/api/admin', adminRouter);
+
+// 健康检查接口
+app.get('/api/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 // 错误处理中间件
 app.use((err, req, res, next) => {
     console.error('服务器错误:', err);
     res.status(500).json({
         success: false,
-        error: '服务器内部错误',
-        details: process.env.NODE_ENV === 'development' ? err.message : undefined
+        error: '服务器内部错误'
     });
 });
 
@@ -95,5 +103,5 @@ app.listen(PORT, HOST, () => {
     console.log(`环境: ${config.SERVER.NODE_ENV}`);
     console.log(`CORS 来源: ${config.SECURITY.CORS_ORIGIN}`);
     console.log(`上传目录: ${config.UPLOAD.DIR}`);
-    console.log(`日志目录: ${config.LOG.DIR}`);
+    console.log(`日志目录: ${config.LOGGING.DIR}`);
 });

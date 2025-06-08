@@ -1,0 +1,8 @@
+2025-06-03T16:03:16: 上传目录已存在: E:\project\hazard-report\backend\uploads
+2025-06-03T16:03:16: 日志目录已存在: E:\project\hazard-report\backend\logs
+2025-06-03T16:03:16: 配置静态文件服务: /uploads -> E:\project\hazard-report\backend\uploads
+2025-06-03T16:03:17: API 服务器运行在 http://0.0.0.0:3000
+2025-06-03T16:03:17: 环境: production
+2025-06-03T16:03:17: CORS 来源: *
+2025-06-03T16:03:17: 上传目录: E:\project\hazard-report\backend\uploads
+2025-06-03T16:03:17: 日志目录: E:\project\hazard-report\backend\logs

@@ -3,29 +3,53 @@
   "version": "1.0.0",
   "description": "隐患上报系统后端",
   "main": "app.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf dist",
+    "lint": "eslint . --ext .ts",
+    "test": "jest",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "create-admin": "node scripts/create-admin.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.8.2",
+    "@prisma/client": "^5.10.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "exceljs": "^4.4.0",
     "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1"
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.7.0",
+    "prisma": "^5.10.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
-    "@types/multer": "^1.4.11",
-    "@types/node": "^20.10.5",
-    "nodemon": "^3.0.2",
-    "prisma": "^6.8.2",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.3.2"
+    "@types/bcryptjs": "2.4.6",
+    "@types/cors": "2.8.17",
+    "@types/express": "4.17.21",
+    "@types/jsonwebtoken": "9.0.5",
+    "@types/multer": "1.4.11",
+    "@types/node": "18.19.3",
+    "@types/uuid": "9.0.8",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "prisma": "4.16.2",
+    "rimraf": "5.0.5",
+    "ts-node": "10.9.1",
+    "typescript": "4.9.5"
+  },
+  "overrides": {
+    "glob": "9.3.5",
+    "minimatch": "9.0.3",
+    "lru-cache": "10.1.0"
   }
 }

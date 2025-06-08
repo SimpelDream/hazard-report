@@ -38,19 +38,61 @@ const upload = multer({
     }
 });
 
+// 错误处理中间件
+const errorHandler = (err, req, res, next) => {
+    console.error('文件上传错误:', err);
+    return res.status(400).json({
+        success: false,
+        error: err.message
+    });
+};
+
 // 获取所有报告
 router.get('/', async (req, res) => {
     try {
-        const reports = await prisma.report.findMany({
-            orderBy: { createdAt: 'desc' }
+        const {
+            page = 1,
+            limit = 10,
+            project,
+            category,
+            reporter,
+            startDate,
+            endDate
+        } = req.query;
+
+        const where = {};
+        if (project) where.project = project;
+        if (category) where.category = category;
+        if (reporter) where.reporter = { contains: reporter };
+        if (startDate || endDate) {
+            where.createdAt = {};
+            if (startDate) where.createdAt.gte = new Date(startDate);
+            if (endDate) where.createdAt.lte = new Date(endDate);
+        }
+
+        const [total, reports] = await Promise.all([
+            prisma.report.count({ where }),
+            prisma.report.findMany({
+                where,
+                skip: (page - 1) * limit,
+                take: parseInt(limit),
+                orderBy: { createdAt: 'desc' }
+            })
+        ]);
+
+        res.json({
+            success: true,
+            data: {
+                reports,
+                total,
+                pages: Math.ceil(total / limit)
+            }
         });
-        res.json({ success: true, data: reports });
     } catch (error) {
         console.error('获取报告列表失败:', error);
-        res.status(500).json({ 
-            success: false, 
-            error: '获取报告列表失败',
-            details: error.message 
+        res.status(500).json({
+            success: false,
+            error: '获取报告列表失败'
         });
     }
 });
@@ -58,15 +100,13 @@ router.get('/', async (req, res) => {
 // 创建新报告
 router.post('/', upload.array('images', config.UPLOAD.MAX_FILES), async (req, res) => {
     try {
-        // 验证必填字段
-        const requiredFields = ['project', 'reporter', 'phone', 'foundAt', 'location', 'description'];
-        const missingFields = requiredFields.filter(field => !req.body[field]);
+        const { project, reporter, phone, category, foundAt, location, description } = req.body;
         
-        if (missingFields.length > 0) {
+        // 验证必填字段
+        if (!project || !reporter || !phone || !foundAt || !location || !description) {
             return res.status(400).json({
                 success: false,
-                error: '缺少必填字段',
-                details: `缺少字段: ${missingFields.join(', ')}`
+                error: '缺少必填字段'
             });
         }
 
@@ -78,44 +118,30 @@ router.post('/', upload.array('images', config.UPLOAD.MAX_FILES), async (req, re
             });
         }
 
-        const { project, reporter, phone, category, foundAt, location, description } = req.body;
-        const images = req.files.map(file => file.filename).join(',');
-
-        // 创建报告
+        // 创建报告记录
         const report = await prisma.report.create({
             data: {
                 project,
                 reporter,
                 phone,
-                category: category || null,
+                category,
                 foundAt: new Date(foundAt),
                 location,
                 description,
-                images,
-                status: 'pending',
-                createdAt: new Date()
+                images: req.files.map(file => file.filename).join(','),
+                status: '进行中'
             }
         });
 
-        res.json({ success: true, data: report });
+        res.json({
+            success: true,
+            data: report
+        });
     } catch (error) {
         console.error('创建报告失败:', error);
-        
-        // 如果创建失败，删除已上传的图片
-        if (req.files) {
-            for (const file of req.files) {
-                try {
-                    await fs.unlink(path.join(config.UPLOAD.DIR, file.filename));
-                } catch (unlinkError) {
-                    console.error('删除上传文件失败:', unlinkError);
-                }
-            }
-        }
-
-        res.status(500).json({ 
-            success: false, 
-            error: '创建报告失败',
-            details: error.message
+        res.status(500).json({
+            success: false,
+            error: '创建报告失败'
         });
     }
 });
@@ -164,5 +190,8 @@ router.delete('/:id', async (req, res) => {
         });
     }
 });
+
+// 注册错误处理中间件
+router.use(errorHandler);
 
 module.exports = router; 
