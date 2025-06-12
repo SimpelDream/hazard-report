@@ -584,10 +584,17 @@
       const foundAt = new Date(report.foundAt).toLocaleString('zh-CN');
       const createdAt = new Date(report.createdAt).toLocaleString('zh-CN');
       
-      let imagesHtml = '';
-      if (report.images && report.images.length > 0) {
+      // 将 images 字段统一处理为数组，兼容后端返回字符串的情况
+      const imageList = (() => {
+        if (!report.images) return [];
+        if (Array.isArray(report.images)) return report.images;
+        if (typeof report.images === 'string') return report.images.split(',').filter(Boolean);
+        return [];
+      })();
+
+      if (imageList.length > 0) {
         imagesHtml = '<div class="mt-4"><h3 class="font-semibold">图片：</h3><div class="flex flex-wrap gap-2 mt-2">';
-        report.images.forEach(image => {
+        imageList.forEach(image => {
           imagesHtml += `<a href="${image}" target="_blank" class="block">
             <img src="${image}" alt="隐患图片" class="w-32 h-32 object-cover rounded border">
           </a>`;
