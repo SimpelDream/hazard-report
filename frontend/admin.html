@@ -594,9 +594,10 @@
 
       if (imageList.length > 0) {
         imagesHtml = '<div class="mt-4"><h3 class="font-semibold">图片：</h3><div class="flex flex-wrap gap-2 mt-2">';
-        imageList.forEach(image => {
-          imagesHtml += `<a href="${image}" target="_blank" class="block">
-            <img src="${image}" alt="隐患图片" class="w-32 h-32 object-cover rounded border">
+        imageList.forEach(raw => {
+          const imgSrc = (/^https?:\/\//i.test(raw) || raw.startsWith('/uploads')) ? raw : `/uploads/${raw}`;
+          imagesHtml += `<a href="${imgSrc}" target="_blank" class="block">
+            <img src="${imgSrc}" alt="隐患图片" class="w-32 h-32 object-cover rounded border">
           </a>`;
         });
         imagesHtml += '</div></div>';
