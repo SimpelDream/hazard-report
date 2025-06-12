@@ -509,6 +509,8 @@
           </td>
           <td data-label="操作" class="py-2 px-4">
             <button class="bg-blue-500 text-white px-2 py-1 rounded text-sm hover:bg-blue-600 mr-1" onclick="showReportDetails(${report.id})">查看详情</button>
+            <button class="bg-yellow-500 text-white px-2 py-1 rounded text-sm hover:bg-yellow-600 mr-1" onclick="editReport(${report.id})">编辑</button>
+            <button class="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600" onclick="deleteReport(${report.id})">删除</button>
           </td>
         `;
         
@@ -806,6 +808,54 @@
       } catch (error) {
         console.error('导出报告数据失败:', error);
         alert('导出报告数据失败，请稍后重试');
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+    
+    // 删除报告
+    async function deleteReport(reportId) {
+      if (!confirm('确定要删除该记录吗？此操作无法撤销！')) return;
+      const loading = document.getElementById('loading');
+      loading.classList.remove('hidden');
+      try {
+        const resp = await fetch(`${API_BASE_URL}/reports/${reportId}`, { method: 'DELETE' });
+        if (!resp.ok) throw new Error('删除失败');
+        alert('已删除');
+        loadReports();
+      } catch (err) {
+        console.error(err);
+        alert('删除失败，请稍后重试');
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+    
+    // 简易编辑报告
+    async function editReport(reportId) {
+      const target = reportsData.find(r => r.id === reportId);
+      if (!target) return;
+      const description = prompt('修改描述', target.description);
+      if (description === null) return;
+      const location = prompt('修改地点', target.location);
+      if (location === null) return;
+      const category = prompt('修改分类 (可留空)', target.category || '');
+      if (category === null) return;
+
+      const loading = document.getElementById('loading');
+      loading.classList.remove('hidden');
+      try {
+        const resp = await fetch(`${API_BASE_URL}/reports/${reportId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ description, location, category })
+        });
+        if (!resp.ok) throw new Error('更新失败');
+        alert('更新成功');
+        loadReports();
+      } catch (err) {
+        console.error(err);
+        alert('更新失败，请稍后重试');
       } finally {
         loading.classList.add('hidden');
       }

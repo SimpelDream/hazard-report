@@ -223,6 +223,43 @@ router.patch('/:id/status', async (req, res) => {
     }
 });
 
+// 获取单个报告
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const report = await prisma.report.findUnique({ where: { id: parseInt(id) } });
+        if (!report) {
+            return res.status(404).json({ success: false, error: '报告不存在' });
+        }
+        res.json({ success: true, data: report });
+    } catch (error) {
+        console.error('获取报告失败:', error);
+        res.status(500).json({ success: false, error: '获取报告失败' });
+    }
+});
+
+// 更新报告（除状态外的其它字段）
+router.patch('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const allowed = ['project', 'reporter', 'phone', 'category', 'foundAt', 'location', 'description'];
+        const data = {};
+        allowed.forEach(key => {
+            if (req.body[key] !== undefined) {
+                data[key] = key === 'foundAt' ? new Date(req.body[key]) : req.body[key];
+            }
+        });
+        if (Object.keys(data).length === 0) {
+            return res.status(400).json({ success: false, error: '没有可更新的字段' });
+        }
+        const report = await prisma.report.update({ where: { id: parseInt(id) }, data });
+        res.json({ success: true, data: report });
+    } catch (error) {
+        console.error('更新报告失败:', error);
+        res.status(500).json({ success: false, error: '更新报告失败' });
+    }
+});
+
 // 注册错误处理中间件
 router.use(errorHandler);
 
