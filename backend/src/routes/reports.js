@@ -82,11 +82,9 @@ router.get('/', async (req, res) => {
 
         res.json({
             success: true,
-            data: {
-                reports,
-                total,
-                pages: Math.ceil(total / limit)
-            }
+            data: reports,
+            total: total,
+            pages: Math.ceil(total / limit)
         });
     } catch (error) {
         console.error('获取报告列表失败:', error);
