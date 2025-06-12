@@ -74,6 +74,7 @@ const upload = multer({
 
 // 配置静态文件服务
 app.use('/uploads', express.static(uploadDir));
+app.use('/api/uploads', express.static(uploadDir));
 console.log(`配置静态文件服务: /uploads -> ${uploadDir}`);
 
 // API 路由

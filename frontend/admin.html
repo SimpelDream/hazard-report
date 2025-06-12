@@ -596,9 +596,13 @@
         imagesHtml = '<div class="mt-4"><h3 class="font-semibold">图片：</h3><div class="flex flex-wrap gap-2 mt-2">';
         imageList.forEach(raw => {
           const clean = raw.trim();
-          const imgSrc = (/^https?:\/\//i.test(clean) || clean.startsWith('/uploads') || clean.startsWith('uploads/'))
-            ? (clean.startsWith('uploads/') ? `/${clean}` : clean)
-            : `/uploads/${clean}`;
+          let imgSrc;
+          if (/^https?:\/\//i.test(clean)) {
+            imgSrc = clean;
+          } else {
+            const pure = clean.replace(/^\/?uploads\//, '');
+            imgSrc = `/api/uploads/${pure}`; // 始终走 /api/uploads 由后端直接返回文件
+          }
           imagesHtml += `<a href="${imgSrc}" target="_blank" class="block">
             <img src="${imgSrc}" alt="隐患图片" class="w-32 h-32 object-cover rounded border">
           </a>`;
