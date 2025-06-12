@@ -189,6 +189,40 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// 更新报告状态
+router.patch('/:id/status', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({
+                success: false,
+                error: '缺少 status 字段'
+            });
+        }
+
+        const report = await prisma.report.update({
+            where: { id: parseInt(id) },
+            data: {
+                status,
+                statusUpdatedAt: new Date()
+            }
+        });
+
+        res.json({
+            success: true,
+            data: report
+        });
+    } catch (error) {
+        console.error('更新报告状态失败:', error);
+        res.status(500).json({
+            success: false,
+            error: '更新报告状态失败'
+        });
+    }
+});
+
 // 注册错误处理中间件
 router.use(errorHandler);
 
